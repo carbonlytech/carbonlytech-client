@@ -2,6 +2,8 @@
 import Step1 from "@/components/Step1";
 import Step2 from "@/components/Step2";
 import Step3 from "@/components/Step3";
+import Step4 from "@/components/Step4";
+import Step5 from "@/components/Step5";
 import { useState } from "react";
 
 const Details: React.FC = () => {
@@ -11,7 +13,10 @@ const Details: React.FC = () => {
     enerji: {},
     yakitHammadde: {},
     emisyon: {},
+    atikGeriDonusum: {}
   });
+
+  console.log(formData);
 
   const nextStep = () => setStep((prev) => prev + 1);
   const prevStep = () => setStep((prev) => prev - 1);
@@ -47,8 +52,26 @@ const Details: React.FC = () => {
         <Step3
           nextStep={nextStep}
           prevStep={prevStep}
-          formData={formData.enerji}
-          update={(data) => updateFormData("enerji", data)}
+          formData={formData.yakitHammadde}
+          update={(data) => updateFormData("yakitHammadde", data)}
+        />
+      )}
+
+      {step === 4 && (
+        <Step4
+          nextStep={nextStep}
+          prevStep={prevStep}
+          formData={formData.emisyon}
+          update={(data) => updateFormData("emisyon", data)}
+        />
+      )}
+
+      {step === 5 && (
+        <Step5
+          nextStep={nextStep}
+          prevStep={prevStep}
+          formData={formData.atikGeriDonusum}
+          update={(data) => updateFormData("atikGeriDonusum", data)}
         />
       )}
     </div>

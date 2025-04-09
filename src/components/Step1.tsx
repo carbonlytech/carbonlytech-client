@@ -65,11 +65,7 @@ const Step1: React.FC<Props> = ({ nextStep, prevStep, formData, update }) => {
           className="input"
         />
 
-        <div className="flex justify-between">
-
-          <button onClick={handlePrev} className="btn btn-primary mt-4">
-            Geri
-          </button>
+        <div>
 
           <button onClick={handleNext} className="btn btn-primary mt-4">
             Devam Et
