@@ -64,13 +64,19 @@ const Step1: React.FC<Props> = ({ nextStep, prevStep, formData, update }) => {
           onChange={(e) => setMiktar(e.target.value)}
           className="input"
         />
-        <button onClick={handleNext} className="btn btn-primary mt-4">
-          Devam Et
-        </button>
 
-        <button onClick={handlePrev} className="btn btn-primary mt-4">
-          Geriye dön
-        </button>
+        <div className="flex justify-between">
+
+          <button onClick={handlePrev} className="btn btn-primary mt-4">
+            Geri
+          </button>
+
+          <button onClick={handleNext} className="btn btn-primary mt-4">
+            Devam Et
+          </button>
+
+        </div>
+
       </div>
     </div>
   );

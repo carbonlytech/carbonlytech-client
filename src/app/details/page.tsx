@@ -1,6 +1,7 @@
 "use client";
 import Step1 from "@/components/Step1";
 import Step2 from "@/components/Step2";
+import Step3 from "@/components/Step3";
 import { useState } from "react";
 
 const Details: React.FC = () => {
@@ -35,6 +36,15 @@ const Details: React.FC = () => {
 
       {step === 2 && (
         <Step2
+          nextStep={nextStep}
+          prevStep={prevStep}
+          formData={formData.enerji}
+          update={(data) => updateFormData("enerji", data)}
+        />
+      )}
+
+      {step === 3 && (
+        <Step3
           nextStep={nextStep}
           prevStep={prevStep}
           formData={formData.enerji}
