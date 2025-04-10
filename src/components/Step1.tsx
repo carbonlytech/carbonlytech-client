@@ -13,16 +13,13 @@ const Step1: React.FC<Props> = ({ nextStep, prevStep, formData, update }) => {
   const [cbam, setCbam] = useState(formData.cbam || false);
   const [urun, setUrun] = useState(formData.urun || "");
   const [miktar, setMiktar] = useState(formData.miktar || "");
+  const [birim, setBirim] = useState(formData.birim || "ton");
 
   const handleNext = () => {
-    update({ lokasyon, sektor, cbam, urun, miktar });
+    update({ lokasyon, sektor, cbam, urun, miktar, birim });
     nextStep();
   };
-
-  const handlePrev = () => {
-    update({ lokasyon, sektor, cbam, urun, miktar });
-    prevStep();
-  };
+  
 
   return (
     <div>
@@ -57,22 +54,30 @@ const Step1: React.FC<Props> = ({ nextStep, prevStep, formData, update }) => {
           onChange={(e) => setUrun(e.target.value)}
           className="input"
         />
-        <input
-          type="text"
-          placeholder="Yıllık Üretim Miktarı (kg/ton/adet)"
-          value={miktar}
-          onChange={(e) => setMiktar(e.target.value)}
-          className="input"
-        />
+        <div className="grid grid-cols-2 gap-2">
+          <input
+            type="number"
+            placeholder="Yıllık Üretim Miktarı"
+            value={miktar}
+            onChange={(e) => setMiktar(e.target.value)}
+            className="input"
+          />
+          <select
+            value={birim}
+            onChange={(e) => setBirim(e.target.value)}
+            className="input"
+          >
+            <option value="ton">ton</option>
+            <option value="kg">kg</option>
+            <option value="adet">adet</option>
+          </select>
+        </div>
 
         <div>
-
           <button onClick={handleNext} className="btn btn-primary mt-4">
             Devam Et
           </button>
-
         </div>
-
       </div>
     </div>
   );

@@ -45,7 +45,7 @@ const Step6: React.FC<Props> = ({ prevStep, formData }) => {
       <div className="mb-4">
         <h3 className="font-medium mb-2">Üretim Bilgileri</h3>
         <p><strong>Üretilen Ürün:</strong> {formData.firma?.urun || "N/A"}</p>
-        <p><strong>Üretim Miktarı:</strong> {formData.firma?.miktar || "N/A"}</p>
+        <p><strong>Üretim Miktarı:</strong> {formData.firma?.miktar || "N/A"} {formData.firma?.birim || "N/A"}</p>
       </div>
 
       {/* Enerji Tüketimi */}
