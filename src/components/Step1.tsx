@@ -14,12 +14,12 @@ const Step1: React.FC<Props> = ({ nextStep, prevStep, formData, update }) => {
   const [urun, setUrun] = useState(formData.urun || "");
   const [miktar, setMiktar] = useState(formData.miktar || "");
   const [birim, setBirim] = useState(formData.birim || "ton");
+  const [uretimDonem, setUretimDonem] = useState(formData.uretimDonem || "yillik");
 
   const handleNext = () => {
-    update({ lokasyon, sektor, cbam, urun, miktar, birim });
+    update({ lokasyon, sektor, cbam, urun, miktar, birim, uretimDonem });
     nextStep();
   };
-  
 
   return (
     <div>
@@ -57,7 +57,7 @@ const Step1: React.FC<Props> = ({ nextStep, prevStep, formData, update }) => {
         <div className="grid grid-cols-2 gap-2">
           <input
             type="number"
-            placeholder="Yıllık Üretim Miktarı"
+            placeholder="Üretim Miktarı"
             value={miktar}
             onChange={(e) => setMiktar(e.target.value)}
             className="input"
@@ -70,6 +70,16 @@ const Step1: React.FC<Props> = ({ nextStep, prevStep, formData, update }) => {
             <option value="ton">ton</option>
             <option value="kg">kg</option>
             <option value="adet">adet</option>
+          </select>
+
+          <select
+            value={uretimDonem}
+            onChange={(e) => setUretimDonem(e.target.value)}
+            className="input"
+          >
+            <option value="yillik">Yıllık</option>
+            <option value="aylik">Aylık</option>
+            <option value="gunluk">Günlük</option>
           </select>
         </div>
 
