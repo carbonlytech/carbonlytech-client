@@ -8,12 +8,16 @@ interface Props {
 }
 
 const Step3: React.FC<Props> = ({ nextStep, prevStep, formData, update }) => {
-  const [yakitlar, setYakitlar] = useState(formData.yakitlar || [
-    { tip: "", miktar: "", birim: "litre", donem: "yillik" },
-  ]);
-  const [hammaddeler, setHammaddeler] = useState(formData.hammaddeler || [
-    { ad: "", miktar: "", birim: "ton", tedarik: "yerli" },
-  ]);
+  const [yakitlar, setYakitlar] = useState(
+    formData.yakitlar || [
+      { tip: "", miktar: "", birim: "litre", donem: "yillik" },
+    ]
+  );
+  const [hammaddeler, setHammaddeler] = useState(
+    formData.hammaddeler || [
+      { ad: "", miktar: "", birim: "ton", donem: "yillik", tedarik: "yerli" },
+    ]
+  );
 
   const handleYakitChange = (index: number, field: string, value: any) => {
     const updated = [...yakitlar];
@@ -70,12 +74,16 @@ const Step3: React.FC<Props> = ({ nextStep, prevStep, formData, update }) => {
               type="number"
               placeholder="Miktar"
               value={yakit.miktar}
-              onChange={(e) => handleYakitChange(index, "miktar", e.target.value)}
+              onChange={(e) =>
+                handleYakitChange(index, "miktar", e.target.value)
+              }
               className="input"
             />
             <select
               value={yakit.birim}
-              onChange={(e) => handleYakitChange(index, "birim", e.target.value)}
+              onChange={(e) =>
+                handleYakitChange(index, "birim", e.target.value)
+              }
               className="input"
             >
               <option value="litre">litre</option>
@@ -84,7 +92,9 @@ const Step3: React.FC<Props> = ({ nextStep, prevStep, formData, update }) => {
             </select>
             <select
               value={yakit.donem}
-              onChange={(e) => handleYakitChange(index, "donem", e.target.value)}
+              onChange={(e) =>
+                handleYakitChange(index, "donem", e.target.value)
+              }
               className="input"
             >
               <option value="yillik">Yıllık</option>
@@ -102,7 +112,10 @@ const Step3: React.FC<Props> = ({ nextStep, prevStep, formData, update }) => {
         ))}
         <button
           onClick={() =>
-            setYakitlar([...yakitlar, { tip: "", miktar: "", birim: "litre", donem: "yillik" }])
+            setYakitlar([
+              ...yakitlar,
+              { tip: "", miktar: "", birim: "litre", donem: "yillik" },
+            ])
           }
           className="btn btn-sm btn-outline mt-2"
         >
@@ -118,27 +131,47 @@ const Step3: React.FC<Props> = ({ nextStep, prevStep, formData, update }) => {
             <input
               placeholder="Malzeme Adı"
               value={hammadde.ad}
-              onChange={(e) => handleHammaddeChange(index, "ad", e.target.value)}
+              onChange={(e) =>
+                handleHammaddeChange(index, "ad", e.target.value)
+              }
               className="input"
             />
             <input
               type="number"
               placeholder="Miktar"
               value={hammadde.miktar}
-              onChange={(e) => handleHammaddeChange(index, "miktar", e.target.value)}
+              onChange={(e) =>
+                handleHammaddeChange(index, "miktar", e.target.value)
+              }
               className="input"
             />
             <select
               value={hammadde.birim}
-              onChange={(e) => handleHammaddeChange(index, "birim", e.target.value)}
+              onChange={(e) =>
+                handleHammaddeChange(index, "birim", e.target.value)
+              }
               className="input"
             >
               <option value="ton">ton</option>
               <option value="kg">kg</option>
+              <option value="litre">litre</option>
+            </select>
+            <select
+              value={hammadde.donem}
+              onChange={(e) =>
+                handleHammaddeChange(index, "donem", e.target.value)
+              }
+              className="input"
+            >
+              <option value="yillik">Yıllık</option>
+              <option value="aylik">Aylık</option>
+              <option value="gunluk">Günlük</option>
             </select>
             <select
               value={hammadde.tedarik}
-              onChange={(e) => handleHammaddeChange(index, "tedarik", e.target.value)}
+              onChange={(e) =>
+                handleHammaddeChange(index, "tedarik", e.target.value)
+              }
               className="input"
             >
               <option value="yerli">Yerli</option>
@@ -155,7 +188,10 @@ const Step3: React.FC<Props> = ({ nextStep, prevStep, formData, update }) => {
         ))}
         <button
           onClick={() =>
-            setHammaddeler([...hammaddeler, { ad: "", miktar: "", birim: "ton", tedarik: "yerli" }])
+            setHammaddeler([
+              ...hammaddeler,
+              { ad: "", miktar: "", birim: "ton", tedarik: "yerli" },
+            ])
           }
           className="btn btn-sm btn-outline mt-2"
         >
