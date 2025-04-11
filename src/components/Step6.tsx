@@ -1,5 +1,6 @@
 import React from "react";
 import CarbonFootprintCalculator from "./CarbonFootprintCalculator";
+import { ArrowLeft } from "lucide-react";
 
 interface Props {
   prevStep: () => void;
@@ -7,6 +8,9 @@ interface Props {
 }
 
 const Step6: React.FC<Props> = ({ prevStep, formData }) => {
+  const handlePrev = () => {
+    prevStep();
+  };
   return (
     <div className="p-6 rounded-xl shadow-md space-y-6">
       <h2 className="text-2xl font-semibold text-green-700 mb-6">Özet ve Hesaplama</h2>
@@ -81,14 +85,13 @@ const Step6: React.FC<Props> = ({ prevStep, formData }) => {
       {/* Navigasyon */}
       <div className="flex justify-between mt-6">
         <button
-          onClick={prevStep}
-          className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-md transition"
+          onClick={handlePrev}
+          className="flex items-center gap-2 bg-gray-200 hover:bg-gray-300 text-gray-800 px-5 py-2 rounded-lg transition"
         >
+          <ArrowLeft size={16} />
           Geri
         </button>
-        <button className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-md transition">
-          Hesapla
-        </button>
+        
       </div>
     </div>
   );
