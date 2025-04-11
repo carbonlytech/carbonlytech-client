@@ -65,7 +65,7 @@ const Step2: React.FC<Props> = ({ nextStep, prevStep, formData, update }) => {
   };
 
   return (
-    <div className="bg-green-50 p-6 rounded-xl shadow-md space-y-6">
+    <div className="p-6 rounded-xl shadow-md space-y-6">
       <h2 className="text-2xl font-semibold text-green-700">Enerji Tüketimi</h2>
 
       <div className="grid gap-6">
