@@ -1,8 +1,8 @@
 import React, { useState } from "react";
+import { Factory, ArrowRight } from "lucide-react";
 
 interface Props {
   nextStep: () => void;
-  prevStep?: () => void;
   formData: any;
   update: (data: any) => void;
 }
@@ -22,8 +22,11 @@ const Step1: React.FC<Props> = ({ nextStep, formData, update }) => {
   };
 
   return (
-    <div className="bg-white p-8 rounded-2xl shadow-lg space-y-8">
-      <h2 className="text-2xl font-bold text-green-700">Firma ve Üretim Bilgileri</h2>
+    <div className="bg-white p-8 rounded-2xl shadow-xl max-w-2xl mx-auto space-y-8">
+      <div className="flex items-center space-x-3">
+        <Factory className="text-green-600" size={28} />
+        <h2 className="text-3xl font-semibold text-green-700">Firma ve Üretim Bilgileri</h2>
+      </div>
 
       {/* Firma Bilgileri */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -115,12 +118,13 @@ const Step1: React.FC<Props> = ({ nextStep, formData, update }) => {
       </div>
 
       {/* Buton */}
-      <div className="flex justify-end">
+      <div className="flex justify-between pt-4">
         <button
           onClick={handleNext}
-          className="bg-green-600 hover:bg-green-700 text-white font-medium px-6 py-2 rounded-md transition"
+          className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white font-medium px-6 py-2 rounded-lg transition"
         >
           Devam Et
+          <ArrowRight size={16} />
         </button>
       </div>
     </div>
