@@ -65,34 +65,35 @@ const Step2: React.FC<Props> = ({ nextStep, prevStep, formData, update }) => {
   };
 
   return (
-    <div>
-      <h2 className="text-xl font-bold mb-4">Enerji Tüketimi</h2>
-      <div className="grid gap-6">
+    <div className="bg-green-50 p-6 rounded-xl shadow-md space-y-6">
+      <h2 className="text-2xl font-semibold text-green-700">Enerji Tüketimi</h2>
 
+      <div className="grid gap-6">
         {/* Elektrik */}
-        <div className="border p-4 rounded-lg">
-          <label className="flex items-center gap-2 mb-2">
+        <div className="border p-4 rounded-lg bg-white shadow-md">
+          <label className="flex items-center gap-2 mb-2 text-gray-700">
             <input
               type="checkbox"
               checked={elektrikKullaniliyor}
               onChange={() => setElektrikKullaniliyor(!elektrikKullaniliyor)}
+              className="accent-green-600"
             />
             Elektrik kullanılıyor
           </label>
 
           {elektrikKullaniliyor && (
-            <div className="grid gap-2">
+            <div className="grid gap-4">
               <input
                 type="number"
                 placeholder="Tüketim Miktarı"
                 value={elektrikMiktar}
                 onChange={(e) => setElektrikMiktar(e.target.value)}
-                className="input"
+                className="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
               />
               <select
                 value={elektrikBirim}
                 onChange={(e) => setElektrikBirim(e.target.value)}
-                className="input"
+                className="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
               >
                 <option value="kWh">kWh</option>
                 <option value="MWh">MWh</option>
@@ -100,7 +101,7 @@ const Step2: React.FC<Props> = ({ nextStep, prevStep, formData, update }) => {
               <select
                 value={elektrikKaynak}
                 onChange={(e) => setElektrikKaynak(e.target.value)}
-                className="input"
+                className="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
               >
                 <option value="sebekeden">Şebekeden</option>
                 <option value="gunes">Güneş Enerjisi</option>
@@ -110,7 +111,7 @@ const Step2: React.FC<Props> = ({ nextStep, prevStep, formData, update }) => {
               <select
                 value={elektrikDonem}
                 onChange={(e) => setElektrikDonem(e.target.value)}
-                className="input"
+                className="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
               >
                 <option value="yillik">Yıllık</option>
                 <option value="aylik">Aylık</option>
@@ -121,29 +122,30 @@ const Step2: React.FC<Props> = ({ nextStep, prevStep, formData, update }) => {
         </div>
 
         {/* Doğalgaz */}
-        <div className="border p-4 rounded-lg">
-          <label className="flex items-center gap-2 mb-2">
+        <div className="border p-4 rounded-lg bg-white shadow-md">
+          <label className="flex items-center gap-2 mb-2 text-gray-700">
             <input
               type="checkbox"
               checked={dogalgazKullaniliyor}
               onChange={() => setDogalgazKullaniliyor(!dogalgazKullaniliyor)}
+              className="accent-green-600"
             />
             Doğalgaz kullanılıyor
           </label>
 
           {dogalgazKullaniliyor && (
-            <div className="grid gap-2">
+            <div className="grid gap-4">
               <input
                 type="number"
                 placeholder="Tüketim Miktarı"
                 value={dogalgazMiktar}
                 onChange={(e) => setDogalgazMiktar(e.target.value)}
-                className="input"
+                className="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
               />
               <select
                 value={dogalgazBirim}
                 onChange={(e) => setDogalgazBirim(e.target.value)}
-                className="input"
+                className="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
               >
                 <option value="m³">m³</option>
                 <option value="kWh">kWh</option>
@@ -151,7 +153,7 @@ const Step2: React.FC<Props> = ({ nextStep, prevStep, formData, update }) => {
               <select
                 value={dogalgazDonem}
                 onChange={(e) => setDogalgazDonem(e.target.value)}
-                className="input"
+                className="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
               >
                 <option value="yillik">Yıllık</option>
                 <option value="aylik">Aylık</option>
@@ -162,29 +164,30 @@ const Step2: React.FC<Props> = ({ nextStep, prevStep, formData, update }) => {
         </div>
 
         {/* Kömür */}
-        <div className="border p-4 rounded-lg">
-          <label className="flex items-center gap-2 mb-2">
+        <div className="border p-4 rounded-lg bg-white shadow-md">
+          <label className="flex items-center gap-2 mb-2 text-gray-700">
             <input
               type="checkbox"
               checked={komurKullaniliyor}
               onChange={() => setKomurKullaniliyor(!komurKullaniliyor)}
+              className="accent-green-600"
             />
             Kömür kullanılıyor
           </label>
 
           {komurKullaniliyor && (
-            <div className="grid gap-2">
+            <div className="grid gap-4">
               <input
                 type="number"
                 placeholder="Tüketim Miktarı"
                 value={komurMiktar}
                 onChange={(e) => setKomurMiktar(e.target.value)}
-                className="input"
+                className="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
               />
               <select
                 value={komurBirim}
                 onChange={(e) => setKomurBirim(e.target.value)}
-                className="input"
+                className="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
               >
                 <option value="ton">ton</option>
                 <option value="kg">kg</option>
@@ -192,7 +195,7 @@ const Step2: React.FC<Props> = ({ nextStep, prevStep, formData, update }) => {
               <select
                 value={komurDonem}
                 onChange={(e) => setKomurDonem(e.target.value)}
-                className="input"
+                className="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
               >
                 <option value="yillik">Yıllık</option>
                 <option value="aylik">Aylık</option>
@@ -203,10 +206,10 @@ const Step2: React.FC<Props> = ({ nextStep, prevStep, formData, update }) => {
         </div>
 
         <div className="flex justify-between mt-6">
-          <button onClick={handlePrev} className="btn btn-secondary">
+          <button onClick={handlePrev} className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-md transition">
             Geri
           </button>
-          <button onClick={handleNext} className="btn btn-primary">
+          <button onClick={handleNext} className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-md transition">
             Devam Et
           </button>
         </div>

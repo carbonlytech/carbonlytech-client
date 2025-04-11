@@ -56,19 +56,19 @@ const Step3: React.FC<Props> = ({ nextStep, prevStep, formData, update }) => {
   };
 
   return (
-    <div>
-      <h2 className="text-xl font-bold mb-4">Yakıt ve Hammadde Kullanımı</h2>
+    <div className="p-6 rounded-xl shadow-md space-y-6">
+      <h2 className="text-2xl font-semibold text-green-700">Yakıt ve Hammadde Kullanımı</h2>
 
       {/* Yakıtlar */}
       <div className="mb-6">
-        <h3 className="font-semibold mb-2">Yakıtlar</h3>
+        <h3 className="font-semibold text-green-700 mb-2">Yakıtlar</h3>
         {yakitlar.map((yakit: any, index: number) => (
           <div key={index} className="grid grid-cols-5 gap-2 mb-2 items-center">
             <input
               placeholder="Yakıt Tipi"
               value={yakit.tip}
               onChange={(e) => handleYakitChange(index, "tip", e.target.value)}
-              className="input"
+              className="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
             />
             <input
               type="number"
@@ -77,14 +77,14 @@ const Step3: React.FC<Props> = ({ nextStep, prevStep, formData, update }) => {
               onChange={(e) =>
                 handleYakitChange(index, "miktar", e.target.value)
               }
-              className="input"
+              className="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
             />
             <select
               value={yakit.birim}
               onChange={(e) =>
                 handleYakitChange(index, "birim", e.target.value)
               }
-              className="input"
+              className="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
             >
               <option value="litre">litre</option>
               <option value="kg">kg</option>
@@ -95,7 +95,7 @@ const Step3: React.FC<Props> = ({ nextStep, prevStep, formData, update }) => {
               onChange={(e) =>
                 handleYakitChange(index, "donem", e.target.value)
               }
-              className="input"
+              className="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
             >
               <option value="yillik">Yıllık</option>
               <option value="aylik">Aylık</option>
@@ -103,7 +103,7 @@ const Step3: React.FC<Props> = ({ nextStep, prevStep, formData, update }) => {
             </select>
             <button
               onClick={() => removeYakit(index)}
-              className="btn btn-xs btn-error"
+              className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded-md transition"
               disabled={yakitlar.length === 1}
             >
               Sil
@@ -117,7 +117,7 @@ const Step3: React.FC<Props> = ({ nextStep, prevStep, formData, update }) => {
               { tip: "", miktar: "", birim: "litre", donem: "yillik" },
             ])
           }
-          className="btn btn-sm btn-outline mt-2"
+          className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-md transition"
         >
           + Yakıt Ekle
         </button>
@@ -125,16 +125,16 @@ const Step3: React.FC<Props> = ({ nextStep, prevStep, formData, update }) => {
 
       {/* Hammaddeler */}
       <div>
-        <h3 className="font-semibold mb-2">Hammaddeler</h3>
+        <h3 className="font-semibold text-green-700 mb-2">Hammaddeler</h3>
         {hammaddeler.map((hammadde: any, index: number) => (
-          <div key={index} className="grid grid-cols-5 gap-2 mb-2 items-center">
+          <div key={index} className="grid grid-cols-6 gap-2 mb-2 items-center">
             <input
               placeholder="Malzeme Adı"
               value={hammadde.ad}
               onChange={(e) =>
                 handleHammaddeChange(index, "ad", e.target.value)
               }
-              className="input"
+              className="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
             />
             <input
               type="number"
@@ -143,14 +143,14 @@ const Step3: React.FC<Props> = ({ nextStep, prevStep, formData, update }) => {
               onChange={(e) =>
                 handleHammaddeChange(index, "miktar", e.target.value)
               }
-              className="input"
+              className="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
             />
             <select
               value={hammadde.birim}
               onChange={(e) =>
                 handleHammaddeChange(index, "birim", e.target.value)
               }
-              className="input"
+              className="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
             >
               <option value="ton">ton</option>
               <option value="kg">kg</option>
@@ -161,7 +161,7 @@ const Step3: React.FC<Props> = ({ nextStep, prevStep, formData, update }) => {
               onChange={(e) =>
                 handleHammaddeChange(index, "donem", e.target.value)
               }
-              className="input"
+              className="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
             >
               <option value="yillik">Yıllık</option>
               <option value="aylik">Aylık</option>
@@ -172,14 +172,14 @@ const Step3: React.FC<Props> = ({ nextStep, prevStep, formData, update }) => {
               onChange={(e) =>
                 handleHammaddeChange(index, "tedarik", e.target.value)
               }
-              className="input"
+              className="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
             >
               <option value="yerli">Yerli</option>
               <option value="ithal">İthal</option>
             </select>
             <button
               onClick={() => removeHammadde(index)}
-              className="btn btn-xs btn-error"
+              className="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded-md transition"
               disabled={hammaddeler.length === 1}
             >
               Sil
@@ -193,17 +193,17 @@ const Step3: React.FC<Props> = ({ nextStep, prevStep, formData, update }) => {
               { ad: "", miktar: "", birim: "ton", tedarik: "yerli" },
             ])
           }
-          className="btn btn-sm btn-outline mt-2"
+          className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-md transition"
         >
           + Hammadde Ekle
         </button>
       </div>
 
       <div className="flex justify-between mt-6">
-        <button onClick={handlePrev} className="btn btn-secondary">
+        <button onClick={handlePrev} className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-md transition">
           Geri
         </button>
-        <button onClick={handleNext} className="btn btn-primary">
+        <button onClick={handleNext} className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-md transition">
           Devam Et
         </button>
       </div>

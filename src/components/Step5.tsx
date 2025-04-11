@@ -11,7 +11,7 @@ const Step5: React.FC<Props> = ({ nextStep, prevStep, formData, update }) => {
   const [atikMiktari, setAtikMiktari] = useState(formData.atikMiktari || "");
   const [geriDonusumOrani, setGeriDonusumOrani] = useState(formData.geriDonusumOrani || "");
   const [atikTipi, setAtikTipi] = useState(formData.atikTipi || "");
-  
+
   const handleNext = () => {
     update({ atikMiktari, geriDonusumOrani, atikTipi });
     nextStep();
@@ -23,23 +23,23 @@ const Step5: React.FC<Props> = ({ nextStep, prevStep, formData, update }) => {
   };
 
   return (
-    <div>
-      <h2 className="text-xl font-bold mb-4">Atık & Geri Dönüşüm Bilgileri</h2>
+    <div className="p-6 rounded-xl shadow-md space-y-6">
+      <h2 className="text-2xl font-semibold text-green-700">Atık & Geri Dönüşüm Bilgileri</h2>
 
       {/* Atık Miktarı */}
       <div className="mb-4">
-        <label className="block font-medium mb-1">Atık Miktarı (kg/ton)</label>
+        <label className="block font-medium text-green-700 mb-1">Atık Miktarı (kg/ton)</label>
         <input
           type="number"
           value={atikMiktari}
           onChange={(e) => setAtikMiktari(e.target.value)}
           placeholder="Atık miktarını girin"
-          className="input"
+          className="input border-green-300 focus:ring-green-500"
         />
         <select
           value={formData.birim || "kg"}
           onChange={(e) => update({ birim: e.target.value })}
-          className="input mt-2"
+          className="input mt-2 border-green-300 focus:ring-green-500"
         >
           <option value="kg">kg</option>
           <option value="ton">ton</option>
@@ -48,23 +48,23 @@ const Step5: React.FC<Props> = ({ nextStep, prevStep, formData, update }) => {
 
       {/* Geri Dönüşüm Oranı */}
       <div className="mb-4">
-        <label className="block font-medium mb-1">Geri Dönüşüm Oranı (%)</label>
+        <label className="block font-medium text-green-700 mb-1">Geri Dönüşüm Oranı (%)</label>
         <input
           type="number"
           value={geriDonusumOrani}
           onChange={(e) => setGeriDonusumOrani(e.target.value)}
           placeholder="Geri dönüşüm oranını girin"
-          className="input"
+          className="input border-green-300 focus:ring-green-500"
         />
       </div>
 
       {/* Atık Tipi */}
       <div className="mb-4">
-        <label className="block font-medium mb-1">Atık Tipi (Opsiyonel)</label>
+        <label className="block font-medium text-green-700 mb-1">Atık Tipi (Opsiyonel)</label>
         <select
           value={atikTipi}
           onChange={(e) => setAtikTipi(e.target.value)}
-          className="input"
+          className="input border-green-300 focus:ring-green-500"
         >
           <option value="">Seçiniz</option>
           <option value="organik">Organik</option>
@@ -76,10 +76,16 @@ const Step5: React.FC<Props> = ({ nextStep, prevStep, formData, update }) => {
 
       {/* Navigasyon */}
       <div className="flex justify-between">
-        <button onClick={handlePrev} className="btn btn-secondary">
+        <button
+          onClick={handlePrev}
+          className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-md transition"
+        >
           Geri
         </button>
-        <button onClick={handleNext} className="btn btn-primary">
+        <button
+          onClick={handleNext}
+          className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-md transition"
+        >
           Devam Et
         </button>
       </div>
