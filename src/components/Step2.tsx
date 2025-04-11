@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { BatteryCharging, ArrowLeft, ArrowRight } from "lucide-react";
 
 interface Props {
   nextStep: () => void;
@@ -65,154 +66,170 @@ const Step2: React.FC<Props> = ({ nextStep, prevStep, formData, update }) => {
   };
 
   return (
-    <div className="p-6 rounded-xl shadow-md space-y-6">
-      <h2 className="text-2xl font-semibold text-green-700">Enerji Tüketimi</h2>
+    <div className="bg-white p-8 rounded-2xl shadow-xl max-w-2xl mx-auto space-y-8">
+      <h2 className="flex items-center space-x-3 text-3xl font-semibold text-green-700">
+        <BatteryCharging className="text-green-600" size={28} />
+        <span>Enerji Tüketimi</span>
+      </h2>
 
-      <div className="grid gap-6">
-        {/* Elektrik */}
-        <div className="border p-4 rounded-lg bg-white shadow-md">
-          <label className="flex items-center gap-2 mb-2 text-gray-700">
-            <input
-              type="checkbox"
-              checked={elektrikKullaniliyor}
-              onChange={() => setElektrikKullaniliyor(!elektrikKullaniliyor)}
-              className="accent-green-600"
-            />
-            Elektrik kullanılıyor
-          </label>
+      {/* Elektrik */}
+      <div>
+        <div className="flex items-center space-x-2">
+          <input
+            type="checkbox"
+            checked={elektrikKullaniliyor}
+            onChange={() => setElektrikKullaniliyor(!elektrikKullaniliyor)}
+            className="accent-green-600"
+          />
+          <label className="text-sm font-medium text-gray-700">Elektrik kullanılıyor</label>
+        </div>
 
-          {elektrikKullaniliyor && (
-            <div className="grid gap-4">
+        {elektrikKullaniliyor && (
+          <div className="space-y-4 mt-4">
+            <div className="flex items-center space-x-2">
               <input
                 type="number"
                 placeholder="Tüketim Miktarı"
                 value={elektrikMiktar}
                 onChange={(e) => setElektrikMiktar(e.target.value)}
-                className="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
+                className="w-full px-4 py-2 rounded-md border border-gray-300 focus:ring-2 focus:ring-green-500"
               />
               <select
                 value={elektrikBirim}
                 onChange={(e) => setElektrikBirim(e.target.value)}
-                className="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
+                className="px-4 py-2 rounded-md border border-gray-300 focus:ring-2 focus:ring-green-500"
               >
                 <option value="kWh">kWh</option>
                 <option value="MWh">MWh</option>
               </select>
-              <select
-                value={elektrikKaynak}
-                onChange={(e) => setElektrikKaynak(e.target.value)}
-                className="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
-              >
-                <option value="sebekeden">Şebekeden</option>
-                <option value="gunes">Güneş Enerjisi</option>
-                <option value="ruzgar">Rüzgar Enerjisi</option>
-                <option value="jenerator">Jeneratör</option>
-              </select>
-              <select
-                value={elektrikDonem}
-                onChange={(e) => setElektrikDonem(e.target.value)}
-                className="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
-              >
-                <option value="yillik">Yıllık</option>
-                <option value="aylik">Aylık</option>
-                <option value="gunluk">Günlük</option>
-              </select>
             </div>
-          )}
+            <select
+              value={elektrikKaynak}
+              onChange={(e) => setElektrikKaynak(e.target.value)}
+              className="w-full px-4 py-2 rounded-md border border-gray-300 focus:ring-2 focus:ring-green-500"
+            >
+              <option value="sebekeden">Şebekeden</option>
+              <option value="gunes">Güneş Enerjisi</option>
+              <option value="ruzgar">Rüzgar Enerjisi</option>
+              <option value="jenerator">Jeneratör</option>
+            </select>
+            <select
+              value={elektrikDonem}
+              onChange={(e) => setElektrikDonem(e.target.value)}
+              className="w-full px-4 py-2 rounded-md border border-gray-300 focus:ring-2 focus:ring-green-500"
+            >
+              <option value="yillik">Yıllık</option>
+              <option value="aylik">Aylık</option>
+              <option value="gunluk">Günlük</option>
+            </select>
+          </div>
+        )}
+      </div>
+
+      {/* Doğalgaz */}
+      <div>
+        <div className="flex items-center space-x-2">
+          <input
+            type="checkbox"
+            checked={dogalgazKullaniliyor}
+            onChange={() => setDogalgazKullaniliyor(!dogalgazKullaniliyor)}
+            className="accent-green-600"
+          />
+          <label className="text-sm font-medium text-gray-700">Doğalgaz kullanılıyor</label>
         </div>
 
-        {/* Doğalgaz */}
-        <div className="border p-4 rounded-lg bg-white shadow-md">
-          <label className="flex items-center gap-2 mb-2 text-gray-700">
-            <input
-              type="checkbox"
-              checked={dogalgazKullaniliyor}
-              onChange={() => setDogalgazKullaniliyor(!dogalgazKullaniliyor)}
-              className="accent-green-600"
-            />
-            Doğalgaz kullanılıyor
-          </label>
-
-          {dogalgazKullaniliyor && (
-            <div className="grid gap-4">
+        {dogalgazKullaniliyor && (
+          <div className="space-y-4 mt-4">
+            <div className="flex items-center space-x-2">
               <input
                 type="number"
                 placeholder="Tüketim Miktarı"
                 value={dogalgazMiktar}
                 onChange={(e) => setDogalgazMiktar(e.target.value)}
-                className="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
+                className="w-full px-4 py-2 rounded-md border border-gray-300 focus:ring-2 focus:ring-green-500"
               />
               <select
                 value={dogalgazBirim}
                 onChange={(e) => setDogalgazBirim(e.target.value)}
-                className="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
+                className="px-4 py-2 rounded-md border border-gray-300 focus:ring-2 focus:ring-green-500"
               >
                 <option value="m³">m³</option>
                 <option value="kWh">kWh</option>
               </select>
-              <select
-                value={dogalgazDonem}
-                onChange={(e) => setDogalgazDonem(e.target.value)}
-                className="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
-              >
-                <option value="yillik">Yıllık</option>
-                <option value="aylik">Aylık</option>
-                <option value="gunluk">Günlük</option>
-              </select>
             </div>
-          )}
+            <select
+              value={dogalgazDonem}
+              onChange={(e) => setDogalgazDonem(e.target.value)}
+              className="w-full px-4 py-2 rounded-md border border-gray-300 focus:ring-2 focus:ring-green-500"
+            >
+              <option value="yillik">Yıllık</option>
+              <option value="aylik">Aylık</option>
+              <option value="gunluk">Günlük</option>
+            </select>
+          </div>
+        )}
+      </div>
+
+      {/* Kömür */}
+      <div>
+        <div className="flex items-center space-x-2">
+          <input
+            type="checkbox"
+            checked={komurKullaniliyor}
+            onChange={() => setKomurKullaniliyor(!komurKullaniliyor)}
+            className="accent-green-600"
+          />
+          <label className="text-sm font-medium text-gray-700">Kömür kullanılıyor</label>
         </div>
 
-        {/* Kömür */}
-        <div className="border p-4 rounded-lg bg-white shadow-md">
-          <label className="flex items-center gap-2 mb-2 text-gray-700">
-            <input
-              type="checkbox"
-              checked={komurKullaniliyor}
-              onChange={() => setKomurKullaniliyor(!komurKullaniliyor)}
-              className="accent-green-600"
-            />
-            Kömür kullanılıyor
-          </label>
-
-          {komurKullaniliyor && (
-            <div className="grid gap-4">
+        {komurKullaniliyor && (
+          <div className="space-y-4 mt-4">
+            <div className="flex items-center space-x-2">
               <input
                 type="number"
                 placeholder="Tüketim Miktarı"
                 value={komurMiktar}
                 onChange={(e) => setKomurMiktar(e.target.value)}
-                className="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
+                className="w-full px-4 py-2 rounded-md border border-gray-300 focus:ring-2 focus:ring-green-500"
               />
               <select
                 value={komurBirim}
                 onChange={(e) => setKomurBirim(e.target.value)}
-                className="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
+                className="px-4 py-2 rounded-md border border-gray-300 focus:ring-2 focus:ring-green-500"
               >
                 <option value="ton">ton</option>
                 <option value="kg">kg</option>
               </select>
-              <select
-                value={komurDonem}
-                onChange={(e) => setKomurDonem(e.target.value)}
-                className="border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
-              >
-                <option value="yillik">Yıllık</option>
-                <option value="aylik">Aylık</option>
-                <option value="gunluk">Günlük</option>
-              </select>
             </div>
-          )}
-        </div>
+            <select
+              value={komurDonem}
+              onChange={(e) => setKomurDonem(e.target.value)}
+              className="w-full px-4 py-2 rounded-md border border-gray-300 focus:ring-2 focus:ring-green-500"
+            >
+              <option value="yillik">Yıllık</option>
+              <option value="aylik">Aylık</option>
+              <option value="gunluk">Günlük</option>
+            </select>
+          </div>
+        )}
+      </div>
 
-        <div className="flex justify-between mt-6">
-          <button onClick={handlePrev} className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-md transition">
-            Geri
-          </button>
-          <button onClick={handleNext} className="bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-md transition">
-            Devam Et
-          </button>
-        </div>
+      {/* Navigasyon */}
+      <div className="flex justify-between pt-6">
+        <button
+          onClick={handlePrev}
+          className="flex items-center gap-2 bg-gray-200 hover:bg-gray-300 text-gray-800 px-5 py-2 rounded-lg transition"
+        >
+          <ArrowLeft size={16} />
+          Geri
+        </button>
+        <button
+          onClick={handleNext}
+          className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-6 py-2 rounded-lg transition"
+        >
+          Devam Et
+          <ArrowRight size={16} />
+        </button>
       </div>
     </div>
   );
