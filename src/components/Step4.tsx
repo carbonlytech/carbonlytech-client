@@ -9,7 +9,9 @@ interface Props {
 
 const Step4: React.FC<Props> = ({ nextStep, prevStep, formData, update }) => {
   const [surecTipi, setSurecTipi] = useState(formData.surecTipi || "");
-  const [emisyonFaktoru, setEmisyonFaktoru] = useState(formData.emisyonFaktoru || "");
+  const [emisyonFaktoru, setEmisyonFaktoru] = useState(
+    formData.emisyonFaktoru || ""
+  );
   const [co2, setCo2] = useState(formData.co2 || "");
   const [ch4, setCh4] = useState(formData.ch4 || "");
   const [n2o, setN2o] = useState(formData.n2o || "");
@@ -26,11 +28,15 @@ const Step4: React.FC<Props> = ({ nextStep, prevStep, formData, update }) => {
 
   return (
     <div className="p-6 rounded-xl shadow-md space-y-6">
-      <h2 className="text-2xl font-semibold text-green-700">Emisyon ve Süreç Verileri</h2>
+      <h2 className="text-2xl font-semibold text-green-700">
+        Emisyon ve Süreç Verileri
+      </h2>
 
       {/* Üretim Süreci */}
       <div className="mb-4">
-        <label className="block font-medium text-green-700 mb-1">Üretim Süreci Türü</label>
+        <label className="block font-medium text-green-700 mb-1">
+          Üretim Süreci Türü
+        </label>
         <select
           className="input border-green-300 focus:ring-green-500"
           value={surecTipi}
@@ -47,19 +53,26 @@ const Step4: React.FC<Props> = ({ nextStep, prevStep, formData, update }) => {
 
       {/* Emisyon Faktörü */}
       <div className="mb-4">
-        <label className="block font-medium text-green-700 mb-1">Emisyon Faktörü (opsiyonel)</label>
+        <label className="block font-medium text-green-700 mb-1">
+          Emisyon Faktörü (opsiyonel)
+        </label>
         <input
           type="number"
-          placeholder="Örn: 1.7 (kg CO₂ / kg üretim)"
+          placeholder="Örn: 1.7"
           value={emisyonFaktoru}
           onChange={(e) => setEmisyonFaktoru(e.target.value)}
           className="input border-green-300 focus:ring-green-500"
         />
+        <small className="text-xs text-gray-500">
+          Birim: kg CO₂ / kg ürün – 1 kg üretim başına salınan CO₂ miktarı
+        </small>
       </div>
 
       {/* Ek Emisyonlar */}
       <div className="mb-6">
-        <label className="block font-medium text-green-700 mb-1">Proses Bazlı Ek Emisyonlar (opsiyonel)</label>
+        <label className="block font-medium text-green-700 mb-1">
+          Proses Bazlı Ek Emisyonlar (opsiyonel)
+        </label>
         <div className="grid grid-cols-3 gap-2">
           <input
             type="number"
@@ -83,7 +96,9 @@ const Step4: React.FC<Props> = ({ nextStep, prevStep, formData, update }) => {
             className="input border-green-300 focus:ring-green-500"
           />
         </div>
-        <small className="text-xs text-gray-500">Bu değerler varsa girilmelidir.</small>
+        <small className="text-xs text-gray-500">
+          Bu değerler varsa girilmelidir.
+        </small>
       </div>
 
       {/* Navigasyon */}
