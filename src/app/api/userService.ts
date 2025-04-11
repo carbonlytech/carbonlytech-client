@@ -55,7 +55,7 @@ export const signInUser=async(userData: any,router:any,setSuccess: any,setErrors
             localStorage.setItem("token",data.token);
             setSuccess("Signed in successfully");
             setTimeout(()=>{
-                router.push("/dashboard")
+                router.push("/details")
             },2000);
         }
     } catch (error) {

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import Middleware from "../../middleware";
 
 export const metadata: Metadata = {
   title: "CarbonlyTech",
@@ -14,6 +15,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="">
+        <Middleware />
         {children}
       </body>
     </html>
