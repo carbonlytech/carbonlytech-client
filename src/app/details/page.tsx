@@ -38,6 +38,8 @@ const Details: React.FC = () => {
     }));
   };
 
+  console.log(formData);
+
   return (
     <div className="max-w-3xl mx-auto p-6 shadow-xl rounded-2xl bg-white">
       <Stepper
@@ -49,7 +51,6 @@ const Details: React.FC = () => {
       {step === 1 && (
         <Step1
           nextStep={nextStep}
-          prevStep={prevStep}
           formData={formData.firma}
           update={(data) => updateFormData("firma", data)}
         />

@@ -1,6 +1,7 @@
-import React from "react";
+import React, { FormEvent } from "react";
 import CarbonFootprintCalculator from "./CarbonFootprintCalculator";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, ArrowRight } from "lucide-react";
+import { sendCarbonDetails } from "@/app/api/carbondetailsService";
 
 interface Props {
   prevStep: () => void;
@@ -8,9 +9,24 @@ interface Props {
 }
 
 const Step6: React.FC<Props> = ({ prevStep, formData }) => {
+
   const handlePrev = () => {
     prevStep();
   };
+
+  const handleSubmit=async(e:FormEvent<HTMLButtonElement>)=>{
+    e.preventDefault();
+    const token=localStorage.getItem("token");
+    if(!token) return;
+
+    try {
+    const data = await sendCarbonDetails(formData, token);
+    console.log("Veri başarıyla gönderildi:", data);
+  } catch (error) {
+    console.log(error);
+  }
+  }
+
   return (
     <div className="p-6 rounded-xl shadow-md space-y-6">
       <h2 className="text-2xl font-semibold text-green-700 mb-6">Özet ve Hesaplama</h2>
@@ -90,6 +106,14 @@ const Step6: React.FC<Props> = ({ prevStep, formData }) => {
         >
           <ArrowLeft size={16} />
           Geri
+        </button>
+
+        <button
+          onClick={handleSubmit}
+          className="flex items-center gap-2 bg-gray-200 hover:bg-gray-300 text-gray-800 px-5 py-2 rounded-lg transition"
+        >
+          <ArrowRight size={16} />
+          Kaydet
         </button>
         
       </div>
