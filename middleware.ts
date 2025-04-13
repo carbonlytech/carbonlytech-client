@@ -1,6 +1,6 @@
 "use client"
 
-import { sendCarbonDetails } from "@/app/api/carbondetailsService";
+import { getCarbonDetails, sendCarbonDetails } from "@/app/api/carbondetailsService";
 import { useRouter } from "next/navigation"
 import { useEffect } from "react";
 
@@ -83,7 +83,7 @@ const Middleware: React.FC=()=>{
         if(token){
             try {
                 const waitForAsync=async()=>{
-                    const checking=await sendCarbonDetails(testingFormData,token);    //test için verilmiş servis kontrol ediyor aslında geçerliliğini tokenın çünkü bazen olsa da süresi geçiyor
+                    const checking=await getCarbonDetails(token);    //test için verilmiş servis kontrol ediyor aslında geçerliliğini tokenın çünkü bazen olsa da süresi geçiyor
                     if(checking.statusCode===401){
                         localStorage.removeItem("token");
                         router.push("/user/signin");
