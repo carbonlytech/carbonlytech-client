@@ -34,7 +34,7 @@ const Step6: React.FC<Props> = ({ prevStep, formData }) => {
       {/* Firma Bilgileri Kartı */}
       <div className="bg-white p-6 rounded-xl shadow-lg mb-6">
         <h3 className="font-medium text-green-700 mb-4">Firma Bilgileri</h3>
-        <p><strong>Firma Adı:</strong> {formData.firma?.ad || "N/A"}</p>
+        {/* <p><strong>Firma Adı:</strong> {formData.firma?.ad || "N/A"}</p> */}
         <p><strong>Lokasyon:</strong> {formData.firma?.lokasyon || "N/A"}</p>
         <p><strong>Sektör:</strong> {formData.firma?.sektor || "N/A"}</p>
       </div>
@@ -94,9 +94,9 @@ const Step6: React.FC<Props> = ({ prevStep, formData }) => {
       </div>
 
       {/* Karbon Ayak İzi Hesaplama Kartı */}
-      <div className="bg-white p-6 rounded-xl shadow-lg mb-6">
+      {/* <div className="bg-white p-6 rounded-xl shadow-lg mb-6">
         <CarbonFootprintCalculator formData={formData} />
-      </div>
+      </div> */}
 
       {/* Navigasyon */}
       <div className="flex justify-between mt-6">
