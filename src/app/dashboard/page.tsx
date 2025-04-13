@@ -2,8 +2,10 @@
 import React, { useEffect, useState } from "react";
 import { getCarbonDetails } from "../api/carbondetailsService";
 import CarbonFootprintCalculator from "@/components/CarbonFootprintCalculator";
+import { useRouter } from "next/navigation";
 
 const Dashboard: React.FC=()=>{
+    const router=useRouter();
 
     const [allDetails, setAllDetails] = useState<any[]>([]);
 
@@ -19,13 +21,17 @@ const Dashboard: React.FC=()=>{
         getData();
     },[]);
 
+    const navigateToDetail=(id: any)=>{
+        router.push(`detail/${id}`)
+    }
+
     console.log(allDetails);
 
     return (
         <div>
 
             <div>
-                {allDetails && allDetails.map((formData:any,index:any)=>(
+                {Array.isArray(allDetails) && allDetails.map((formData:any,index:any)=>(
                     <div className="flex justify-evenly" key={index}>
                         <div>
                             {formData.firma.urun}
@@ -35,8 +41,8 @@ const Dashboard: React.FC=()=>{
                             <CarbonFootprintCalculator formData={formData}/>
                         </div>
 
-                        <div>
-                            <div>Report</div>
+                        <div onClick={()=>navigateToDetail(formData._id)}>
+                            <div>Report and Graph</div>
                         </div>
                     </div>
                 ))}

@@ -32,3 +32,19 @@ export const getCarbonDetails = async (token: any) => {
     console.log("Hata: ", error);
   }
 };
+
+export const getOneCarbonDetails=async(token:any,formDataId:any)=>{
+  try {
+    const response=await fetch(`${API_URL}/getDetail/${formDataId}`,{
+      method: "GET",
+      headers: {
+        "Content-Type":"application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    return await response.json();
+  } catch (error) {
+    console.log("Hata: ",error);
+  }
+}
