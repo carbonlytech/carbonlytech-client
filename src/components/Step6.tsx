@@ -1,5 +1,4 @@
 import React, { FormEvent } from "react";
-import CarbonFootprintCalculator from "./CarbonFootprintCalculator";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { sendCarbonDetails } from "@/app/api/carbondetailsService";
 
