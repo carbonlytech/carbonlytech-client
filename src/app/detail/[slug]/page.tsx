@@ -1,5 +1,10 @@
 "use client";
 import { getOneCarbonDetails } from "@/app/api/carbondetailsService";
+import GraphOfAtık from "@/components/graphs/GraphOfAtık";
+import GraphOfEmisyon from "@/components/graphs/GraphOfEmisyon";
+import GraphOfEnergy from "@/components/graphs/GraphOfEnergy";
+import GraphOfHammadde from "@/components/graphs/GraphOfHammadde";
+import GraphOfYakit from "@/components/graphs/GraphOfYakit";
 import { useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import {
@@ -90,88 +95,19 @@ const Detail = () => {
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Enerji Tüketimi */}
-        <div className={chartWrapperClass}>
-          <h2 className="text-xl font-semibold text-gray-700">Enerji Tüketimi</h2>
-          <PieChart width={300} height={200}>
-            <Pie
-              data={energyData}
-              cx="50%"
-              cy="50%"
-              outerRadius={70}
-              label
-              dataKey="value"
-            >
-              {energyData.map((entry, index) => (
-                <Cell key={`energy-${index}`} fill={COLORS[index % COLORS.length]} />
-              ))}
-            </Pie>
-            <Tooltip />
-            <Legend />
-          </PieChart>
-        </div>
+        <GraphOfEnergy energyData={energyData}/>
 
         {/* Yakıt Tüketimi */}
-        <div className={chartWrapperClass}>
-          <h2 className="text-xl font-semibold text-gray-700">Yakıt Tüketimi</h2>
-          <ResponsiveContainer width="100%" height={200}>
-            <BarChart data={yakitData}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" />
-              <YAxis />
-              <Tooltip />
-              <Bar dataKey="miktar" fill="#8884d8" />
-            </BarChart>
-          </ResponsiveContainer>
-        </div>
+        <GraphOfYakit yakitData={yakitData}/>
 
         {/* Hammadde Kullanımı */}
-        <div className={chartWrapperClass}>
-          <h2 className="text-xl font-semibold text-gray-700">Hammadde Kullanımı</h2>
-          <ResponsiveContainer width="100%" height={200}>
-            <BarChart data={hammaddeData}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" />
-              <YAxis />
-              <Tooltip />
-              <Bar dataKey="miktar" fill="#82ca9d" />
-            </BarChart>
-          </ResponsiveContainer>
-        </div>
+        <GraphOfHammadde hammaddeData={hammaddeData}/>
 
         {/* Emisyon Dağılımı */}
-        <div className={chartWrapperClass}>
-          <h2 className="text-xl font-semibold text-gray-700">Emisyon Dağılımı</h2>
-          <ResponsiveContainer width="100%" height={200}>
-            <BarChart data={emisyonData}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" />
-              <YAxis />
-              <Tooltip />
-              <Bar dataKey="miktar" fill="#ffc658" />
-            </BarChart>
-          </ResponsiveContainer>
-        </div>
+        <GraphOfEmisyon emisyonData={emisyonData}/>
 
         {/* Atık & Geri Dönüşüm */}
-        <div className={chartWrapperClass}>
-          <h2 className="text-xl font-semibold text-gray-700">Atık & Geri Dönüşüm</h2>
-          <PieChart width={300} height={300}>
-            <Pie
-              data={atikData}
-              cx="50%"
-              cy="50%"
-              outerRadius={70}
-              label
-              dataKey="value"
-            >
-              {atikData.map((entry, index) => (
-                <Cell key={`atik-${index}`} fill={COLORS[index % COLORS.length]} />
-              ))}
-            </Pie>
-            <Tooltip />
-            <Legend />
-          </PieChart>
-        </div>
+        <GraphOfAtık atikData={atikData}/>
       </div>
     </div>
   );
