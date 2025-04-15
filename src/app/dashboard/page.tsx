@@ -1,7 +1,11 @@
-"use client";
+"use client"
+
 import React, { useEffect, useState } from "react";
 import { getCarbonDetails } from "../api/carbondetailsService";
 import { useRouter } from "next/navigation";
+import { PieChart, Pie, Cell, Tooltip, BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from "recharts";
+
+const COLORS = ["#8884d8", "#82ca9d", "#ffc658", "#ff8042", "#00C49F"];
 
 const Dashboard: React.FC = () => {
   const router = useRouter();
@@ -24,7 +28,7 @@ const Dashboard: React.FC = () => {
 
   useEffect(() => {
     let totalProductionTemp = 0;
-    let totalCarbonFootprintTemp= 0;
+    let totalCarbonFootprintTemp = 0;
 
     allDetails.forEach((formData) => {
       const miktar = parseFloat(formData.firma.miktar || "0");
@@ -32,90 +36,88 @@ const Dashboard: React.FC = () => {
 
       const toplamKarbon = parseFloat(formData.karbonAyakIzi || "0");
       totalCarbonFootprintTemp += toplamKarbon;
-      
     });
 
     setTotalProduction(totalProductionTemp);
     setTotalCarbonFootprint(totalCarbonFootprintTemp);
   }, [allDetails]);
 
-  const navigateToDetail = (id: any) => {
-    router.push(`detail/${id}`);
-  };
-
-  console.log(allDetails)
+  const karbonPerUrun = allDetails.map((item) => ({
+    name: item.firma.urun,
+    value: item.karbonAyakIzi,
+  }));
 
   return (
-    <div className="bg-gray-100 w-full h-screen">
-      <div className="w-[80%] h-full mx-auto">
+    <div className="bg-gray-100 min-h-screen w-full p-8">
+      <div className="w-full max-w-[1200px] mx-auto">
+        <h1 className="text-4xl font-bold mb-8">Admin Paneli</h1>
 
-
-        <div className="text-4xl font-bold py-[3vh] ">Admin Paneli</div>
-
-        <div className="flex justify-center gap-x-[3vw]">
-
-          <div className="flex flex-col gap-y-8 bg-white rounded-2xl w-[25%] p-4 border-t-6 border-blue-600">
+        {/* KPI Cards */}
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
+          <div className="bg-white rounded-2xl p-6 shadow">
             <div className="text-xl">Toplam Ürün</div>
-
-            <div className="text-center">
-              <div className="text-5xl text-center font-semibold text-gray-800">{allDetails.length}</div>
-              <div className="text-3xl text-center text-green-600 mt-1">↑ 25%</div>
-            </div>
+            <div className="text-4xl font-semibold text-center">{allDetails.length}</div>
           </div>
-
-          <div className="flex flex-col gap-y-8 bg-white rounded-2xl w-[25%] p-4 border-t-6 border-red-600">
-            <div className="text-xl">Toplam Üretim Miktarı:</div>
-
-            <div className="text-center">
-              <div className="text-5xl text-center font-semibold">{totalProduction} ton</div>
-              <div className="text-3xl text-center text-green-600 mt-1">↑ 25%</div>
-            </div>
+          <div className="bg-white rounded-2xl p-6 shadow">
+            <div className="text-xl">Toplam Üretim</div>
+            <div className="text-4xl font-semibold text-center">{totalProduction} ton</div>
           </div>
-
-          <div className="flex flex-col gap-y-8 bg-white rounded-2xl w-[25%] p-4 border-t-6 border-green-600">
+          <div className="bg-white rounded-2xl p-6 shadow">
             <div className="text-xl">Toplam Karbon Ayak İzi</div>
-
-            <div className="text-center">
-              <div className="text-5xl text-center font-semibold">{totalCarbonFootprint.toFixed(2)} kg CO₂</div>
-              <div className="text-3xl text-center text-green-600 mt-1">↑ 25%</div>
+            <div className="text-4xl font-semibold text-center">{totalCarbonFootprint.toFixed(2)} kg</div>
+          </div>
+          <div className="bg-white rounded-2xl p-6 shadow">
+            <div className="text-xl">CBAM Uyumlu</div>
+            <div className="text-4xl font-semibold text-center">
+              {allDetails.filter(item => item.firma.cbam).length}
             </div>
           </div>
-
-          <div className="flex flex-col gap-y-8 bg-white rounded-2xl w-[25%] p-4 border-t-6 border-yellow-600">
-            <div className="text-xl">Toplam Ürün</div>
-
-            <div className="text-center">
-              <div className="text-5xl text-center font-semibold">{allDetails.length}</div>
-              <div className="text-3xl text-center text-green-600 mt-1">↑ 25%</div>
-            </div>
-          </div>
-          
         </div>
 
-        <div className="flex justify-between">
-
-          <div>
-            Grafikler olacak burada
+        {/* Chart & List */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="bg-white p-6 rounded-2xl shadow">
+            <h2 className="text-xl font-semibold mb-4">Karbon Dağılımı (Ürünlere Göre)</h2>
+            <ResponsiveContainer width="100%" height={300}>
+              <PieChart>
+                <Pie
+                  data={karbonPerUrun}
+                  cx="50%"
+                  cy="50%"
+                  outerRadius={100}
+                  label
+                  dataKey="value"
+                >
+                  {karbonPerUrun.map((entry, index) => (
+                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                  ))}
+                </Pie>
+                <Tooltip />
+              </PieChart>
+            </ResponsiveContainer>
           </div>
 
-          <div>
-            {Array.isArray(allDetails) && allDetails.map((item:any,index:any)=>(
-              <div className="flex gap-x-4" key={index}>
-
+          <div className="bg-white p-6 rounded-2xl shadow overflow-auto max-h-[400px]">
+            <h2 className="text-xl font-semibold mb-4">Son Kayıtlar</h2>
+            {allDetails.map((item, index) => (
+              <div key={index} className="flex justify-between items-center py-2 border-b">
                 <div>
-                  {item.firma.urun}
+                  <div className="font-medium">{item.firma.urun}</div>
+                  <div className="text-sm text-gray-500">{item.firma.lokasyon}</div>
                 </div>
-                <div>
-                  {item.karbonAyakIzi}
+                <div className="text-right">
+                  <div className="text-sm font-semibold">{item.karbonAyakIzi} kg CO₂</div>
+                  <button
+                    onClick={() => router.push(`/detail/${item._id}`)}
+                    className="text-blue-500 text-sm underline"
+                  >
+                    Detay
+                  </button>
                 </div>
-
               </div>
             ))}
           </div>
-
         </div>
-
-
       </div>
     </div>
   );

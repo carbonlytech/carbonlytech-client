@@ -7,21 +7,6 @@ import GraphOfHammadde from "@/components/graphs/GraphOfHammadde";
 import GraphOfYakit from "@/components/graphs/GraphOfYakit";
 import { useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
-import {
-  PieChart,
-  Pie,
-  Cell,
-  Tooltip,
-  Legend,
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  ResponsiveContainer,
-} from "recharts";
-
-const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#AF19FF"];
 
 const Detail = () => {
   const [carbonDetail, setCarbonDetail] = useState<any>();
@@ -83,9 +68,6 @@ const Detail = () => {
       value: 100 - parseFloat(carbonDetail.atikGeriDonusum.geriDonusumOrani),
     },
   ];
-
-  const chartWrapperClass =
-    "bg-white shadow-md rounded-2xl p-4 flex flex-col items-center justify-center space-y-4";
 
   return (
     <div className="p-8 bg-gray-100 min-h-screen">
