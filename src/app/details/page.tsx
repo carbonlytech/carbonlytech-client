@@ -17,6 +17,7 @@ const Details: React.FC = () => {
     yakitHammadde: {},
     emisyon: {},
     atikGeriDonusum: {},
+    karbonAyakIzi: null,
   });
 
   const steps = [
@@ -92,7 +93,7 @@ const Details: React.FC = () => {
         />
       )}
 
-      {step === 6 && <Step6 prevStep={prevStep} formData={formData} />}
+      {step === 6 && <Step6 prevStep={prevStep} formData={formData} update={(data) => updateFormData("karbonAyakIzi", data)}/>}
     </div>
   );
 };

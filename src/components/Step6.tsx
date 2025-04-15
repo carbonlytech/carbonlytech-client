@@ -5,21 +5,38 @@ import { sendCarbonDetails } from "@/app/api/carbondetailsService";
 interface Props {
   prevStep: () => void;
   formData: any;
+  update: (data:any) => void;
 }
 
-const Step6: React.FC<Props> = ({ prevStep, formData }) => {
+const Step6: React.FC<Props> = ({ prevStep, formData,update }) => {
 
   const handlePrev = () => {
     prevStep();
   };
+
+  const hesaplaKarbonAyakIzi = (formData: any) => {
+    const co2 = parseFloat(formData.emisyon?.co2 || 0);
+    const ch4 = parseFloat(formData.emisyon?.ch4 || 0);
+    const n2o = parseFloat(formData.emisyon?.n2o || 0);
+  
+    const toplam = co2 + ch4 * 25 + n2o * 298;
+    return Number(toplam.toFixed(2)); // kg CO2e
+  };
+  
 
   const handleSubmit=async(e:FormEvent<HTMLButtonElement>)=>{
     e.preventDefault();
     const token=localStorage.getItem("token");
     if(!token) return;
 
+    const karbonAyakIziDegeri=hesaplaKarbonAyakIzi(formData);
+    const guncellenmisFormData={
+      ...formData,karbonAyakIzi: karbonAyakIziDegeri
+    }
+    update({karbonAyakIzi: karbonAyakIziDegeri});   //son satırlarda sadece state geç güncellendiği için güncellenmiş şekilde gönderdik
+
     try {
-    const data = await sendCarbonDetails(formData, token);
+    const data = await sendCarbonDetails(guncellenmisFormData, token);
     console.log("Veri başarıyla gönderildi:", data);
   } catch (error) {
     console.log(error);
@@ -91,11 +108,6 @@ const Step6: React.FC<Props> = ({ prevStep, formData }) => {
         <p><strong>Atık Miktarı:</strong> {formData.atikGeriDonusum?.atikMiktari || "N/A"}</p>
         <p><strong>Geri Dönüşüm Oranı:</strong> {formData.atikGeriDonusum?.geriDonusumOrani || "N/A"}%</p>
       </div>
-
-      {/* Karbon Ayak İzi Hesaplama Kartı */}
-      {/* <div className="bg-white p-6 rounded-xl shadow-lg mb-6">
-        <CarbonFootprintCalculator formData={formData} />
-      </div> */}
 
       {/* Navigasyon */}
       <div className="flex justify-between mt-6">

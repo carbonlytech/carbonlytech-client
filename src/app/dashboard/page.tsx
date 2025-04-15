@@ -24,32 +24,19 @@ const Dashboard: React.FC = () => {
 
   useEffect(() => {
     let totalProductionTemp = 0;
-    let totalCarbonTemp = 0;
+    let totalCarbonFootprintTemp= 0;
 
     allDetails.forEach((formData) => {
       const miktar = parseFloat(formData.firma.miktar || "0");
       totalProductionTemp += miktar;
 
-      const elektrikKg = Number(formData.enerji?.elektrikMiktar || 0) * 0.4;
-      const dogalgazKg = Number(formData.enerji?.dogalgazMiktar || 0) * 2.0;
-
-      const yakitKg = (formData.yakitHammadde?.yakitlar || []).reduce(
-        (toplam: number, yakit: any) => toplam + Number(yakit.miktar || 0) * 2.5,
-        0
-      );
-
-      const emisyonKg =
-        Number(formData.emisyon?.co2 || 0) +
-        Number(formData.emisyon?.ch4 || 0) * 25 +
-        Number(formData.emisyon?.n2o || 0) * 298;
-
-      const toplamKarbon = elektrikKg + dogalgazKg + yakitKg + emisyonKg;
-
-      totalCarbonTemp += toplamKarbon;
+      const toplamKarbon = parseFloat(formData.karbonAyakIzi || "0");
+      totalCarbonFootprintTemp += toplamKarbon;
+      
     });
 
     setTotalProduction(totalProductionTemp);
-    setTotalCarbonFootprint(totalCarbonTemp);
+    setTotalCarbonFootprint(totalCarbonFootprintTemp);
   }, [allDetails]);
 
   const navigateToDetail = (id: any) => {
@@ -113,13 +100,13 @@ const Dashboard: React.FC = () => {
 
           <div>
             {Array.isArray(allDetails) && allDetails.map((item:any,index:any)=>(
-              <div key={index}>
+              <div className="flex gap-x-4" key={index}>
 
                 <div>
                   {item.firma.urun}
                 </div>
                 <div>
-                  Buraya her bir item'ın hesaplanmış karbon hesaplaması lazım
+                  {item.karbonAyakIzi}
                 </div>
 
               </div>
