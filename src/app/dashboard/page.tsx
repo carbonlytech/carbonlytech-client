@@ -56,72 +56,79 @@ const Dashboard: React.FC = () => {
     router.push(`detail/${id}`);
   };
 
+  console.log(allDetails)
+
   return (
-    <div className="flex flex-col items-center px-4 py-8">
-      <h1 className="text-2xl font-bold mb-6">Admin Paneli</h1>
+    <div className="bg-gray-100 w-full h-screen">
+      <div className="w-[80%] h-full mx-auto">
 
-      <div className="bg-gray-100 p-4 rounded-xl mb-8 w-full max-w-3xl text-center space-y-2">
-        <p>Toplam Ürün: <strong>{allDetails.length}</strong></p>
-        <p>Toplam Üretim Miktarı: <strong>{totalProduction}</strong></p>
-        <p>Toplam Karbon Ayak İzi: <strong>{totalCarbonFootprint.toFixed(2)} kg CO₂</strong></p>
-      </div>
 
-      <div className="w-full max-w-4xl space-y-6">
-        {Array.isArray(allDetails) &&
-          allDetails.map((formData: any, index: number) => {
-            const elektrikKg = Number(formData.enerji?.elektrikMiktar || 0) * 0.4;
-            const dogalgazKg = Number(formData.enerji?.dogalgazMiktar || 0) * 2.0;
-            const yakitKg = (formData.yakitHammadde?.yakitlar || []).reduce(
-              (toplam: number, yakit: any) => toplam + Number(yakit.miktar || 0) * 2.5,
-              0
-            );
-            const emisyonKg =
-              Number(formData.emisyon?.co2 || 0) +
-              Number(formData.emisyon?.ch4 || 0) * 25 +
-              Number(formData.emisyon?.n2o || 0) * 298;
+        <div className="text-4xl font-bold py-[3vh] ">Admin Paneli</div>
 
-            const toplamKarbon = elektrikKg + dogalgazKg + yakitKg + emisyonKg;
-            const miktar = parseFloat(formData.firma.miktar || "0");
-            const karbonYoğunluk = miktar > 0 ? toplamKarbon / miktar : 0;
+        <div className="flex justify-center gap-x-[3vw]">
 
-            return (
-              <div
-                key={index}
-                className="bg-white shadow-md rounded-2xl p-6"
-              >
-                <div className="flex justify-between items-start mb-4">
-                  <div>
-                    <h2 className="text-lg font-semibold">
-                      {formData.firma.urun}
-                      {formData.firma.cbam && (
-                        <span className="ml-2 text-xs bg-blue-100 text-blue-600 px-2 py-1 rounded-full">
-                          CBAM
-                        </span>
-                      )}
-                    </h2>
-                    <p className="text-sm text-gray-500">{formData.firma.lokasyon} · {formData.firma.sektor}</p>
-                  </div>
-                  <button
-                    onClick={() => navigateToDetail(formData._id)}
-                    className="text-blue-600 underline text-sm"
-                  >
-                    Report and Graph
-                  </button>
+          <div className="flex flex-col gap-y-8 bg-white rounded-2xl w-[25%] p-4 border-t-6 border-blue-600">
+            <div className="text-xl">Toplam Ürün</div>
+
+            <div className="text-center">
+              <div className="text-5xl text-center font-semibold text-gray-800">{allDetails.length}</div>
+              <div className="text-3xl text-center text-green-600 mt-1">↑ 25%</div>
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-y-8 bg-white rounded-2xl w-[25%] p-4 border-t-6 border-red-600">
+            <div className="text-xl">Toplam Üretim Miktarı:</div>
+
+            <div className="text-center">
+              <div className="text-5xl text-center font-semibold">{totalProduction} ton</div>
+              <div className="text-3xl text-center text-green-600 mt-1">↑ 25%</div>
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-y-8 bg-white rounded-2xl w-[25%] p-4 border-t-6 border-green-600">
+            <div className="text-xl">Toplam Karbon Ayak İzi</div>
+
+            <div className="text-center">
+              <div className="text-5xl text-center font-semibold">{totalCarbonFootprint.toFixed(2)} kg CO₂</div>
+              <div className="text-3xl text-center text-green-600 mt-1">↑ 25%</div>
+            </div>
+          </div>
+
+          <div className="flex flex-col gap-y-8 bg-white rounded-2xl w-[25%] p-4 border-t-6 border-yellow-600">
+            <div className="text-xl">Toplam Ürün</div>
+
+            <div className="text-center">
+              <div className="text-5xl text-center font-semibold">{allDetails.length}</div>
+              <div className="text-3xl text-center text-green-600 mt-1">↑ 25%</div>
+            </div>
+          </div>
+          
+        </div>
+
+        <div className="flex justify-between">
+
+          <div>
+            Grafikler olacak burada
+          </div>
+
+          <div>
+            {Array.isArray(allDetails) && allDetails.map((item:any,index:any)=>(
+              <div key={index}>
+
+                <div>
+                  {item.firma.urun}
+                </div>
+                <div>
+                  Buraya her bir item'ın hesaplanmış karbon hesaplaması lazım
                 </div>
 
-                <div className="grid grid-cols-2 gap-4 text-sm text-gray-700">
-                  <div><strong>Üretim Miktarı:</strong> {formData.firma.miktar} {formData.firma.birim}</div>
-                  <div><strong>Üretim Dönemi:</strong> {formData.firma.uretimDonem}</div>
-                  <div><strong>Toplam Karbon:</strong> {toplamKarbon.toFixed(2)} kg CO₂</div>
-                  <div><strong>Karbon Yoğunluğu:</strong> {karbonYoğunluk.toFixed(2)} kg CO₂/ton</div>
-                  <div><strong>Elektrik:</strong> {elektrikKg.toFixed(2)} kg CO₂</div>
-                  <div><strong>Doğalgaz:</strong> {dogalgazKg.toFixed(2)} kg CO₂</div>
-                  <div><strong>Yakıtlar:</strong> {yakitKg.toFixed(2)} kg CO₂</div>
-                  <div><strong>Proses Emisyonları:</strong> {emisyonKg.toFixed(2)} kg CO₂</div>
-                </div>
               </div>
-            );
-          })}
+            ))}
+          </div>
+
+        </div>
+
+
       </div>
     </div>
   );
