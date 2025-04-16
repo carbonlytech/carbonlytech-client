@@ -8,8 +8,15 @@ import Step4 from "@/components/Step4";
 import Step5 from "@/components/Step5";
 import Step6 from "@/components/Step6";
 import Stepper from "@/components/Stepper";
+import { useRouter } from "next/navigation";
+import { ArrowRight } from "lucide-react";
 
 const Details: React.FC = () => {
+  const router=useRouter();
+  const navigateToDashboard=()=>{
+    router.push("dashboard");
+  }
+
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState<any>({
     firma: {},
@@ -46,7 +53,7 @@ const Details: React.FC = () => {
       <Stepper
         currentStep={step}
         steps={steps}
-        onStepClick={(stepNumber) => setStep(stepNumber)} 
+        onStepClick={(stepNumber) => setStep(stepNumber)}
       />
 
       {step === 1 && (
@@ -93,7 +100,25 @@ const Details: React.FC = () => {
         />
       )}
 
-      {step === 6 && <Step6 prevStep={prevStep} formData={formData} update={(data) => updateFormData("karbonAyakIzi", data)}/>}
+      {step === 6 && (
+        <Step6
+          prevStep={prevStep}
+          formData={formData}
+          update={(data) => updateFormData("karbonAyakIzi", data)}
+        />
+      )}
+
+      {/* Buton */}
+      <div className="flex justify-between pt-4 ml-[15vw]">
+        <button
+          onClick={()=>navigateToDashboard()}
+          className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white font-medium px-6 py-2 rounded-lg transition"
+        >
+          Dashboard
+          <ArrowRight size={16} />
+        </button>
+      </div>
+
     </div>
   );
 };
