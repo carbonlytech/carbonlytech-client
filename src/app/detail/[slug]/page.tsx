@@ -11,8 +11,6 @@ import { PDFDownloadLink, Page, Text, View, Document, StyleSheet } from "@react-
 import CBAMPdfReport from "@/components/pdf/CBAMPdfReport";
 
 
-
-
 const Detail = () => {
   const [carbonDetail, setCarbonDetail] = useState<any>();
   const params = useParams();
