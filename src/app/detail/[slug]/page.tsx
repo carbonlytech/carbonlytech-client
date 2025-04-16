@@ -7,6 +7,11 @@ import GraphOfHammadde from "@/components/graphs/GraphOfHammadde";
 import GraphOfYakit from "@/components/graphs/GraphOfYakit";
 import { useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import { PDFDownloadLink, Page, Text, View, Document, StyleSheet } from "@react-pdf/renderer";
+import CBAMPdfReport from "@/components/pdf/CBAMPdfReport";
+
+
+
 
 const Detail = () => {
   const [carbonDetail, setCarbonDetail] = useState<any>();
@@ -75,21 +80,23 @@ const Detail = () => {
         Karbon Ayak İzi Analiz Paneli
       </h1>
 
+      {/* PDF Çıktısı Butonu */}
+      <div className="text-center mb-6">
+        <PDFDownloadLink
+          document={<CBAMPdfReport data={carbonDetail} />}
+          fileName={`CBAM_Raporu_${carbonDetail.firma.urun}.pdf`}
+          className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+        >
+          {({ loading }) => (loading ? "Hazırlanıyor..." : "📄 CBAM PDF Raporunu İndir")}
+        </PDFDownloadLink>
+      </div>
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {/* Enerji Tüketimi */}
-        <GraphOfEnergy energyData={energyData}/>
-
-        {/* Yakıt Tüketimi */}
-        <GraphOfYakit yakitData={yakitData}/>
-
-        {/* Hammadde Kullanımı */}
-        <GraphOfHammadde hammaddeData={hammaddeData}/>
-
-        {/* Emisyon Dağılımı */}
-        <GraphOfEmisyon emisyonData={emisyonData}/>
-
-        {/* Atık & Geri Dönüşüm */}
-        <GraphOfAtık atikData={atikData}/>
+        <GraphOfEnergy energyData={energyData} />
+        <GraphOfYakit yakitData={yakitData} />
+        <GraphOfHammadde hammaddeData={hammaddeData} />
+        <GraphOfEmisyon emisyonData={emisyonData} />
+        <GraphOfAtık atikData={atikData} />
       </div>
     </div>
   );
