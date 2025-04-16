@@ -3,7 +3,20 @@
 import React, { useEffect, useState } from "react";
 import { getCarbonDetails } from "../api/carbondetailsService";
 import { useRouter } from "next/navigation";
-import { PieChart, Pie, Cell, Tooltip, BarChart, Bar, XAxis, YAxis, CartesianGrid, ResponsiveContainer } from "recharts";
+import {
+  PieChart,
+  Pie,
+  Cell,
+  Tooltip,
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  ResponsiveContainer,
+  LineChart,
+  Line,
+} from "recharts";
 
 const COLORS = ["#8884d8", "#82ca9d", "#ffc658", "#ff8042", "#00C49F"];
 
@@ -47,6 +60,27 @@ const Dashboard: React.FC = () => {
     value: item.karbonAyakIzi,
   }));
 
+  const karbonPerSektorObj = allDetails.reduce((acc: any, item) => {
+    const sektor = item.firma.sektor || "Bilinmeyen";
+    acc[sektor] = (acc[sektor] || 0) + item.karbonAyakIzi;
+    return acc;
+  }, {});
+
+  const sektorData = Object.keys(karbonPerSektorObj).map((sektor) => ({
+    name: sektor,
+    karbon: karbonPerSektorObj[sektor],
+  }));
+
+  const cbamData = [
+    { name: "CBAM Uyumlu", value: allDetails.filter(i => i.firma.cbam).length },
+    { name: "Uyumsuz", value: allDetails.filter(i => !i.firma.cbam).length },
+  ];
+
+  const zamanData = allDetails.map(item => ({
+    name: new Date(item.createdAt).toLocaleDateString(),
+    karbon: item.karbonAyakIzi
+  }));
+
   return (
     <div className="bg-gray-100 min-h-screen w-full p-8">
       <div className="w-full max-w-[1200px] mx-auto">
@@ -74,8 +108,8 @@ const Dashboard: React.FC = () => {
           </div>
         </div>
 
-        {/* Chart & List */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        {/* Charts */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
           <div className="bg-white p-6 rounded-2xl shadow">
             <h2 className="text-xl font-semibold mb-4">Karbon Dağılımı (Ürünlere Göre)</h2>
             <ResponsiveContainer width="100%" height={300}>
@@ -117,6 +151,49 @@ const Dashboard: React.FC = () => {
               </div>
             ))}
           </div>
+        </div>
+
+        {/* Ek Grafikler */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="bg-white p-6 rounded-2xl shadow">
+            <h2 className="text-xl font-semibold mb-4">Sektöre Göre Karbon Dağılımı</h2>
+            <ResponsiveContainer width="100%" height={300}>
+              <BarChart data={sektorData}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="name" />
+                <YAxis />
+                <Tooltip />
+                <Bar dataKey="karbon" fill="#8884d8" />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+
+          <div className="bg-white p-6 rounded-2xl shadow">
+            <h2 className="text-xl font-semibold mb-4">CBAM Uyumluluk</h2>
+            <ResponsiveContainer width="100%" height={300}>
+              <PieChart>
+                <Pie data={cbamData} cx="50%" cy="50%" outerRadius={100} dataKey="value" label>
+                  {cbamData.map((entry, index) => (
+                    <Cell key={`cell-cbam-${index}`} fill={COLORS[index % COLORS.length]} />
+                  ))}
+                </Pie>
+                <Tooltip />
+              </PieChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+
+        <div className="mt-8 bg-white p-6 rounded-2xl shadow">
+          <h2 className="text-xl font-semibold mb-4">Zamana Göre Karbon Salımı</h2>
+          <ResponsiveContainer width="100%" height={300}>
+            <LineChart data={zamanData}>
+              <CartesianGrid strokeDasharray="3 3" />
+              <XAxis dataKey="name" />
+              <YAxis />
+              <Tooltip />
+              <Line type="monotone" dataKey="karbon" stroke="#82ca9d" strokeWidth={2} />
+            </LineChart>
+          </ResponsiveContainer>
         </div>
       </div>
     </div>
