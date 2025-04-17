@@ -143,9 +143,9 @@ const Dashboard: React.FC = () => {
                   <div className="text-sm font-semibold">{item.karbonAyakIzi} kg CO₂</div>
                   <button
                     onClick={() => router.push(`/detail/${item._id}`)}
-                    className="text-blue-500 text-sm underline"
+                    className="text-white bg-green-700 rounded-full px-4 py-1 text-sm"
                   >
-                    Detay
+                    Cbam report and graphs
                   </button>
                 </div>
               </div>

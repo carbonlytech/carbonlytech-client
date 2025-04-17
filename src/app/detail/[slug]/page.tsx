@@ -89,6 +89,20 @@ const Detail = () => {
         </PDFDownloadLink>
       </div>
 
+      {/* Firma Bilgisi Kartı */}
+      <div className="bg-white rounded-xl shadow-md p-6 mb-8">
+        <h2 className="text-xl font-semibold text-gray-700 mb-4">Firma ve Ürün Bilgisi</h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-gray-600">
+          <p><strong>Firma Lokasyonu:</strong> {carbonDetail.firma.lokasyon}</p>
+          <p><strong>Sektör:</strong> {carbonDetail.firma.sektor}</p>
+          <p><strong>Ürün:</strong> {carbonDetail.firma.urun}</p>
+          <p><strong>Üretim Miktarı:</strong> {carbonDetail.firma.miktar} {carbonDetail.firma.birim}</p>
+          <p><strong>Üretim Dönemi:</strong> {carbonDetail.firma.uretimDonem}</p>
+          <p><strong>CBAM Kapsamı:</strong> {carbonDetail.firma.cbam ? "Evet" : "Hayır"}</p>
+          <p><strong>Toplam Karbon Ayak İzi:</strong> {carbonDetail.karbonAyakIzi.toLocaleString()} kg CO₂e</p>
+        </div>
+      </div>
+
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <GraphOfEnergy energyData={energyData} />
         <GraphOfYakit yakitData={yakitData} />
