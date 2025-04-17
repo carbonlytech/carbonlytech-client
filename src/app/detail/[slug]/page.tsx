@@ -73,44 +73,66 @@ const Detail = () => {
   ];
 
   return (
-    <div className="p-8 bg-gray-100 min-h-screen">
-      <h1 className="text-3xl font-bold text-gray-800 mb-8 text-center">
-        Karbon Ayak İzi Analiz Paneli
-      </h1>
+    <div className="bg-gray-100">
+      <div className="p-8 bg-gray-100 min-h-screen w-[80%] mx-auto">
+        <h1 className="text-3xl font-bold text-gray-800 mb-8 text-center">
+          Karbon Ayak İzi Analiz Paneli
+        </h1>
 
-      {/* PDF Çıktısı Butonu */}
-      <div className="text-center mb-6">
-        <PDFDownloadLink
-          document={<CBAMPdfReport data={carbonDetail} />}
-          fileName={`CBAM_Raporu_${carbonDetail.firma.urun}.pdf`}
-          className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
-        >
-          {({ loading }) => (loading ? "Hazırlanıyor..." : "📄 CBAM PDF Raporunu İndir")}
-        </PDFDownloadLink>
-      </div>
+        {/* PDF Çıktısı Butonu */}
+        <div className="text-center mb-6">
+          <PDFDownloadLink
+            document={<CBAMPdfReport data={carbonDetail} />}
+            fileName={`CBAM_Raporu_${carbonDetail.firma.urun}.pdf`}
+            className="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700"
+          >
+            {({ loading }) => (loading ? "Hazırlanıyor..." : "📄 CBAM PDF Raporunu İndir")}
+          </PDFDownloadLink>
+        </div>
 
-      {/* Firma Bilgisi Kartı */}
-      <div className="bg-white rounded-xl shadow-md p-6 mb-8">
-        <h2 className="text-xl font-semibold text-gray-700 mb-4">Firma ve Ürün Bilgisi</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-gray-600">
-          <p><strong>Firma Lokasyonu:</strong> {carbonDetail.firma.lokasyon}</p>
-          <p><strong>Sektör:</strong> {carbonDetail.firma.sektor}</p>
-          <p><strong>Ürün:</strong> {carbonDetail.firma.urun}</p>
-          <p><strong>Üretim Miktarı:</strong> {carbonDetail.firma.miktar} {carbonDetail.firma.birim}</p>
-          <p><strong>Üretim Dönemi:</strong> {carbonDetail.firma.uretimDonem}</p>
-          <p><strong>CBAM Kapsamı:</strong> {carbonDetail.firma.cbam ? "Evet" : "Hayır"}</p>
-          <p><strong>Toplam Karbon Ayak İzi:</strong> {carbonDetail.karbonAyakIzi.toLocaleString()} kg CO₂e</p>
+        {/* Firma Bilgisi Kartı */}
+        <div className="bg-white rounded-xl shadow-md p-6 mb-8">
+          <h2 className="text-xl font-semibold text-gray-700 mb-4">Firma ve Süreç Bilgileri</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-gray-600 text-sm">
+            {/* Firma */}
+            <p><strong>Lokasyon:</strong> {carbonDetail.firma.lokasyon}</p>
+            <p><strong>Sektör:</strong> {carbonDetail.firma.sektor}</p>
+            <p><strong>Ürün:</strong> {carbonDetail.firma.urun}</p>
+            <p><strong>Üretim Miktarı:</strong> {carbonDetail.firma.miktar} {carbonDetail.firma.birim}</p>
+            <p><strong>Üretim Dönemi:</strong> {carbonDetail.firma.uretimDonem}</p>
+            <p><strong>CBAM Kapsamı:</strong> {carbonDetail.firma.cbam ? "Evet" : "Hayır"}</p>
+
+            {/* Emisyon */}
+            <p><strong>Toplam Karbon Ayak İzi:</strong> {carbonDetail.karbonAyakIzi.toLocaleString()} kg CO₂e</p>
+            <p><strong>Emisyon Süreci:</strong> {carbonDetail.emisyon.surecTipi}</p>
+            <p><strong>Emisyon Faktörü:</strong> {carbonDetail.emisyon.emisyonFaktoru}</p>
+
+            {/* Enerji */}
+            <p><strong>Elektrik Kaynağı:</strong> {carbonDetail.enerji.elektrikKaynak}</p>
+            <p><strong>Elektrik Dönemi:</strong> {carbonDetail.enerji.elektrikDonem}</p>
+            <p><strong>Doğalgaz Dönemi:</strong> {carbonDetail.enerji.dogalgazDonem}</p>
+
+            {/* Yakıt & Hammadde */}
+            <p><strong>Yakıt Türü:</strong> {carbonDetail.yakitHammadde.yakitlar.map((y: any) => y.tip).join(", ")}</p>
+            <p><strong>Hammadde Türü:</strong> {carbonDetail.yakitHammadde.hammaddeler.map((h: any) => h.ad).join(", ")}</p>
+
+            {/* Atık */}
+            <p><strong>Atık Tipi:</strong> {carbonDetail.atikGeriDonusum.atikTipi}</p>
+            <p><strong>Toplam Atık:</strong> {carbonDetail.atikGeriDonusum.atikMiktari} ton</p>
+            <p><strong>Geri Dönüşüm Oranı:</strong> %{carbonDetail.atikGeriDonusum.geriDonusumOrani}</p>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <GraphOfEnergy energyData={energyData} />
+          <GraphOfYakit yakitData={yakitData} />
+          <GraphOfHammadde hammaddeData={hammaddeData} />
+          <GraphOfEmisyon emisyonData={emisyonData} />
+          <GraphOfAtık atikData={atikData} />
         </div>
       </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <GraphOfEnergy energyData={energyData} />
-        <GraphOfYakit yakitData={yakitData} />
-        <GraphOfHammadde hammaddeData={hammaddeData} />
-        <GraphOfEmisyon emisyonData={emisyonData} />
-        <GraphOfAtık atikData={atikData} />
-      </div>
     </div>
+
   );
 };
 
