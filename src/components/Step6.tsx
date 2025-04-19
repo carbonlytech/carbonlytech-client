@@ -1,6 +1,7 @@
 import React, { FormEvent } from "react";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { sendCarbonDetails } from "@/app/api/carbondetailsService";
+import CalculateCarbon from "./calculateCarbon/calculateCarbon";
 
 interface Props {
   prevStep: () => void;
@@ -13,23 +14,13 @@ const Step6: React.FC<Props> = ({ prevStep, formData,update }) => {
   const handlePrev = () => {
     prevStep();
   };
-
-  const hesaplaKarbonAyakIzi = (formData: any) => {
-    const co2 = parseFloat(formData.emisyon?.co2 || 0);
-    const ch4 = parseFloat(formData.emisyon?.ch4 || 0);
-    const n2o = parseFloat(formData.emisyon?.n2o || 0);
   
-    const toplam = co2 + ch4 * 25 + n2o * 298;
-    return Number(toplam.toFixed(2)); // kg CO2e
-  };
-  
-
   const handleSubmit=async(e:FormEvent<HTMLButtonElement>)=>{
     e.preventDefault();
     const token=localStorage.getItem("token");
     if(!token) return;
 
-    const karbonAyakIziDegeri=hesaplaKarbonAyakIzi(formData);
+    const karbonAyakIziDegeri=CalculateCarbon(formData);
     const guncellenmisFormData={
       ...formData,karbonAyakIzi: karbonAyakIziDegeri
     }
@@ -76,7 +67,7 @@ const Step6: React.FC<Props> = ({ prevStep, formData,update }) => {
         <h3 className="font-medium text-green-700 mb-4">Yakıt Kullanımı</h3>
         {(formData.yakitHammadde?.yakitlar || []).map((yakit: any, i: number) => (
           <p key={i}>
-            {yakit.tip}: {yakit.miktar} {yakit.birim} ({yakit.donem})
+            <strong>{yakit.tip.charAt(0).toUpperCase() + yakit.tip.slice(1)}:</strong> {yakit.miktar} {yakit.birim} ({yakit.donem})
           </p>
         ))}
       </div>
@@ -86,7 +77,7 @@ const Step6: React.FC<Props> = ({ prevStep, formData,update }) => {
         <h3 className="font-medium text-green-700 mb-4">Hammadde Kullanımı</h3>
         {(formData.yakitHammadde?.hammaddeler || []).map((madde: any, i: number) => (
           <p key={i}>
-            {madde.ad}: {madde.miktar} {madde.birim} ({madde.tedarik})
+            <strong>{madde.ad.charAt(0).toUpperCase() + madde.ad.slice(1)}:</strong> {madde.miktar} {madde.birim} ({madde.tedarik})
           </p>
         ))}
       </div>
