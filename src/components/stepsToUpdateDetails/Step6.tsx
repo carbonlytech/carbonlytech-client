@@ -1,7 +1,8 @@
 import React, { FormEvent } from "react";
 import { ArrowLeft, ArrowRight } from "lucide-react";
-import { sendCarbonDetails } from "@/app/api/carbondetailsService";
-import CalculateCarbon from "./calculateCarbon/calculateCarbon";
+import { updateCarbonDetails } from "@/app/api/carbondetailsService";
+import CalculateCarbon from "../calculateCarbon/CalculateCarbon";
+import { useParams } from "next/navigation";
 
 interface Props {
   prevStep: () => void;
@@ -10,6 +11,8 @@ interface Props {
 }
 
 const Step6: React.FC<Props> = ({ prevStep, formData,update }) => {
+  const params=useParams();
+  const formDataId=params.slug;
 
   const handlePrev = () => {
     prevStep();
@@ -27,7 +30,7 @@ const Step6: React.FC<Props> = ({ prevStep, formData,update }) => {
     update({karbonAyakIzi: karbonAyakIziDegeri});   //son satırlarda sadece state geç güncellendiği için güncellenmiş şekilde gönderdik
 
     try {
-    const data = await sendCarbonDetails(guncellenmisFormData, token);
+    const data = await updateCarbonDetails(formDataId,guncellenmisFormData, token);
     console.log("Veri başarıyla gönderildi:", data);
   } catch (error) {
     console.log(error);

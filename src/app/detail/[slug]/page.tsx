@@ -81,6 +81,7 @@ const Detail = () => {
         </h1>
 
        <Link href={"/dashboard"}>Go to Dashboard</Link>
+       <Link href={`/detail/update/${formDataId}`}>Update</Link>
 
         {/* PDF Çıktısı Butonu */}
         <div className="text-center mb-6">
