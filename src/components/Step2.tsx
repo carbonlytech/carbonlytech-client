@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { BatteryCharging, ArrowLeft, ArrowRight } from "lucide-react";
+import toast from "react-hot-toast";
 
 interface Props {
   nextStep: () => void;
@@ -27,7 +28,26 @@ const Step2: React.FC<Props> = ({ nextStep, prevStep, formData, update }) => {
   const [dogalgazDonem, setDogalgazDonem] = useState(formData.dogalgazDonem || "yillik");
   const [komurDonem, setKomurDonem] = useState(formData.komurDonem || "yillik");
 
+  const validateStep=()=>{
+    if(elektrikKullaniliyor && !elektrikMiktar){
+      return false;
+    }  
+    if(dogalgazKullaniliyor && !dogalgazMiktar){
+      return false;
+    }  
+    if(komurKullaniliyor && !komurMiktar){
+      return false;
+    }    
+
+    return true;
+  }
+
   const handleNext = () => {
+    if(!validateStep()){
+      toast.error("Lütfen miktarı belirtiniz.");
+      return;
+    }
+
     update({
       elektrikKullaniliyor,
       dogalgazKullaniliyor,
@@ -64,6 +84,8 @@ const Step2: React.FC<Props> = ({ nextStep, prevStep, formData, update }) => {
     });
     prevStep();
   };
+
+  
 
   return (
     <div className="bg-white p-8 rounded-2xl shadow-xl max-w-2xl mx-auto space-y-8">

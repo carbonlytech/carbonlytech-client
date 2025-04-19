@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Fuel, Box, ArrowLeft, ArrowRight } from "lucide-react";
+import toast from "react-hot-toast";
 
 interface Props {
   nextStep: () => void;
@@ -46,7 +47,28 @@ const Step3: React.FC<Props> = ({ nextStep, prevStep, formData, update }) => {
     setHammaddeler(updated);
   };
 
+  const validateStep=()=>{
+    for(const yakit of yakitlar){
+      if(yakit.tip && !yakit.miktar){
+        toast.error("Lütfen yakıt miktarını giriniz");
+        return false;
+      }
+    }
+
+    for(const hammadde of hammaddeler){
+      if(hammadde.ad && !hammadde.miktar){
+        toast.error("Lütfen hammadde miktarını giriniz");
+        return false;
+      }
+    }
+
+    return true;
+  }
+
   const handleNext = () => {
+    if(!validateStep()) return;
+    
+    
     update({ yakitlar, hammaddeler });
     nextStep();
   };

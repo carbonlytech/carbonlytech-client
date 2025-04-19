@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { Factory, ArrowLeft, ArrowRight } from "lucide-react";
+import toast from "react-hot-toast";
 
 interface Props {
   nextStep: () => void;
@@ -15,7 +16,20 @@ const Step4: React.FC<Props> = ({ nextStep, prevStep, formData, update }) => {
   const [ch4, setCh4] = useState(formData.ch4 || "");
   const [n2o, setN2o] = useState(formData.n2o || "");
 
+  const validateStep=()=>{
+    if(!surecTipi){
+      toast.error("Lütfen süreç türünü belirtiniz");
+      return false;
+    }
+
+    return true;
+  }
+
   const handleNext = () => {
+    if(!validateStep()){
+      return;
+    }
+
     update({ surecTipi, emisyonFaktoru, co2, ch4, n2o });
     nextStep();
   };

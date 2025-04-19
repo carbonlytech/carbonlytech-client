@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { ArrowLeft, ArrowRight, Recycle } from "lucide-react";
+import toast from "react-hot-toast";
 
 interface Props {
   nextStep: () => void;
@@ -13,7 +14,20 @@ const Step5: React.FC<Props> = ({ nextStep, prevStep, formData, update }) => {
   const [geriDonusumOrani, setGeriDonusumOrani] = useState(formData.geriDonusumOrani || "");
   const [atikTipi, setAtikTipi] = useState(formData.atikTipi || "");
 
+  const validateStep=()=>{
+    if(atikMiktari && !geriDonusumOrani){
+      toast.error("Oranı belirtiniz");
+      return false;
+    }
+
+    return true;
+  }
+
   const handleNext = () => {
+    if(!validateStep()){
+      return;
+    }
+
     update({ atikMiktari, geriDonusumOrani, atikTipi });
     nextStep();
   };

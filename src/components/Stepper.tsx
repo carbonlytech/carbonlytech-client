@@ -16,7 +16,7 @@ const Stepper = ({ currentStep, steps, onStepClick }: StepperProps) => {
           <div
             key={index}
             className="flex-1 flex flex-col items-center relative cursor-pointer"
-            onClick={() => onStepClick(stepNumber)}
+            // onClick={() => onStepClick(stepNumber)}
           >
             <div
               className={`w-8 h-8 flex items-center justify-center rounded-full text-sm font-semibold z-10
