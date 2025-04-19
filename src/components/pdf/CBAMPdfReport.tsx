@@ -1,43 +1,57 @@
 import { Page, Text, View, Document, StyleSheet } from "@react-pdf/renderer";
+import { Font } from "@react-pdf/renderer";
+
+Font.register({
+  family: "Noto Sans",
+  src: "/fonts/NotoSans_SemiCondensed-Regular.ttf", // public klasörü altında olduğu için böyle erişilebilir
+});
 
 // Modern PDF stilleri
 const styles = StyleSheet.create({
   page: {
-    padding: 30,
+    padding: 40,
     fontSize: 12,
-    backgroundColor: "#f5f5f5"
+    backgroundColor: "#ffffff", // Beyaz zemin daha temiz görünür
+    fontFamily: "Noto Sans",
   },
   section: {
-    marginBottom: 20,
-    padding: 10,
-    borderBottom: "1px solid #ddd",
+    marginBottom: 25,
+    padding: 15,
+    border: "1pt solid #e0e0e0",
+    borderRadius: 6,
+    backgroundColor: "#fafafa",
+    shadowColor: "#aaa",
   },
   title: {
-    fontSize: 20,
-    fontWeight: 'bold',
+    fontSize: 22,
+    fontWeight: "bold",
     textAlign: "center",
-    color: "#2c3e50",
-    marginBottom: 15,
+    color: "#1a1a1a",
+    marginBottom: 25,
   },
   subtitle: {
     fontSize: 16,
-    marginBottom: 5,
-    color: "#2980b9",
-    textDecoration: "underline",
+    marginBottom: 10,
+    color: "#2c3e50",
+    borderBottom: "1pt solid #dcdcdc",
+    paddingBottom: 5,
   },
   text: {
-    fontSize: 12,
-    marginBottom: 5,
-    lineHeight: 1.5,
-    color: "#34495e"
+    fontSize: 11,
+    marginBottom: 6,
+    lineHeight: 1.6,
+    color: "#2d3436",
   },
   boldText: {
-    fontWeight: 'bold',
+    fontWeight: "bold",
+    color: "#000",
   },
   highlightText: {
-    color: "#e74c3c",  // Önemli verileri vurgulamak için kırmızı renk
+    color: "#e74c3c",
+    fontWeight: "bold",
   }
 });
+
 
 // PDF Bileşeni
 const CBAMPdfReport = ({ data }: { data: any }) => (
