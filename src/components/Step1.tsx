@@ -18,7 +18,7 @@ const Step1: React.FC<Props> = ({ nextStep, formData, update }) => {
   const [uretimDonem, setUretimDonem] = useState(formData.uretimDonem || "yillik");
 
   const validateStep=()=>{
-    if(!lokasyon || !sektor || !urun || miktar){
+    if(!lokasyon || !sektor || !urun || !miktar){
       toast.error("Lütfen tüm bilgileri girin!");
       return false;
     }
