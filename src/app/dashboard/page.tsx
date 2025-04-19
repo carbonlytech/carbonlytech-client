@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import React, { useEffect, useState } from "react";
 import { getCarbonDetails } from "../api/carbondetailsService";
@@ -72,13 +72,16 @@ const Dashboard: React.FC = () => {
   }));
 
   const cbamData = [
-    { name: "CBAM Uyumlu", value: allDetails.filter(i => i.firma.cbam).length },
-    { name: "Uyumsuz", value: allDetails.filter(i => !i.firma.cbam).length },
+    {
+      name: "CBAM Uyumlu",
+      value: allDetails.filter((i) => i.firma.cbam).length,
+    },
+    { name: "Uyumsuz", value: allDetails.filter((i) => !i.firma.cbam).length },
   ];
 
-  const zamanData = allDetails.map(item => ({
+  const zamanData = allDetails.map((item) => ({
     name: new Date(item.createdAt).toLocaleDateString(),
-    karbon: item.karbonAyakIzi
+    karbon: item.karbonAyakIzi,
   }));
 
   return (
@@ -90,20 +93,26 @@ const Dashboard: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
           <div className="bg-white rounded-2xl p-6 shadow">
             <div className="text-xl">Toplam Ürün</div>
-            <div className="text-4xl font-semibold text-center">{allDetails.length}</div>
+            <div className="text-4xl font-semibold text-center">
+              {allDetails.length}
+            </div>
           </div>
           <div className="bg-white rounded-2xl p-6 shadow">
             <div className="text-xl">Toplam Üretim</div>
-            <div className="text-4xl font-semibold text-center">{totalProduction} ton</div>
+            <div className="text-4xl font-semibold text-center">
+              {totalProduction} ton
+            </div>
           </div>
           <div className="bg-white rounded-2xl p-6 shadow">
             <div className="text-xl">Toplam Karbon Ayak İzi</div>
-            <div className="text-4xl font-semibold text-center">{totalCarbonFootprint.toFixed(2)} kg</div>
+            <div className="text-4xl font-semibold text-center">
+              {totalCarbonFootprint.toFixed(2)} kg
+            </div>
           </div>
           <div className="bg-white rounded-2xl p-6 shadow">
             <div className="text-xl">CBAM Uyumlu</div>
             <div className="text-4xl font-semibold text-center">
-              {allDetails.filter(item => item.firma.cbam).length}
+              {allDetails.filter((item) => item.firma.cbam).length}
             </div>
           </div>
         </div>
@@ -111,7 +120,9 @@ const Dashboard: React.FC = () => {
         {/* Charts */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-8">
           <div className="bg-white p-6 rounded-2xl shadow">
-            <h2 className="text-xl font-semibold mb-4">Karbon Dağılımı (Ürünlere Göre)</h2>
+            <h2 className="text-xl font-semibold mb-4">
+              Karbon Dağılımı (Ürünlere Göre)
+            </h2>
             <ResponsiveContainer width="100%" height={300}>
               <PieChart>
                 <Pie
@@ -123,7 +134,10 @@ const Dashboard: React.FC = () => {
                   dataKey="value"
                 >
                   {karbonPerUrun.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                    <Cell
+                      key={`cell-${index}`}
+                      fill={COLORS[index % COLORS.length]}
+                    />
                   ))}
                 </Pie>
                 <Tooltip />
@@ -134,16 +148,29 @@ const Dashboard: React.FC = () => {
           <div className="bg-white p-6 rounded-2xl shadow overflow-auto max-h-[400px]">
             <h2 className="text-xl font-semibold mb-4">Son Kayıtlar</h2>
             {allDetails.map((item, index) => (
-              <div key={index} className="flex justify-between items-center py-2 border-b">
-                <div>
-                  <div className="font-medium">{item.firma.urun}</div>
-                  <div className="text-sm text-gray-500">{item.firma.lokasyon}</div>
+              <div
+                key={index}
+                className="flex justify-between items-center px-6 py-4 border-b border-gray-200 hover:bg-gray-50 transition-colors"
+              >
+                <div className="space-y-1">
+                  <div className="text-base font-semibold text-gray-800">
+                    {item.firma.urun}
+                  </div>
+                  <div className="text-sm text-gray-500">
+                    {item.firma.lokasyon}
+                  </div>
                 </div>
+
                 <div className="text-right">
-                  <div className="text-sm font-semibold">{item.karbonAyakIzi} kg CO₂</div>
+                  <div className="text-sm text-gray-500">
+                    Toplam Karbon Ayak İzi
+                  </div>
+                  <div className="text-lg font-medium text-gray-800">
+                    {item.karbonAyakIzi} kg CO₂
+                  </div>
                   <button
                     onClick={() => router.push(`/detail/${item._id}`)}
-                    className="text-white bg-green-700 rounded-full px-4 py-1 text-sm"
+                    className="mt-1 text-sm text-blue-600 hover:underline hover:cursor-pointer transition"
                   >
                     Cbam report and graphs
                   </button>
@@ -156,7 +183,9 @@ const Dashboard: React.FC = () => {
         {/* Ek Grafikler */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div className="bg-white p-6 rounded-2xl shadow">
-            <h2 className="text-xl font-semibold mb-4">Sektöre Göre Karbon Dağılımı</h2>
+            <h2 className="text-xl font-semibold mb-4">
+              Sektöre Göre Karbon Dağılımı
+            </h2>
             <ResponsiveContainer width="100%" height={300}>
               <BarChart data={sektorData}>
                 <CartesianGrid strokeDasharray="3 3" />
@@ -172,9 +201,19 @@ const Dashboard: React.FC = () => {
             <h2 className="text-xl font-semibold mb-4">CBAM Uyumluluk</h2>
             <ResponsiveContainer width="100%" height={300}>
               <PieChart>
-                <Pie data={cbamData} cx="50%" cy="50%" outerRadius={100} dataKey="value" label>
+                <Pie
+                  data={cbamData}
+                  cx="50%"
+                  cy="50%"
+                  outerRadius={100}
+                  dataKey="value"
+                  label
+                >
                   {cbamData.map((entry, index) => (
-                    <Cell key={`cell-cbam-${index}`} fill={COLORS[index % COLORS.length]} />
+                    <Cell
+                      key={`cell-cbam-${index}`}
+                      fill={COLORS[index % COLORS.length]}
+                    />
                   ))}
                 </Pie>
                 <Tooltip />
@@ -184,14 +223,21 @@ const Dashboard: React.FC = () => {
         </div>
 
         <div className="mt-8 bg-white p-6 rounded-2xl shadow">
-          <h2 className="text-xl font-semibold mb-4">Zamana Göre Karbon Salımı</h2>
+          <h2 className="text-xl font-semibold mb-4">
+            Zamana Göre Karbon Salımı
+          </h2>
           <ResponsiveContainer width="100%" height={300}>
             <LineChart data={zamanData}>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="name" />
               <YAxis />
               <Tooltip />
-              <Line type="monotone" dataKey="karbon" stroke="#82ca9d" strokeWidth={2} />
+              <Line
+                type="monotone"
+                dataKey="karbon"
+                stroke="#82ca9d"
+                strokeWidth={2}
+              />
             </LineChart>
           </ResponsiveContainer>
         </div>

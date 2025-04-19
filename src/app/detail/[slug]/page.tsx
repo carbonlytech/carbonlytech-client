@@ -9,6 +9,7 @@ import { useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { PDFDownloadLink, Page, Text, View, Document, StyleSheet } from "@react-pdf/renderer";
 import CBAMPdfReport from "@/components/pdf/CBAMPdfReport";
+import Link from "next/link";
 
 
 const Detail = () => {
@@ -79,6 +80,8 @@ const Detail = () => {
           Karbon Ayak İzi Analiz Paneli
         </h1>
 
+       <Link href={"/dashboard"}>Go to Dashboard</Link>
+
         {/* PDF Çıktısı Butonu */}
         <div className="text-center mb-6">
           <PDFDownloadLink
@@ -123,6 +126,7 @@ const Detail = () => {
           </div>
         </div>
 
+        {/* Grafikler */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <GraphOfEnergy energyData={energyData} />
           <GraphOfYakit yakitData={yakitData} />
