@@ -1,5 +1,22 @@
 const API_URL = "http://localhost:3001/carbondetails";
 
+export const deleteCarbonDetails=async(formDataId: any,token: any)=>{
+  try {
+    const response=await fetch(`${API_URL}/delete-details/${formDataId}`,{
+      method: "DELETE",
+      headers: {
+        "Content-Type":"application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const data=await response.json();
+    return data;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 export const updateCarbonDetails = async (formDataId: any,formData: any, token: any) => {
   if (formData.user) {
     delete formData.user;

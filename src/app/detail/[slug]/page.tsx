@@ -1,5 +1,5 @@
 "use client";
-import { getOneCarbonDetails } from "@/app/api/carbondetailsService";
+import { deleteCarbonDetails, getOneCarbonDetails } from "@/app/api/carbondetailsService";
 import GraphOfAtık from "@/components/graphs/GraphOfAtık";
 import GraphOfEmisyon from "@/components/graphs/GraphOfEmisyon";
 import GraphOfEnergy from "@/components/graphs/GraphOfEnergy";
@@ -73,6 +73,12 @@ const Detail = () => {
     },
   ];
 
+  const handleDelete=async()=>{
+    const token=localStorage.getItem("token");
+    if(!token) return;
+    await deleteCarbonDetails(carbonDetail._id,token);
+  }
+
   return (
     <div className="bg-gray-100">
       <div className="p-8 bg-gray-100 min-h-screen w-[80%] mx-auto">
@@ -82,6 +88,7 @@ const Detail = () => {
 
        <Link href={"/dashboard"}>Go to Dashboard</Link>
        <Link href={`/detail/update/${formDataId}`}>Update</Link>
+       <button onClick={handleDelete}>Delete</button>
 
         {/* PDF Çıktısı Butonu */}
         <div className="text-center mb-6">
