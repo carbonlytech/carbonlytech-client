@@ -1,65 +1,61 @@
+"use client";
+
 import React from "react";
+import Link from "next/link";
 import {
   Home,
-  Users,
-  GraduationCap,
-  User,
-  Book,
-  ClipboardList,
-  FileText,
   BarChart,
-  Calendar,
-  Mail,
-  Megaphone,
   Settings,
-  LogOut
+  LogOut,
+  Leaf,
+  Building2,
 } from "lucide-react";
 
 const menuItems = [
-  { label: "Home", icon: <Home size={18} /> },
-  { label: "Teachers", icon: <Users size={18} /> },
-  { label: "Students", icon: <GraduationCap size={18} /> },
-  { label: "Parents", icon: <User size={18} /> },
-  { label: "Subjects", icon: <Book size={18} /> },
-  { label: "Classes", icon: <ClipboardList size={18} /> },
-  { label: "Lessons", icon: <Book size={18} /> },
-  { label: "Exams", icon: <FileText size={18} /> },
-  { label: "Assignments", icon: <ClipboardList size={18} /> },
-  { label: "Results", icon: <BarChart size={18} /> },
-  { label: "Attendance", icon: <Calendar size={18} /> },
-  { label: "Events", icon: <Calendar size={18} /> },
-  { label: "Messages", icon: <Mail size={18} /> },
-  { label: "Announcements", icon: <Megaphone size={18} /> }
+  { label: "Dashboard", icon: <Home size={18} />, href: "/dashboard" },
+  { label: "Ürün Ekleme", icon: <BarChart size={18} />, href: "/details" },
+  { label: "Şirketler", icon: <Building2 size={18} />, href: "/sirketler" },
 ];
 
 const otherItems = [
-  { label: "Profile", icon: <User size={18} /> },
-  { label: "Settings", icon: <Settings size={18} /> },
-  { label: "Logout", icon: <LogOut size={18} /> }
+  { label: "Ayarlar", icon: <Settings size={18} />, href: "/ayarlar" },
+  { label: "Çıkış Yap", icon: <LogOut size={18} />, href: "/logout" },
 ];
 
 const Navbar = () => {
   return (
-    <div className="w-full bg-white border-r shadow-sm flex flex-col justify-between">
+    <div className="h-screen bg-white border-r border-gray-200 shadow-sm flex flex-col justify-between py-6">
       <div>
-        <div className="text-gray-500 text-xs font-semibold px-4 py-3 uppercase">Menu</div>
-        <ul>
+        <div className="text-xl font-bold text-center text-green-700 mb-8 flex items-center justify-center gap-2">
+          <Leaf size={24} /> CarbonTrack
+        </div>
+
+        <ul className="space-y-2">
           {menuItems.map((item, index) => (
-            <li key={index} className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 cursor-pointer transition">
-              <span className="mr-3">{item.icon}</span>
-              <span>{item.label}</span>
+            <li key={index}>
+              <Link
+                href={item.href}
+                className="flex items-center px-6 py-3 text-gray-700 hover:bg-green-100/40 hover:text-green-700 transition cursor-pointer rounded-r-full"
+              >
+                <span className="mr-3 text-green-600">{item.icon}</span>
+                <span className="font-medium">{item.label}</span>
+              </Link>
             </li>
           ))}
         </ul>
       </div>
 
-      <div>
-        <div className="text-gray-500 text-xs font-semibold px-4 py-3 uppercase">Other</div>
-        <ul>
+      <div className="px-6">
+        <ul className="space-y-2">
           {otherItems.map((item, index) => (
-            <li key={index} className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 cursor-pointer transition">
-              <span className="mr-3">{item.icon}</span>
-              <span>{item.label}</span>
+            <li key={index}>
+              <Link
+                href={item.href}
+                className="flex items-center py-3 text-gray-500 hover:bg-gray-100 transition cursor-pointer rounded-r-full"
+              >
+                <span className="mr-3">{item.icon}</span>
+                <span className="text-sm">{item.label}</span>
+              </Link>
             </li>
           ))}
         </ul>

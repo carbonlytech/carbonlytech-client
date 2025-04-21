@@ -88,7 +88,7 @@ const Dashboard: React.FC = () => {
   return (
     <div className="bg-gray-100 min-h-screen w-full">
       <div className="flex gap-x-[5vw]">
-        <div className="w-[12%]">
+        <div className="w-[12%] sticky top-0 h-screen bg-white shadow-md">
           <Navbar />
         </div>
 
@@ -151,38 +151,42 @@ const Dashboard: React.FC = () => {
               </ResponsiveContainer>
             </div>
 
-            <div className="bg-white p-6 rounded-2xl shadow overflow-auto max-h-[400px]">
-              <h2 className="text-xl font-semibold mb-4">Son Kayıtlar</h2>
-              {allDetails.map((item, index) => (
-                <div
-                  key={index}
-                  className="flex justify-between items-center px-6 py-4 border-b border-gray-200 hover:bg-gray-50 transition-colors"
-                >
-                  <div className="space-y-1">
-                    <div className="text-base font-semibold text-gray-800">
-                      {item.firma.urun}
+            <div className="bg-white p-5 rounded-2xl shadow-lg overflow-auto max-h-[400px]">
+              <h2 className="text-lg font-semibold text-neutral-700 mb-4">
+                Son Kayıtlar
+              </h2>
+              <div className="divide-y divide-gray-200">
+                {allDetails.map((item, index) => (
+                  <div
+                    key={index}
+                    className="flex justify-between items-center py-4 hover:bg-gray-50 px-2 rounded-md transition-colors"
+                  >
+                    <div className="space-y-1">
+                      <div className="text-base font-medium text-neutral-800">
+                        {item.firma.urun}
+                      </div>
+                      <div className="text-sm text-neutral-500">
+                        {item.firma.lokasyon}
+                      </div>
                     </div>
-                    <div className="text-sm text-gray-500">
-                      {item.firma.lokasyon}
-                    </div>
-                  </div>
 
-                  <div className="text-right">
-                    <div className="text-sm text-gray-500">
-                      Toplam Karbon Ayak İzi
+                    <div className="text-right">
+                      <div className="text-xs text-neutral-500">
+                        Toplam Karbon Ayak İzi
+                      </div>
+                      <div className="text-base font-semibold text-neutral-700">
+                        {item.karbonAyakIzi} kg CO₂
+                      </div>
+                      <button
+                        onClick={() => router.push(`/detail/${item._id}`)}
+                        className="mt-1 text-sm text-blue-600 hover:underline"
+                      >
+                        CBAM raporu
+                      </button>
                     </div>
-                    <div className="text-lg font-medium text-gray-800">
-                      {item.karbonAyakIzi} kg CO₂
-                    </div>
-                    <button
-                      onClick={() => router.push(`/detail/${item._id}`)}
-                      className="mt-1 text-sm text-blue-600 hover:underline hover:cursor-pointer transition"
-                    >
-                      Cbam report and graphs
-                    </button>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           </div>
 
@@ -248,7 +252,6 @@ const Dashboard: React.FC = () => {
             </ResponsiveContainer>
           </div>
         </div>
-
       </div>
     </div>
   );

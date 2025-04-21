@@ -12,7 +12,7 @@ const Middleware: React.FC = () => {
     const currentPath = window.location.pathname;
 
     // Yönlendirme yapılmaması gereken sayfalar
-    const excludePaths = ["/dashboard", "/user/signin", "/detail","/details"];
+    const excludePaths = ["/user/signin", "/detail","/details"];
 
     // Eğer token yoksa, signin sayfasına yönlendir
     if (!token) {
