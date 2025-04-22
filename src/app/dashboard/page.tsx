@@ -179,9 +179,9 @@ const Dashboard: React.FC = () => {
                       </div>
                       <button
                         onClick={() => router.push(`/detail/${item._id}`)}
-                        className="mt-1 text-sm text-blue-600 hover:underline"
+                        className="mt-1 text-sm text-blue-600 hover:underline hover:cursor-pointer"
                       >
-                        CBAM raporu
+                        CBAM raporu ve Detaylar
                       </button>
                     </div>
                   </div>

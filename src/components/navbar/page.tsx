@@ -26,7 +26,7 @@ const Navbar = () => {
   return (
     <div className="h-screen bg-white border-r border-gray-200 shadow-sm flex flex-col justify-between py-6">
       <div>
-        <div className="text-xl font-bold text-center text-green-700 mb-8 flex items-center justify-center gap-2">
+        <div className="text-xl font-bold text-center text-gray-700 mb-8 flex items-center justify-center gap-2">
           <Leaf size={24} /> CarbonTrack
         </div>
 
@@ -35,9 +35,9 @@ const Navbar = () => {
             <li key={index}>
               <Link
                 href={item.href}
-                className="flex items-center px-6 py-3 text-gray-700 hover:bg-green-100/40 hover:text-green-700 transition cursor-pointer rounded-r-full"
+                className="flex items-center px-6 py-3 text-gray-700 hover:bg-gray-100/40 hover:text-gray-700 transition cursor-pointer rounded-r-full"
               >
-                <span className="mr-3 text-green-600">{item.icon}</span>
+                <span className="mr-3 text-gray-600">{item.icon}</span>
                 <span className="font-medium">{item.label}</span>
               </Link>
             </li>
