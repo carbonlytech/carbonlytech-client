@@ -5,28 +5,39 @@ import {
   Cell,
   Tooltip,
   Legend,
-  BarChart,
-  Bar,
-  XAxis,
-  YAxis,
-  CartesianGrid,
   ResponsiveContainer,
 } from "recharts";
 
-interface Props{
-    atikData: any[];
+interface Props {
+  atikData: any[];
 }
 
-const GraphOfAtık:React.FC<Props>=({atikData})=>{
-    
-    const chartWrapperClass ="bg-white shadow-md rounded-2xl p-4 flex flex-col items-center justify-center space-y-4";
+const GraphOfAtık: React.FC<Props> = ({ atikData }) => {
+  const chartWrapperClass =
+    "bg-white shadow-md rounded-2xl p-4 flex flex-col items-center justify-center space-y-4";
 
-    const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#AF19FF"];
+  const COLORS = ["#0088FE", "#00C49F", "#FFBB28", "#FF8042", "#AF19FF"];
 
-    return(
-        <div className={chartWrapperClass}>
-          <h2 className="text-xl font-semibold text-gray-700">Atık & Geri Dönüşüm</h2>
-          <PieChart width={300} height={300}>
+  const checkData = (data: any[]) => {
+    return data.some(
+      (item) =>
+        item.name &&
+        typeof item.name === "string" &&
+        item.name.trim() !== "" &&
+        typeof item.value === "number" &&
+        !isNaN(item.value) &&
+        item.value > 0
+    );
+  };
+
+  const answer = checkData(atikData);
+
+  return (
+    <div className={chartWrapperClass}>
+      <h2 className="text-xl font-semibold text-gray-700">Atık & Geri Dönüşüm</h2>
+      {answer ? (
+        <ResponsiveContainer width="100%" height={300}>
+          <PieChart>
             <Pie
               data={atikData}
               cx="50%"
@@ -36,15 +47,21 @@ const GraphOfAtık:React.FC<Props>=({atikData})=>{
               dataKey="value"
             >
               {atikData.map((entry, index) => (
-                <Cell key={`atik-${index}`} fill={COLORS[index % COLORS.length]} />
+                <Cell
+                  key={`atik-${index}`}
+                  fill={COLORS[index % COLORS.length]}
+                />
               ))}
             </Pie>
             <Tooltip />
             <Legend />
           </PieChart>
-        </div>
-    )
-
-}
+        </ResponsiveContainer>
+      ) : (
+        <div>Kullanıcı tarafından yeterli atık verisi girilmedi.</div>
+      )}
+    </div>
+  );
+};
 
 export default GraphOfAtık;
