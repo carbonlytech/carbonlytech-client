@@ -11,11 +11,40 @@ import { PDFDownloadLink } from "@react-pdf/renderer";
 import CBAMPdfReport from "@/components/pdf/CBAMPdfReport";
 import Link from "next/link";
 import Navbar from "@/components/navbar/page";
+import domtoimage from "dom-to-image"
 
 const Detail = () => {
   const [carbonDetail, setCarbonDetail] = useState<any>();
   const params = useParams();
   const formDataId = params.slug;
+
+  const chartRefs = {
+    energy: React.useRef(null),
+    yakit: React.useRef(null),
+    hammadde: React.useRef(null),
+    emisyon: React.useRef(null),
+    atik: React.useRef(null),
+  };
+  
+  const [chartImages, setChartImages] = useState<any>({});
+  
+  useEffect(() => {
+    const generateChartImages = async () => {
+      const refs = chartRefs;
+      const images: any = {};
+  
+      for (const key in refs) {
+        const node = refs[key as keyof typeof refs]?.current;
+        if (node) {
+          const dataUrl = await domtoimage.toPng(node);
+          images[key] = dataUrl;
+        }
+      }
+      setChartImages(images);
+    };
+  
+    if (carbonDetail) generateChartImages();
+  }, [carbonDetail]);
 
   useEffect(() => {
     const fetchFormDetail = async () => {
@@ -112,7 +141,7 @@ const Detail = () => {
               🗑️ Sil
             </button>
             <PDFDownloadLink
-              document={<CBAMPdfReport data={carbonDetail} />}
+              document={<CBAMPdfReport data={carbonDetail} chartImages={chartImages}/>}
               fileName={`CBAM_Raporu_${carbonDetail.firma.urun}.pdf`}
               className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
             >
@@ -146,23 +175,23 @@ const Detail = () => {
 
           {/* Grafikler */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div className="bg-white p-4 rounded-xl shadow-md">
+            <div ref={chartRefs.energy} className="bg-white p-4 rounded-xl shadow-md">
               <h3 className="text-lg font-semibold text-gray-700 mb-2">🔌 Enerji Tüketimi</h3>
               <GraphOfEnergy energyData={energyData} />
             </div>
-            <div className="bg-white p-4 rounded-xl shadow-md">
+            <div ref={chartRefs.yakit} className="bg-white p-4 rounded-xl shadow-md">
               <h3 className="text-lg font-semibold text-gray-700 mb-2">🔥 Yakıt Kullanımı</h3>
               <GraphOfYakit yakitData={yakitData} />
             </div>
-            <div className="bg-white p-4 rounded-xl shadow-md">
+            <div ref={chartRefs.hammadde} className="bg-white p-4 rounded-xl shadow-md">
               <h3 className="text-lg font-semibold text-gray-700 mb-2">🧱 Hammadde Kullanımı</h3>
               <GraphOfHammadde hammaddeData={hammaddeData} />
             </div>
-            <div className="bg-white p-4 rounded-xl shadow-md">
+            <div ref={chartRefs.emisyon} className="bg-white p-4 rounded-xl shadow-md">
               <h3 className="text-lg font-semibold text-gray-700 mb-2">🌫️ Emisyon Dağılımı</h3>
               <GraphOfEmisyon emisyonData={emisyonData} />
             </div>
-            <div className="bg-white p-4 rounded-xl shadow-md">
+            <div ref={chartRefs.atik} className="bg-white p-4 rounded-xl shadow-md">
               <h3 className="text-lg font-semibold text-gray-700 mb-2">♻️ Atık & Geri Dönüşüm</h3>
               <GraphOfAtık atikData={atikData} />
             </div>

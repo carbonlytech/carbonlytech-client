@@ -1,4 +1,4 @@
-import { Page, Text, View, Document, StyleSheet } from "@react-pdf/renderer";
+import { Page, Text, View, Document, StyleSheet, Image } from "@react-pdf/renderer";
 import { Font } from "@react-pdf/renderer";
 
 Font.register({
@@ -54,10 +54,45 @@ const styles = StyleSheet.create({
 
 
 // PDF Bileşeni
-const CBAMPdfReport = ({ data }: { data: any }) => (
+const CBAMPdfReport = ({ data,chartImages }: { data: any,chartImages:any }) => (
   <Document>
     <Page size="A4" style={styles.page}>
       <Text style={styles.title}>CBAM Uyumlu Karbon Ayak İzi Raporu</Text>
+
+      {chartImages.energy && (
+        <View style={styles.section}>
+          <Text style={styles.subtitle}>Enerji Tüketimi Grafiği</Text>
+          <Image src={chartImages.energy} style={{ width: "100%", height: "auto" }} />
+        </View>
+      )}
+
+      {chartImages.yakit && (
+        <View style={styles.section}>
+          <Text style={styles.subtitle}>Yakıt Kullanımı Grafiği</Text>
+          <Image src={chartImages.yakit} style={{ width: "100%", height: "auto" }} />
+        </View>
+      )}
+
+      {chartImages.hammadde && (
+        <View style={styles.section}>
+          <Text style={styles.subtitle}>Enerji Tüketimi Grafiği</Text>
+          <Image src={chartImages.hammadde} style={{ width: "100%", height: "auto" }} />
+        </View>
+      )}
+
+      {chartImages.emisyon && (
+        <View style={styles.section}>
+          <Text style={styles.subtitle}>Yakıt Kullanımı Grafiği</Text>
+          <Image src={chartImages.emisyon} style={{ width: "100%", height: "auto" }} />
+        </View>
+      )}
+
+      {chartImages.atik && (
+        <View style={styles.section}>
+          <Text style={styles.subtitle}>Enerji Tüketimi Grafiği</Text>
+          <Image src={chartImages.atik} style={{ width: "100%", height: "auto" }} />
+        </View>
+      )}
 
       <View style={styles.section}>
         <Text style={styles.subtitle}>Firma Bilgileri</Text>
