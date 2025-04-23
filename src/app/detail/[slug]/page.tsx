@@ -1,5 +1,8 @@
 "use client";
-import { deleteCarbonDetails, getOneCarbonDetails } from "@/app/api/carbondetailsService";
+import {
+  deleteCarbonDetails,
+  getOneCarbonDetails,
+} from "@/app/api/carbondetailsService";
 import GraphOfAtık from "@/components/graphs/GraphOfAtık";
 import GraphOfEmisyon from "@/components/graphs/GraphOfEmisyon";
 import GraphOfEnergy from "@/components/graphs/GraphOfEnergy";
@@ -11,7 +14,7 @@ import { PDFDownloadLink } from "@react-pdf/renderer";
 import CBAMPdfReport from "@/components/pdf/CBAMPdfReport";
 import Link from "next/link";
 import Navbar from "@/components/navbar/page";
-import domtoimage from "dom-to-image"
+import domtoimage from "dom-to-image";
 
 const Detail = () => {
   const [carbonDetail, setCarbonDetail] = useState<any>();
@@ -25,14 +28,16 @@ const Detail = () => {
     emisyon: React.useRef(null),
     atik: React.useRef(null),
   };
-  
+
   const [chartImages, setChartImages] = useState<any>({});
-  
+
+  const [imagesReady, setImagesReady] = useState(false);
+
   useEffect(() => {
     const generateChartImages = async () => {
       const refs = chartRefs;
       const images: any = {};
-  
+
       for (const key in refs) {
         const node = refs[key as keyof typeof refs]?.current;
         if (node) {
@@ -40,10 +45,14 @@ const Detail = () => {
           images[key] = dataUrl;
         }
       }
+
       setChartImages(images);
+      setImagesReady(true); // 🎯 Grafikler hazır
     };
-  
-    if (carbonDetail) generateChartImages();
+
+    setTimeout(() => {
+      if (carbonDetail) generateChartImages();
+    }, 3000);
   }, [carbonDetail]);
 
   useEffect(() => {
@@ -58,7 +67,8 @@ const Detail = () => {
     fetchFormDetail();
   }, []);
 
-  if (!carbonDetail) return <div className="text-center mt-10">Yükleniyor...</div>;
+  if (!carbonDetail)
+    return <div className="text-center mt-10">Yükleniyor...</div>;
 
   const energyData = [
     carbonDetail.enerji.elektrikKullaniliyor && {
@@ -80,10 +90,12 @@ const Detail = () => {
     miktar: parseFloat(item.miktar),
   }));
 
-  const hammaddeData = carbonDetail.yakitHammadde.hammaddeler.map((item: any) => ({
-    name: item.ad,
-    miktar: parseFloat(item.miktar),
-  }));
+  const hammaddeData = carbonDetail.yakitHammadde.hammaddeler.map(
+    (item: any) => ({
+      name: item.ad,
+      miktar: parseFloat(item.miktar),
+    })
+  );
 
   const emisyonData = [
     { name: "CO2", miktar: parseFloat(carbonDetail.emisyon.co2) },
@@ -140,59 +152,150 @@ const Detail = () => {
             >
               🗑️ Sil
             </button>
-            <PDFDownloadLink
-              document={<CBAMPdfReport data={carbonDetail} chartImages={chartImages}/>}
-              fileName={`CBAM_Raporu_${carbonDetail.firma.urun}.pdf`}
-              className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
-            >
-              {({ loading }) => (loading ? "Hazırlanıyor..." : "📄 PDF Raporu")}
-            </PDFDownloadLink>
+            {imagesReady ? (
+              <PDFDownloadLink
+                document={
+                  <CBAMPdfReport
+                    data={carbonDetail}
+                    chartImages={chartImages}
+                  />
+                }
+                fileName={`CBAM_Raporu_${carbonDetail.firma.urun}.pdf`}
+                className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
+              >
+                {({ loading }) =>
+                  loading ? "Hazırlanıyor..." : "📄 PDF Raporu"
+                }
+              </PDFDownloadLink>
+            ) : (
+              <div className="px-4 py-2 bg-gray-400 text-white rounded-lg cursor-not-allowed">
+                📄 Grafikler Yükleniyor...
+              </div>
+            )}
           </div>
 
           {/* Firma Bilgisi */}
           <div className="bg-white rounded-2xl shadow-xl p-8 mb-12 border border-gray-200">
-            <h2 className="text-2xl font-semibold text-gray-800 mb-6">📋 Firma ve Süreç Bilgileri</h2>
+            <h2 className="text-2xl font-semibold text-gray-800 mb-6">
+              📋 Firma ve Süreç Bilgileri
+            </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 text-gray-700 text-base">
-              <p><strong>Lokasyon:</strong> {carbonDetail.firma.lokasyon}</p>
-              <p><strong>Sektör:</strong> {carbonDetail.firma.sektor}</p>
-              <p><strong>Ürün:</strong> {carbonDetail.firma.urun}</p>
-              <p><strong>Üretim Miktarı:</strong> {carbonDetail.firma.miktar} {carbonDetail.firma.birim}</p>
-              <p><strong>Üretim Dönemi:</strong> {carbonDetail.firma.uretimDonem}</p>
-              <p><strong>CBAM Kapsamı:</strong> {carbonDetail.firma.cbam ? "Evet" : "Hayır"}</p>
-              <p><strong>Toplam Karbon Ayak İzi:</strong> {carbonDetail.karbonAyakIzi.toLocaleString()} kg CO₂e</p>
-              <p><strong>Emisyon Süreci:</strong> {carbonDetail.emisyon.surecTipi}</p>
-              <p><strong>Emisyon Faktörü:</strong> {carbonDetail.emisyon.emisyonFaktoru}</p>
-              <p><strong>Elektrik Kaynağı:</strong> {carbonDetail.enerji.elektrikKaynak}</p>
-              <p><strong>Elektrik Dönemi:</strong> {carbonDetail.enerji.elektrikDonem}</p>
-              <p><strong>Doğalgaz Dönemi:</strong> {carbonDetail.enerji.dogalgazDonem}</p>
-              <p><strong>Yakıt Türü:</strong> {carbonDetail.yakitHammadde.yakitlar.map((y: any) => y.tip).join(", ")}</p>
-              <p><strong>Hammadde Türü:</strong> {carbonDetail.yakitHammadde.hammaddeler.map((h: any) => h.ad).join(", ")}</p>
-              <p><strong>Atık Tipi:</strong> {carbonDetail.atikGeriDonusum.atikTipi}</p>
-              <p><strong>Toplam Atık:</strong> {carbonDetail.atikGeriDonusum.atikMiktari} ton</p>
-              <p><strong>Geri Dönüşüm Oranı:</strong> %{carbonDetail.atikGeriDonusum.geriDonusumOrani}</p>
+              <p>
+                <strong>Lokasyon:</strong> {carbonDetail.firma.lokasyon}
+              </p>
+              <p>
+                <strong>Sektör:</strong> {carbonDetail.firma.sektor}
+              </p>
+              <p>
+                <strong>Ürün:</strong> {carbonDetail.firma.urun}
+              </p>
+              <p>
+                <strong>Üretim Miktarı:</strong> {carbonDetail.firma.miktar}{" "}
+                {carbonDetail.firma.birim}
+              </p>
+              <p>
+                <strong>Üretim Dönemi:</strong> {carbonDetail.firma.uretimDonem}
+              </p>
+              <p>
+                <strong>CBAM Kapsamı:</strong>{" "}
+                {carbonDetail.firma.cbam ? "Evet" : "Hayır"}
+              </p>
+              <p>
+                <strong>Toplam Karbon Ayak İzi:</strong>{" "}
+                {carbonDetail.karbonAyakIzi.toLocaleString()} kg CO₂e
+              </p>
+              <p>
+                <strong>Emisyon Süreci:</strong>{" "}
+                {carbonDetail.emisyon.surecTipi}
+              </p>
+              <p>
+                <strong>Emisyon Faktörü:</strong>{" "}
+                {carbonDetail.emisyon.emisyonFaktoru}
+              </p>
+              <p>
+                <strong>Elektrik Kaynağı:</strong>{" "}
+                {carbonDetail.enerji.elektrikKaynak}
+              </p>
+              <p>
+                <strong>Elektrik Dönemi:</strong>{" "}
+                {carbonDetail.enerji.elektrikDonem}
+              </p>
+              <p>
+                <strong>Doğalgaz Dönemi:</strong>{" "}
+                {carbonDetail.enerji.dogalgazDonem}
+              </p>
+              <p>
+                <strong>Yakıt Türü:</strong>{" "}
+                {carbonDetail.yakitHammadde.yakitlar
+                  .map((y: any) => y.tip)
+                  .join(", ")}
+              </p>
+              <p>
+                <strong>Hammadde Türü:</strong>{" "}
+                {carbonDetail.yakitHammadde.hammaddeler
+                  .map((h: any) => h.ad)
+                  .join(", ")}
+              </p>
+              <p>
+                <strong>Atık Tipi:</strong>{" "}
+                {carbonDetail.atikGeriDonusum.atikTipi}
+              </p>
+              <p>
+                <strong>Toplam Atık:</strong>{" "}
+                {carbonDetail.atikGeriDonusum.atikMiktari} ton
+              </p>
+              <p>
+                <strong>Geri Dönüşüm Oranı:</strong> %
+                {carbonDetail.atikGeriDonusum.geriDonusumOrani}
+              </p>
             </div>
           </div>
 
           {/* Grafikler */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            <div ref={chartRefs.energy} className="bg-white p-4 rounded-xl shadow-md">
-              <h3 className="text-lg font-semibold text-gray-700 mb-2">🔌 Enerji Tüketimi</h3>
+            <div
+              ref={chartRefs.energy}
+              className="bg-white p-4 rounded-xl shadow-md"
+            >
+              <h3 className="text-lg font-semibold text-gray-700 mb-2">
+                🔌 Enerji Tüketimi
+              </h3>
               <GraphOfEnergy energyData={energyData} />
             </div>
-            <div ref={chartRefs.yakit} className="bg-white p-4 rounded-xl shadow-md">
-              <h3 className="text-lg font-semibold text-gray-700 mb-2">🔥 Yakıt Kullanımı</h3>
+            <div
+              ref={chartRefs.yakit}
+              className="bg-white p-4 rounded-xl shadow-md"
+            >
+              <h3 className="text-lg font-semibold text-gray-700 mb-2">
+                🔥 Yakıt Kullanımı
+              </h3>
               <GraphOfYakit yakitData={yakitData} />
             </div>
-            <div ref={chartRefs.hammadde} className="bg-white p-4 rounded-xl shadow-md">
-              <h3 className="text-lg font-semibold text-gray-700 mb-2">🧱 Hammadde Kullanımı</h3>
+            <div
+              ref={chartRefs.hammadde}
+              className="bg-white p-4 rounded-xl shadow-md"
+            >
+              <h3 className="text-lg font-semibold text-gray-700 mb-2">
+                🧱 Hammadde Kullanımı
+              </h3>
               <GraphOfHammadde hammaddeData={hammaddeData} />
             </div>
-            <div ref={chartRefs.emisyon} className="bg-white p-4 rounded-xl shadow-md">
-              <h3 className="text-lg font-semibold text-gray-700 mb-2">🌫️ Emisyon Dağılımı</h3>
+            <div
+              ref={chartRefs.emisyon}
+              className="bg-white p-4 rounded-xl shadow-md"
+            >
+              <h3 className="text-lg font-semibold text-gray-700 mb-2">
+                🌫️ Emisyon Dağılımı
+              </h3>
               <GraphOfEmisyon emisyonData={emisyonData} />
             </div>
-            <div ref={chartRefs.atik} className="bg-white p-4 rounded-xl shadow-md">
-              <h3 className="text-lg font-semibold text-gray-700 mb-2">♻️ Atık & Geri Dönüşüm</h3>
+            <div
+              ref={chartRefs.atik}
+              className="bg-white p-4 rounded-xl shadow-md"
+            >
+              <h3 className="text-lg font-semibold text-gray-700 mb-2">
+                ♻️ Atık & Geri Dönüşüm
+              </h3>
               <GraphOfAtık atikData={atikData} />
             </div>
           </div>
