@@ -54,45 +54,10 @@ const styles = StyleSheet.create({
 
 
 // PDF Bileşeni
-const CompanyPresentation = ({ data,chartImages }: { data: any,chartImages:any }) => (
+const CBAMReportPdf = ({ data }: { data: any}) => (
   <Document>
     <Page size="A4" style={styles.page}>
       <Text style={styles.title}>CBAM Uyumlu Karbon Ayak İzi Raporu</Text>
-
-      {chartImages.energy && (
-        <View style={styles.section}>
-          <Text style={styles.subtitle}>Enerji Tüketimi Grafiği</Text>
-          <Image src={chartImages.energy} style={{ width: "100%", height: "auto" }} />
-        </View>
-      )}
-
-      {chartImages.yakit && (
-        <View style={styles.section}>
-          <Text style={styles.subtitle}>Yakıt Kullanımı Grafiği</Text>
-          <Image src={chartImages.yakit} style={{ width: "100%", height: "auto" }} />
-        </View>
-      )}
-
-      {chartImages.hammadde && (
-        <View style={styles.section}>
-          <Text style={styles.subtitle}>Enerji Tüketimi Grafiği</Text>
-          <Image src={chartImages.hammadde} style={{ width: "100%", height: "auto" }} />
-        </View>
-      )}
-
-      {chartImages.emisyon && (
-        <View style={styles.section}>
-          <Text style={styles.subtitle}>Yakıt Kullanımı Grafiği</Text>
-          <Image src={chartImages.emisyon} style={{ width: "100%", height: "auto" }} />
-        </View>
-      )}
-
-      {chartImages.atik && (
-        <View style={styles.section}>
-          <Text style={styles.subtitle}>Enerji Tüketimi Grafiği</Text>
-          <Image src={chartImages.atik} style={{ width: "100%", height: "auto" }} />
-        </View>
-      )}
 
       <View style={styles.section}>
         <Text style={styles.subtitle}>Firma Bilgileri</Text>
@@ -172,4 +137,4 @@ const CompanyPresentation = ({ data,chartImages }: { data: any,chartImages:any }
   </Document>
 );
 
-export default CompanyPresentation;
+export default CBAMReportPdf;

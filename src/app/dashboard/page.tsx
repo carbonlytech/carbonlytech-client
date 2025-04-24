@@ -18,6 +18,8 @@ import {
   Line,
 } from "recharts";
 import Navbar from "@/components/navbar/page";
+import { Plus } from "lucide-react";
+import Link from "next/link";
 
 const COLORS = ["#8884d8", "#82ca9d", "#ffc658", "#ff8042", "#00C49F"];
 
@@ -152,9 +154,15 @@ const Dashboard: React.FC = () => {
             </div>
 
             <div className="bg-white p-5 rounded-2xl shadow-lg overflow-auto max-h-[400px]">
-              <h2 className="text-lg font-semibold text-neutral-700 mb-4">
-                Son Kayıtlar
-              </h2>
+              <div className="flex justify-between">
+                <h2 className="text-lg font-semibold text-neutral-700 mb-4">
+                  Son Kayıtlar
+                </h2>
+                <Link href={"/details"}>
+                  <Plus />
+                </Link>
+              </div>
+
               <div className="divide-y divide-gray-200">
                 {allDetails.map((item, index) => (
                   <div

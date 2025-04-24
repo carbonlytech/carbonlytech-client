@@ -15,6 +15,8 @@ import CBAMPdfReport from "@/components/pdf/CBAMPdfReport";
 import Link from "next/link";
 import Navbar from "@/components/navbar/page";
 import domtoimage from "dom-to-image";
+import CBAMReportPdf from "@/components/pdf/CBAMReportPdf";
+import CompanyPresentation from "@/components/pdf/CBAMPdfReport";
 
 const Detail = () => {
   const [carbonDetail, setCarbonDetail] = useState<any>();
@@ -152,10 +154,11 @@ const Detail = () => {
             >
               🗑️ Sil
             </button>
+
             {imagesReady ? (
               <PDFDownloadLink
                 document={
-                  <CBAMPdfReport
+                  <CompanyPresentation
                     data={carbonDetail}
                     chartImages={chartImages}
                   />
@@ -164,7 +167,7 @@ const Detail = () => {
                 className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
               >
                 {({ loading }) =>
-                  loading ? "Hazırlanıyor..." : "📄 PDF Raporu"
+                  loading ? "Hazırlanıyor..." : "📈 Presentation"
                 }
               </PDFDownloadLink>
             ) : (
@@ -172,6 +175,20 @@ const Detail = () => {
                 📄 Grafikler Yükleniyor...
               </div>
             )}
+
+            <PDFDownloadLink
+                document={
+                  <CBAMReportPdf
+                    data={carbonDetail}
+                  />
+                }
+                fileName={`CBAM_Raporu_${carbonDetail.firma.urun}.pdf`}
+                className="px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700"
+              >
+                📄Cbam Report
+            </PDFDownloadLink>
+
+
           </div>
 
           {/* Firma Bilgisi */}
