@@ -59,41 +59,7 @@ const CompanyPresentation = ({ data,chartImages }: { data: any,chartImages:any }
     <Page size="A4" style={styles.page}>
       <Text style={styles.title}>CBAM Uyumlu Karbon Ayak İzi Raporu</Text>
 
-      {chartImages.energy && (
-        <View style={styles.section}>
-          <Text style={styles.subtitle}>Enerji Tüketimi Grafiği</Text>
-          <Image src={chartImages.energy} style={{ width: "100%", height: "auto" }} />
-        </View>
-      )}
-
-      {chartImages.yakit && (
-        <View style={styles.section}>
-          <Text style={styles.subtitle}>Yakıt Kullanımı Grafiği</Text>
-          <Image src={chartImages.yakit} style={{ width: "100%", height: "auto" }} />
-        </View>
-      )}
-
-      {chartImages.hammadde && (
-        <View style={styles.section}>
-          <Text style={styles.subtitle}>Enerji Tüketimi Grafiği</Text>
-          <Image src={chartImages.hammadde} style={{ width: "100%", height: "auto" }} />
-        </View>
-      )}
-
-      {chartImages.emisyon && (
-        <View style={styles.section}>
-          <Text style={styles.subtitle}>Yakıt Kullanımı Grafiği</Text>
-          <Image src={chartImages.emisyon} style={{ width: "100%", height: "auto" }} />
-        </View>
-      )}
-
-      {chartImages.atik && (
-        <View style={styles.section}>
-          <Text style={styles.subtitle}>Enerji Tüketimi Grafiği</Text>
-          <Image src={chartImages.atik} style={{ width: "100%", height: "auto" }} />
-        </View>
-      )}
-
+      {/* Firma bilgileri kısmı burası */}
       <View style={styles.section}>
         <Text style={styles.subtitle}>Firma Bilgileri</Text>
         <Text style={styles.text}><Text style={styles.boldText}>Lokasyon:</Text> {data.firma.lokasyon}</Text>
@@ -104,6 +70,8 @@ const CompanyPresentation = ({ data,chartImages }: { data: any,chartImages:any }
         <Text style={styles.text}><Text style={styles.boldText}>CBAM Kapsamında mı?:</Text> {data.firma.cbam ? "Evet" : "Hayır"}</Text>
       </View>
 
+
+      {/* Energy kısmı burası */}
       <View style={styles.section}>
         <Text style={styles.subtitle}>Enerji Tüketimi</Text>
         {data.enerji.elektrikKullaniliyor && (
@@ -127,6 +95,15 @@ const CompanyPresentation = ({ data,chartImages }: { data: any,chartImages:any }
         )}
       </View>
 
+      {chartImages.energy && (
+        <View style={styles.section}>
+          <Image src={chartImages.energy} style={{ width: "100%", height: "auto" }} />
+        </View>
+      )}
+
+
+
+      {/* Yakıt kısmı burası */}
       <View style={styles.section}>
         <Text style={styles.subtitle}>Yakıt Kullanımı</Text>
         {data.yakitHammadde.yakitlar.map((item: any, i: number) => (
@@ -134,6 +111,15 @@ const CompanyPresentation = ({ data,chartImages }: { data: any,chartImages:any }
         ))}
       </View>
 
+      {chartImages.yakit && (
+        <View style={styles.section}>
+          <Image src={chartImages.yakit} style={{ width: "100%", height: "auto" }} />
+        </View>
+      )}
+
+
+
+      {/* Hammadde kısmı burası */}
       <View style={styles.section}>
         <Text style={styles.subtitle}>Hammadde Tüketimi</Text>
         {data.yakitHammadde.hammaddeler.map((item: any, i: number) => (
@@ -141,6 +127,16 @@ const CompanyPresentation = ({ data,chartImages }: { data: any,chartImages:any }
         ))}
       </View>
 
+      {chartImages.hammadde && (
+        <View style={styles.section}>
+          <Image src={chartImages.hammadde} style={{ width: "100%", height: "auto" }} />
+        </View>
+      )}
+
+
+
+
+      {/* Emisyon kısmı burası */}
       <View style={styles.section}>
         <Text style={styles.subtitle}>Emisyon Verileri</Text>
         <Text style={styles.text}><Text style={styles.boldText}>Süreç Tipi:</Text> {data.emisyon.surecTipi}</Text>
@@ -150,6 +146,16 @@ const CompanyPresentation = ({ data,chartImages }: { data: any,chartImages:any }
         <Text style={styles.text}><Text style={styles.boldText}>N₂O Emisyonu:</Text> {data.emisyon.n2o} kg</Text>
       </View>
 
+      {chartImages.emisyon && (
+        <View style={styles.section}>
+          <Image src={chartImages.emisyon} style={{ width: "100%", height: "auto" }} />
+        </View>
+      )}
+
+
+
+
+      {/* Atık kısmı burası */}
       <View style={styles.section}>
         <Text style={styles.subtitle}>Atık ve Geri Dönüşüm</Text>
         <Text style={styles.text}><Text style={styles.boldText}>Atık Tipi:</Text> {data.atikGeriDonusum.atikTipi}</Text>
@@ -158,11 +164,21 @@ const CompanyPresentation = ({ data,chartImages }: { data: any,chartImages:any }
         <Text style={styles.text}><Text style={styles.boldText}>Dönüştürülemeyen Atık:</Text> %{100 - parseFloat(data.atikGeriDonusum.geriDonusumOrani)}</Text>
       </View>
 
+      {chartImages.atik && (
+        <View style={styles.section}>
+          <Image src={chartImages.atik} style={{ width: "100%", height: "auto" }} />
+        </View>
+      )}
+
+
+
+      {/* Toplam karbonayakizi  kısmı burası */}
       <View style={styles.section}>
         <Text style={styles.subtitle}>Toplam Karbon Ayak İzi</Text>
         <Text style={styles.text}><Text style={styles.boldText}>Toplam Karbon Ayak İzi:</Text> {data.karbonAyakIzi} kgCO₂e (Avrupa Birliği CBAM standartlarına göre hesaplanmıştır)</Text>
       </View>
 
+      {/* Rapor kısmı burası */}
       <View style={styles.section}>
         <Text style={styles.subtitle}>Rapor Bilgisi</Text>
         <Text style={styles.text}><Text style={styles.boldText}>Oluşturulma Tarihi:</Text> {new Date(data.createdAt).toLocaleString("tr-TR")}</Text>

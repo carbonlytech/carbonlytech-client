@@ -137,12 +137,6 @@ const Detail = () => {
           {/* Action Buttons */}
           <div className="flex flex-wrap justify-center gap-4 mb-10">
             <Link
-              href="/dashboard"
-              className="px-4 py-2 bg-gray-200 text-gray-700 rounded-lg hover:bg-gray-300"
-            >
-              ⬅️ Dashboard
-            </Link>
-            <Link
               href={`/detail/update/${formDataId}`}
               className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
             >
