@@ -11,12 +11,12 @@ import GraphOfYakit from "@/components/graphs/GraphOfYakit";
 import { useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { PDFDownloadLink } from "@react-pdf/renderer";
-import CBAMPdfReport from "@/components/pdf/CBAMPdfReport";
+import CBAMPdfReport from "@/components/pdf/CompanyPresentation";
 import Link from "next/link";
 import Navbar from "@/components/navbar/page";
 import domtoimage from "dom-to-image";
 import CBAMReportPdf from "@/components/pdf/CBAMReportPdf";
-import CompanyPresentation from "@/components/pdf/CBAMPdfReport";
+import CompanyPresentation from "@/components/pdf/CompanyPresentation";
 
 const Detail = () => {
   const [carbonDetail, setCarbonDetail] = useState<any>();
