@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import { Factory, ArrowRight } from "lucide-react";
 import toast from "react-hot-toast";
+import TextField from '@mui/material/TextField';
+import Autocomplete from '@mui/material/Autocomplete';
+import top100Films from "../productswithcbamcodes/productcbamcodes";
+import cbamUrunleri from "../productswithcbamcodes/productcbamcodes";
 
 interface Props {
   nextStep: () => void;
@@ -13,12 +17,13 @@ const Step1: React.FC<Props> = ({ nextStep, formData, update }) => {
   const [sektor, setSektor] = useState(formData.sektor || "");
   const [cbam, setCbam] = useState(formData.cbam || false);
   const [urun, setUrun] = useState(formData.urun || "");
+  const [cbamKodu, setCbamKodu] = useState(formData.cbamKodu || "");
   const [miktar, setMiktar] = useState(formData.miktar || "");
   const [birim, setBirim] = useState(formData.birim || "ton");
   const [uretimDonem, setUretimDonem] = useState(formData.uretimDonem || "yillik");
-
+  
   const validateStep=()=>{
-    if(!lokasyon || !sektor || !urun || !miktar){
+    if(!lokasyon || !sektor || !urun || !cbamKodu || !miktar){
       toast.error("Lütfen tüm bilgileri girin!");
       return false;
     }
@@ -31,7 +36,7 @@ const Step1: React.FC<Props> = ({ nextStep, formData, update }) => {
       return
     }
 
-    update({ lokasyon, sektor, cbam, urun, miktar, birim, uretimDonem });
+    update({ lokasyon, sektor, cbam, urun,cbamKodu, miktar, birim, uretimDonem });
     nextStep();
   };
 
@@ -80,13 +85,33 @@ const Step1: React.FC<Props> = ({ nextStep, formData, update }) => {
 
       {/* Üretim Bilgileri */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Ürün Adı</label>
+          <Autocomplete
+            disablePortal
+            options={cbamUrunleri}
+            renderInput={(params) => <TextField {...params} label="Ürün Adı" />}
+            getOptionLabel={(option) => `${option.label} (${option.cbamKodu})`}
+            onChange={(event, newValue) => {
+              if (newValue) {
+                setUrun(newValue.label);       // Ürün adını al
+                setCbamKodu(newValue.cbamKodu); // CBAM kodunu al
+              } else {
+                setUrun('');
+                setCbamKodu('');
+              }
+            }}
+          />
+        </div>
+
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-1">Cbam Kodu</label>
           <input
             type="text"
-            placeholder="Üretilen ürünün adı"
-            value={urun}
-            onChange={(e) => setUrun(e.target.value)}
+            placeholder="Üretilen ürünün cbam kodu"
+            value={cbamKodu}
+            onChange={(e) => setCbamKodu(e.target.value)}
             className="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
           />
         </div>

@@ -9,6 +9,10 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
+    "@mui/material": "^7.0.2",
+    "@mui/styled-engine-sc": "^7.0.2",
     "@react-pdf/renderer": "^4.3.0",
     "dom-to-image": "^2.6.0",
     "framer-motion": "^12.6.3",
@@ -19,7 +23,8 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-hot-toast": "^2.5.2",
-    "recharts": "^2.15.2"
+    "recharts": "^2.15.2",
+    "styled-components": "^6.1.17"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
