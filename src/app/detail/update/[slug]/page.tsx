@@ -10,6 +10,7 @@ import Step4 from "@/components/stepsToUpdateDetails/Step4";
 import Step5 from "@/components/stepsToUpdateDetails/Step5";
 import Step6 from "@/components/stepsToUpdateDetails/Step6";
 import { ArrowRight } from "lucide-react";
+import Navbar from "@/components/navbar/page";
 
 const Detail = () => {
   const params = useParams();
@@ -67,73 +68,75 @@ const Detail = () => {
     return <div className="text-center mt-10">Yükleniyor...</div>;
 
   return (
-    <div className="max-w-3xl mx-auto p-6 shadow-xl rounded-2xl bg-white">
-      <Stepper
-        currentStep={step}
-        steps={steps}
-        onStepClick={(stepNumber) => setStep(stepNumber)}
-      />
+    <div className="mx-auto  bg-white">
+      <div className="flex gap-x-[5vw]">
 
-      {step === 1 && (
-        <Step1
-          nextStep={nextStep}
-          formData={formData.firma}
-          update={(data) => updateFormData("firma", data)}
-        />
-      )}
+        <div className="w-[12%] sticky top-0 h-screen bg-white shadow-md">
+          <Navbar />
+        </div>
 
-      {step === 2 && (
-        <Step2
-          nextStep={nextStep}
-          prevStep={prevStep}
-          formData={formData.enerji}
-          update={(data) => updateFormData("enerji", data)}
-        />
-      )}
+        <div className="w-[80%] pt-[2%]">
 
-      {step === 3 && (
-        <Step3
-          nextStep={nextStep}
-          prevStep={prevStep}
-          formData={formData.yakitHammadde}
-          update={(data) => updateFormData("yakitHammadde", data)}
-        />
-      )}
+          <Stepper
+            currentStep={step}
+            steps={steps}
+            onStepClick={(stepNumber) => setStep(stepNumber)}
+          />
 
-      {step === 4 && (
-        <Step4
-          nextStep={nextStep}
-          prevStep={prevStep}
-          formData={formData.emisyon}
-          update={(data) => updateFormData("emisyon", data)}
-        />
-      )}
+          {step === 1 && (
+            <Step1
+              nextStep={nextStep}
+              formData={formData.firma}
+              update={(data) => updateFormData("firma", data)}
+            />
+          )}
 
-      {step === 5 && (
-        <Step5
-          nextStep={nextStep}
-          prevStep={prevStep}
-          formData={formData.atikGeriDonusum}
-          update={(data) => updateFormData("atikGeriDonusum", data)}
-        />
-      )}
+          {step === 2 && (
+            <Step2
+              nextStep={nextStep}
+              prevStep={prevStep}
+              formData={formData.enerji}
+              update={(data) => updateFormData("enerji", data)}
+            />
+          )}
 
-      {step === 6 && (
-        <Step6
-          prevStep={prevStep}
-          formData={formData}
-          update={(data) => updateFormData("karbonAyakIzi", data)}
-        />
-      )}
+          {step === 3 && (
+            <Step3
+              nextStep={nextStep}
+              prevStep={prevStep}
+              formData={formData.yakitHammadde}
+              update={(data) => updateFormData("yakitHammadde", data)}
+            />
+          )}
 
-      <div className="flex justify-between pt-4 ml-[15vw]">
-        <button
-          onClick={navigateToDashboard}
-          className="flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white font-medium px-6 py-2 rounded-lg transition"
-        >
-          Dashboard
-          <ArrowRight size={16} />
-        </button>
+          {step === 4 && (
+            <Step4
+              nextStep={nextStep}
+              prevStep={prevStep}
+              formData={formData.emisyon}
+              update={(data) => updateFormData("emisyon", data)}
+            />
+          )}
+
+          {step === 5 && (
+            <Step5
+              nextStep={nextStep}
+              prevStep={prevStep}
+              formData={formData.atikGeriDonusum}
+              update={(data) => updateFormData("atikGeriDonusum", data)}
+            />
+          )}
+
+          {step === 6 && (
+            <Step6
+              prevStep={prevStep}
+              formData={formData}
+              update={(data) => updateFormData("karbonAyakIzi", data)}
+            />
+          )}
+
+        </div>
+
       </div>
     </div>
   );
