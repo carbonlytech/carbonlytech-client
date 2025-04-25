@@ -13,6 +13,7 @@
     "@emotion/styled": "^11.14.0",
     "@mui/material": "^7.0.2",
     "@mui/styled-engine-sc": "^7.0.2",
+    "@react-google-maps/api": "^2.20.6",
     "@react-pdf/renderer": "^4.3.0",
     "dom-to-image": "^2.6.0",
     "framer-motion": "^12.6.3",
