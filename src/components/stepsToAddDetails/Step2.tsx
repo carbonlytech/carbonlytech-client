@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import { BatteryCharging, ArrowLeft, ArrowRight } from "lucide-react";
 import toast from "react-hot-toast";
-import emisyonfaktorlerielektrik from "../productswithcbamcodes/emisyonfaktorlerielektrikdatası";
+import emisyonfaktorlerielektrik from "../datasForEnergySecondStep/emisyonfaktorlerielektrikdatası";
 import { Autocomplete, TextField } from "@mui/material";
-import emisyonfaktorlerielektrikdatası from "../productswithcbamcodes/emisyonfaktorlerielektrikdatası";
-import emisyonfaktorleridogalgazdatasi from "../productswithcbamcodes/emisyonfaktorleridogalgazdatası";
-import emisyonfaktorlerikomurdatasi from "../productswithcbamcodes/emisyonfaktorlerikomurdatası";
+import emisyonfaktorlerielektrikdatası from "../datasForEnergySecondStep/emisyonfaktorlerielektrikdatası";
+import emisyonfaktorleridogalgazdatasi from "../datasForEnergySecondStep/emisyonfaktorleridogalgazdatası";
+import emisyonfaktorlerikomurdatasi from "../datasForEnergySecondStep/emisyonfaktorlerikomurdatası";
 
 interface Props {
   nextStep: () => void;
