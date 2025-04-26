@@ -4,7 +4,8 @@ import toast from "react-hot-toast";
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
 import cbamUrunleri from "../productswithcbamcodes/productcbamcodes";
-import { GoogleMap, LoadScript, Marker } from "@react-google-maps/api";
+import { useJsApiLoader, StandaloneSearchBox } from "@react-google-maps/api";
+import { useRef } from "react";
 
 interface Props {
   nextStep: () => void;
@@ -21,7 +22,6 @@ const Step1: React.FC<Props> = ({ nextStep, formData, update }) => {
   const [miktar, setMiktar] = useState(formData.miktar || "");
   const [birim, setBirim] = useState(formData.birim || "ton");
   const [uretimDonem, setUretimDonem] = useState(formData.uretimDonem || "yillik");
-  const [markerPosition, setMarkerPosition] = useState<any>(null);
 
   const validateStep=()=>{
     if(!lokasyon || !sektor || !urun || !cbamKodu || !miktar){
@@ -41,22 +41,36 @@ const Step1: React.FC<Props> = ({ nextStep, formData, update }) => {
     nextStep();
   };
 
-  const handleMapClick = (e: any) => {
-    const lat = e.latLng.lat();
-    const lng = e.latLng.lng();
-    setMarkerPosition({ lat, lng });
+  const inputRef = useRef<google.maps.places.SearchBox | null>(null);
 
-    // Google Geocoding API'yi kullanarak adresi alma
-    fetch(
-      `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&key=AIzaSyDQL4CaeyNhaPqrxj2FNSEyMYiF4PeYgMM`
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        if (data.status === "OK") {
-          setLokasyon(data.results[0].formatted_address);
-        }
-      });
-  };
+  const {isLoaded}=useJsApiLoader({
+    id: 'google-map-script',
+    googleMapsApiKey: 'AIzaSyDQL4CaeyNhaPqrxj2FNSEyMYiF4PeYgMM',
+    libraries: ["places"]
+  })
+
+
+  const handleOnPlacesChanged = () => {
+    if (inputRef.current) {
+      const places = inputRef.current.getPlaces();
+      if (places && places.length > 0) {
+        const place = places[0];
+  
+        // formatted_address al
+        const fullAddress = place.formatted_address || "";
+  
+        // address_components'tan ülke, şehir vs. ayrıştır
+        const addressComponents = place.address_components || [];
+        const country = addressComponents.find(c => c.types.includes("country"))?.long_name || "";
+        const city = addressComponents.find(c => c.types.includes("locality"))?.long_name || "";
+        const postalCode = addressComponents.find(c => c.types.includes("postal_code"))?.long_name || "";
+  
+        // İstersen burada formData'ya birleştirerek kaydedebilirsin
+        setLokasyon(fullAddress);
+      }
+    }
+  }
+  
 
   return (
     <div className="bg-white p-8 rounded-2xl shadow-xl max-w-2xl mx-auto space-y-8">
@@ -68,32 +82,28 @@ const Step1: React.FC<Props> = ({ nextStep, formData, update }) => {
       {/* Firma Bilgileri */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 
+      {
+        isLoaded &&
+          <StandaloneSearchBox 
+            onLoad={(ref)=>inputRef.current=ref}
+            onPlacesChanged={handleOnPlacesChanged}  
+          >
 
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Tesis Lokasyonu</label>
-          <input
-            type="text"
-            placeholder="Ülke, Şehir"
-            value={lokasyon}
-            onChange={(e) => setLokasyon(e.target.value)}
-            className="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
-          />
-        </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">Tesis Lokasyonu</label>
+              <input
+                type="text"
+                placeholder="Ülke, Şehir"
+                value={lokasyon}
+                onChange={(e) => setLokasyon(e.target.value)}
+                className="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
+              />
+            </div>
 
+          </StandaloneSearchBox>
+      }
+      
 
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Tesis Lokasyonu</label>
-          <LoadScript googleMapsApiKey="AIzaSyDQL4CaeyNhaPqrxj2FNSEyMYiF4PeYgMM">
-            <GoogleMap
-              mapContainerStyle={{ width: "100%", height: "400px" }}
-              center={{ lat: 41.8781, lng: -87.6298 }} // Varsayılan konum (örnek)
-              zoom={12}
-              onClick={handleMapClick}
-            >
-              {markerPosition && <Marker position={markerPosition} />}
-            </GoogleMap>
-          </LoadScript>
-        </div>
 
 
 
