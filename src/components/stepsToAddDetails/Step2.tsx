@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { BatteryCharging, ArrowLeft, ArrowRight } from "lucide-react";
 import toast from "react-hot-toast";
+import emisyonfaktorlerielektrik from "../productswithcbamcodes/emisyonfaktorlerielektrik";
+import { Autocomplete, TextField } from "@mui/material";
 
 interface Props {
   nextStep: () => void;
@@ -22,11 +24,13 @@ const Step2: React.FC<Props> = ({ nextStep, prevStep, formData, update }) => {
   const [dogalgazBirim, setDogalgazBirim] = useState(formData.dogalgazBirim || "m³");
   const [komurBirim, setKomurBirim] = useState(formData.komurBirim || "ton");
 
-  const [elektrikKaynak, setElektrikKaynak] = useState(formData.elektrikKaynak || "sebekeden");
-
   const [elektrikDonem, setElektrikDonem] = useState(formData.elektrikDonem || "yillik");
   const [dogalgazDonem, setDogalgazDonem] = useState(formData.dogalgazDonem || "yillik");
   const [komurDonem, setKomurDonem] = useState(formData.komurDonem || "yillik");
+
+  const [emisyonFaktorElektrik, setEmisyonFaktorElektrik] = useState(formData.emisyonFaktorElektrik || "");
+  const [manuelEmisyonElektrik, setManuelEmisyonElektrik] = useState(false);
+
 
   const validateStep=()=>{
     if(elektrikKullaniliyor && !elektrikMiktar){
@@ -58,10 +62,10 @@ const Step2: React.FC<Props> = ({ nextStep, prevStep, formData, update }) => {
       elektrikBirim,
       dogalgazBirim,
       komurBirim,
-      elektrikKaynak,
       elektrikDonem,
       dogalgazDonem,
       komurDonem,
+      emisyonFaktorElektrik
     });
     nextStep();
   };
@@ -77,15 +81,13 @@ const Step2: React.FC<Props> = ({ nextStep, prevStep, formData, update }) => {
       elektrikBirim,
       dogalgazBirim,
       komurBirim,
-      elektrikKaynak,
       elektrikDonem,
       dogalgazDonem,
       komurDonem,
+      emisyonFaktorElektrik
     });
     prevStep();
   };
-
-  
 
   return (
     <div className="bg-white p-8 rounded-2xl shadow-xl max-w-2xl mx-auto space-y-8">
@@ -107,43 +109,71 @@ const Step2: React.FC<Props> = ({ nextStep, prevStep, formData, update }) => {
         </div>
 
         {elektrikKullaniliyor && (
-          <div className="space-y-4 mt-4">
-            <div className="flex items-center space-x-2">
-              <input
-                type="number"
-                placeholder="Tüketim Miktarı"
-                value={elektrikMiktar}
-                onChange={(e) => setElektrikMiktar(e.target.value)}
-                className="w-full px-4 py-2 rounded-md border border-gray-300 focus:ring-2 focus:ring-green-500"
-              />
+          <div>
+            <div className="space-y-4 mt-4">
+              <div className="flex items-center space-x-2">
+                <input
+                  type="number"
+                  placeholder="Tüketim Miktarı"
+                  value={elektrikMiktar}
+                  onChange={(e) => setElektrikMiktar(e.target.value)}
+                  className="w-full px-4 py-2 rounded-md border border-gray-300 focus:ring-2 focus:ring-green-500"
+                />
+                <select
+                  value={elektrikBirim}
+                  onChange={(e) => setElektrikBirim(e.target.value)}
+                  className="px-4 py-2 rounded-md border border-gray-300 focus:ring-2 focus:ring-green-500"
+                >
+                  <option value="kWh">kWh</option>
+                  <option value="MWh">MWh</option>
+                </select>
+              </div>
+              
               <select
-                value={elektrikBirim}
-                onChange={(e) => setElektrikBirim(e.target.value)}
-                className="px-4 py-2 rounded-md border border-gray-300 focus:ring-2 focus:ring-green-500"
+                value={elektrikDonem}
+                onChange={(e) => setElektrikDonem(e.target.value)}
+                className="w-full px-4 py-2 rounded-md border border-gray-300 focus:ring-2 focus:ring-green-500"
               >
-                <option value="kWh">kWh</option>
-                <option value="MWh">MWh</option>
+                <option value="yillik">Yıllık</option>
+                <option value="aylik">Aylık</option>
+                <option value="gunluk">Günlük</option>
               </select>
             </div>
-            <select
-              value={elektrikKaynak}
-              onChange={(e) => setElektrikKaynak(e.target.value)}
-              className="w-full px-4 py-2 rounded-md border border-gray-300 focus:ring-2 focus:ring-green-500"
-            >
-              <option value="sebekeden">Şebekeden</option>
-              <option value="gunes">Güneş Enerjisi</option>
-              <option value="ruzgar">Rüzgar Enerjisi</option>
-              <option value="jenerator">Jeneratör</option>
-            </select>
-            <select
-              value={elektrikDonem}
-              onChange={(e) => setElektrikDonem(e.target.value)}
-              className="w-full px-4 py-2 rounded-md border border-gray-300 focus:ring-2 focus:ring-green-500"
-            >
-              <option value="yillik">Yıllık</option>
-              <option value="aylik">Aylık</option>
-              <option value="gunluk">Günlük</option>
-            </select>
+
+            <div className="space-y-2">
+              <label className="block text-sm font-medium text-gray-700 mb-1">Emisyon Faktörü Seçimi</label>
+              <Autocomplete
+                disablePortal
+                options={emisyonfaktorlerielektrik}
+                renderInput={(params) => <TextField {...params} label="Emisyon Faktörü" />}
+                getOptionLabel={(option) => `${option.label}`}
+                onChange={(event, newValue) => {
+                  if (newValue) {
+                    if (newValue.value === 'manuel') {
+                      setManuelEmisyonElektrik(true);
+                      setEmisyonFaktorElektrik('');
+                    } else {
+                      setManuelEmisyonElektrik(false);
+                      setEmisyonFaktorElektrik(String(newValue.value));
+                    }
+                  } else {
+                    setManuelEmisyonElektrik(false);
+                    setEmisyonFaktorElektrik('');
+                  }
+                }}
+              />
+
+              {manuelEmisyonElektrik && (
+                <input
+                  type="number"
+                  step="0.001"
+                  placeholder="Emisyon Faktörü (kg CO₂e/kWh)"
+                  value={emisyonFaktorElektrik}
+                  onChange={(e) => setEmisyonFaktorElektrik(e.target.value)}
+                  className="w-full px-4 py-2 rounded-md border border-gray-300 focus:ring-2 focus:ring-green-500 mt-2"
+                />
+              )}
+            </div>
           </div>
         )}
       </div>
