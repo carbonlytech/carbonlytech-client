@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import { BatteryCharging, ArrowLeft, ArrowRight } from "lucide-react";
 import toast from "react-hot-toast";
-import emisyonfaktorlerielektrik from "../productswithcbamcodes/emisyonfaktorlerielektrik";
+import emisyonfaktorlerielektrik from "../productswithcbamcodes/emisyonfaktorlerielektrikdatası";
 import { Autocomplete, TextField } from "@mui/material";
+import emisyonfaktorlerielektrikdatası from "../productswithcbamcodes/emisyonfaktorlerielektrikdatası";
+import emisyonfaktorleridogalgazdatasi from "../productswithcbamcodes/emisyonfaktorleridogalgazdatası";
+import emisyonfaktorlerikomurdatasi from "../productswithcbamcodes/emisyonfaktorlerikomurdatası";
 
 interface Props {
   nextStep: () => void;
@@ -30,6 +33,10 @@ const Step2: React.FC<Props> = ({ nextStep, prevStep, formData, update }) => {
 
   const [emisyonFaktorElektrik, setEmisyonFaktorElektrik] = useState(formData.emisyonFaktorElektrik || "");
   const [manuelEmisyonElektrik, setManuelEmisyonElektrik] = useState(false);
+  const [emisyonFaktorDogalgaz, setEmisyonFaktorDogalgaz] = useState(formData.emisyonFaktorDogalgaz || "");
+  const [manuelEmisyonDogalgaz, setManuelEmisyonDogalgaz] = useState(false);
+  const [emisyonFaktorKomur, setEmisyonFaktorKomur] = useState(formData.emisyonFaktorKomur || "");
+  const [manuelEmisyonKomur, setManuelEmisyonKomur] = useState(false);
 
 
   const validateStep=()=>{
@@ -65,7 +72,9 @@ const Step2: React.FC<Props> = ({ nextStep, prevStep, formData, update }) => {
       elektrikDonem,
       dogalgazDonem,
       komurDonem,
-      emisyonFaktorElektrik
+      emisyonFaktorElektrik,
+      emisyonFaktorDogalgaz,
+      emisyonFaktorKomur
     });
     nextStep();
   };
@@ -84,7 +93,9 @@ const Step2: React.FC<Props> = ({ nextStep, prevStep, formData, update }) => {
       elektrikDonem,
       dogalgazDonem,
       komurDonem,
-      emisyonFaktorElektrik
+      emisyonFaktorElektrik,
+      emisyonFaktorDogalgaz,
+      emisyonFaktorKomur
     });
     prevStep();
   };
@@ -144,7 +155,7 @@ const Step2: React.FC<Props> = ({ nextStep, prevStep, formData, update }) => {
               <label className="block text-sm font-medium text-gray-700 mb-1">Emisyon Faktörü Seçimi</label>
               <Autocomplete
                 disablePortal
-                options={emisyonfaktorlerielektrik}
+                options={emisyonfaktorlerielektrikdatası}
                 renderInput={(params) => <TextField {...params} label="Emisyon Faktörü" />}
                 getOptionLabel={(option) => `${option.label}`}
                 onChange={(event, newValue) => {
@@ -191,33 +202,77 @@ const Step2: React.FC<Props> = ({ nextStep, prevStep, formData, update }) => {
         </div>
 
         {dogalgazKullaniliyor && (
-          <div className="space-y-4 mt-4">
-            <div className="flex items-center space-x-2">
-              <input
-                type="number"
-                placeholder="Tüketim Miktarı"
-                value={dogalgazMiktar}
-                onChange={(e) => setDogalgazMiktar(e.target.value)}
-                className="w-full px-4 py-2 rounded-md border border-gray-300 focus:ring-2 focus:ring-green-500"
-              />
-              <select
-                value={dogalgazBirim}
-                onChange={(e) => setDogalgazBirim(e.target.value)}
-                className="px-4 py-2 rounded-md border border-gray-300 focus:ring-2 focus:ring-green-500"
-              >
-                <option value="m³">m³</option>
-                <option value="kWh">kWh</option>
-              </select>
+
+          <div>
+            <div className="space-y-4 mt-4">
+              <div>
+                <div className="flex items-center space-x-2">
+                  <input
+                    type="number"
+                    placeholder="Tüketim Miktarı"
+                    value={dogalgazMiktar}
+                    onChange={(e) => setDogalgazMiktar(e.target.value)}
+                    className="w-full px-4 py-2 rounded-md border border-gray-300 focus:ring-2 focus:ring-green-500"
+                  />
+                  <select
+                    value={dogalgazBirim}
+                    onChange={(e) => setDogalgazBirim(e.target.value)}
+                    className="px-4 py-2 rounded-md border border-gray-300 focus:ring-2 focus:ring-green-500"
+                  >
+                    <option value="m³">m³</option>
+                    <option value="kWh">kWh</option>
+                  </select>
+                </div>
+                <select
+                  value={dogalgazDonem}
+                  onChange={(e) => setDogalgazDonem(e.target.value)}
+                  className="w-full px-4 py-2 rounded-md border border-gray-300 focus:ring-2 focus:ring-green-500"
+                >
+                  <option value="yillik">Yıllık</option>
+                  <option value="aylik">Aylık</option>
+                  <option value="gunluk">Günlük</option>
+                </select>
+
+
+                
+
+              </div>
             </div>
-            <select
-              value={dogalgazDonem}
-              onChange={(e) => setDogalgazDonem(e.target.value)}
-              className="w-full px-4 py-2 rounded-md border border-gray-300 focus:ring-2 focus:ring-green-500"
-            >
-              <option value="yillik">Yıllık</option>
-              <option value="aylik">Aylık</option>
-              <option value="gunluk">Günlük</option>
-            </select>
+
+            <div className="space-y-2">
+                <label className="block text-sm font-medium text-gray-700 mb-1">Emisyon Faktörü Seçimi</label>
+                <Autocomplete
+                  disablePortal
+                  options={emisyonfaktorleridogalgazdatasi}
+                  renderInput={(params) => <TextField {...params} label="Emisyon Faktörü" />}
+                  getOptionLabel={(option) => `${option.label}`}
+                  onChange={(event, newValue) => {
+                    if (newValue) {
+                      if (newValue.value === 'manuel') {
+                        setManuelEmisyonDogalgaz(true);
+                        setEmisyonFaktorDogalgaz('');
+                      } else {
+                        setManuelEmisyonDogalgaz(false);
+                        setEmisyonFaktorDogalgaz(String(newValue.value));
+                      }
+                    } else {
+                      setManuelEmisyonDogalgaz(false);
+                      setEmisyonFaktorDogalgaz('');
+                    }
+                  }}
+                />
+
+                {manuelEmisyonDogalgaz && (
+                  <input
+                    type="number"
+                    step="0.001"
+                    placeholder="Emisyon Faktörü (kg CO₂e/kWh)"
+                    value={emisyonFaktorDogalgaz}
+                    onChange={(e) => setEmisyonFaktorDogalgaz(e.target.value)}
+                    className="w-full px-4 py-2 rounded-md border border-gray-300 focus:ring-2 focus:ring-green-500 mt-2"
+                  />
+                )}
+            </div>
           </div>
         )}
       </div>
@@ -235,33 +290,70 @@ const Step2: React.FC<Props> = ({ nextStep, prevStep, formData, update }) => {
         </div>
 
         {komurKullaniliyor && (
-          <div className="space-y-4 mt-4">
-            <div className="flex items-center space-x-2">
-              <input
-                type="number"
-                placeholder="Tüketim Miktarı"
-                value={komurMiktar}
-                onChange={(e) => setKomurMiktar(e.target.value)}
-                className="w-full px-4 py-2 rounded-md border border-gray-300 focus:ring-2 focus:ring-green-500"
-              />
+          <div>
+            <div className="space-y-4 mt-4">
+              <div className="flex items-center space-x-2">
+                <input
+                  type="number"
+                  placeholder="Tüketim Miktarı"
+                  value={komurMiktar}
+                  onChange={(e) => setKomurMiktar(e.target.value)}
+                  className="w-full px-4 py-2 rounded-md border border-gray-300 focus:ring-2 focus:ring-green-500"
+                />
+                <select
+                  value={komurBirim}
+                  onChange={(e) => setKomurBirim(e.target.value)}
+                  className="px-4 py-2 rounded-md border border-gray-300 focus:ring-2 focus:ring-green-500"
+                >
+                  <option value="ton">ton</option>
+                  <option value="kg">kg</option>
+                </select>
+              </div>
               <select
-                value={komurBirim}
-                onChange={(e) => setKomurBirim(e.target.value)}
-                className="px-4 py-2 rounded-md border border-gray-300 focus:ring-2 focus:ring-green-500"
+                value={komurDonem}
+                onChange={(e) => setKomurDonem(e.target.value)}
+                className="w-full px-4 py-2 rounded-md border border-gray-300 focus:ring-2 focus:ring-green-500"
               >
-                <option value="ton">ton</option>
-                <option value="kg">kg</option>
+                <option value="yillik">Yıllık</option>
+                <option value="aylik">Aylık</option>
+                <option value="gunluk">Günlük</option>
               </select>
             </div>
-            <select
-              value={komurDonem}
-              onChange={(e) => setKomurDonem(e.target.value)}
-              className="w-full px-4 py-2 rounded-md border border-gray-300 focus:ring-2 focus:ring-green-500"
-            >
-              <option value="yillik">Yıllık</option>
-              <option value="aylik">Aylık</option>
-              <option value="gunluk">Günlük</option>
-            </select>
+
+            <div className="space-y-2">
+              <label className="block text-sm font-medium text-gray-700 mb-1">Emisyon Faktörü Seçimi</label>
+              <Autocomplete
+                disablePortal
+                options={emisyonfaktorlerikomurdatasi}
+                renderInput={(params) => <TextField {...params} label="Emisyon Faktörü" />}
+                getOptionLabel={(option) => `${option.label}`}
+                onChange={(event, newValue) => {
+                  if (newValue) {
+                    if (newValue.value === 'manuel') {
+                      setManuelEmisyonKomur(true);
+                      setEmisyonFaktorKomur('');
+                    } else {
+                      setManuelEmisyonKomur(false);
+                      setEmisyonFaktorKomur(String(newValue.value));
+                    }
+                  } else {
+                    setManuelEmisyonKomur(false);
+                    setEmisyonFaktorKomur('');
+                  }
+                }}
+              />
+
+              {manuelEmisyonKomur && (
+                <input
+                  type="number"
+                  step="0.001"
+                  placeholder="Emisyon Faktörü (kg CO₂e/kWh)"
+                  value={emisyonFaktorKomur}
+                  onChange={(e) => setEmisyonFaktorKomur(e.target.value)}
+                  className="w-full px-4 py-2 rounded-md border border-gray-300 focus:ring-2 focus:ring-green-500 mt-2"
+                />
+              )}
+            </div>
           </div>
         )}
       </div>
