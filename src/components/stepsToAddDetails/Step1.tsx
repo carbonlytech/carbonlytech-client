@@ -14,7 +14,12 @@ interface Props {
 }
 
 const Step1: React.FC<Props> = ({ nextStep, formData, update }) => {
-  const [lokasyon, setLokasyon] = useState(formData.lokasyon || "");
+  const [lokasyon, setLokasyon] = useState(formData.lokasyon || {
+    fullAddress: "",
+    country: "",
+    city: "",
+    postalCode: ""
+  });
   const [sektor, setSektor] = useState(formData.sektor || "");
   const [cbam, setCbam] = useState(formData.cbam || false);
   const [urun, setUrun] = useState(formData.urun || "");
@@ -23,8 +28,16 @@ const Step1: React.FC<Props> = ({ nextStep, formData, update }) => {
   const [birim, setBirim] = useState(formData.birim || "ton");
   const [uretimDonem, setUretimDonem] = useState(formData.uretimDonem || "yillik");
 
+  const inputRef = useRef<google.maps.places.SearchBox | null>(null);
+
+  const {isLoaded}=useJsApiLoader({
+    id: 'google-map-script',
+    googleMapsApiKey: 'AIzaSyDQL4CaeyNhaPqrxj2FNSEyMYiF4PeYgMM',
+    libraries: ["places"]
+  })
+
   const validateStep=()=>{
-    if(!lokasyon || !sektor || !urun || !cbamKodu || !miktar){
+    if(!lokasyon.fullAddress || !sektor || !urun || !cbamKodu || !miktar){
       toast.error("Lütfen tüm bilgileri girin!");
       return false;
     }
@@ -41,35 +54,31 @@ const Step1: React.FC<Props> = ({ nextStep, formData, update }) => {
     nextStep();
   };
 
-  const inputRef = useRef<google.maps.places.SearchBox | null>(null);
-
-  const {isLoaded}=useJsApiLoader({
-    id: 'google-map-script',
-    googleMapsApiKey: 'AIzaSyDQL4CaeyNhaPqrxj2FNSEyMYiF4PeYgMM',
-    libraries: ["places"]
-  })
-
-
   const handleOnPlacesChanged = () => {
     if (inputRef.current) {
       const places = inputRef.current.getPlaces();
       if (places && places.length > 0) {
         const place = places[0];
-  
-        // formatted_address al
+
         const fullAddress = place.formatted_address || "";
-  
-        // address_components'tan ülke, şehir vs. ayrıştır
+
         const addressComponents = place.address_components || [];
         const country = addressComponents.find(c => c.types.includes("country"))?.long_name || "";
-        const city = addressComponents.find(c => c.types.includes("locality"))?.long_name || "";
+        const city = addressComponents.find(c => c.types.includes("locality"))?.long_name 
+                  || addressComponents.find(c => c.types.includes("administrative_area_level_1"))?.long_name 
+                  || ""; // Eğer locality yoksa şehir için başka layer'dan çek
+
         const postalCode = addressComponents.find(c => c.types.includes("postal_code"))?.long_name || "";
-  
-        // İstersen burada formData'ya birleştirerek kaydedebilirsin
-        setLokasyon(fullAddress);
+
+        setLokasyon({
+          fullAddress,
+          country,
+          city,
+          postalCode
+        });
       }
     }
-  }
+  };
   
 
   return (
@@ -94,8 +103,8 @@ const Step1: React.FC<Props> = ({ nextStep, formData, update }) => {
               <input
                 type="text"
                 placeholder="Ülke, Şehir"
-                value={lokasyon}
-                onChange={(e) => setLokasyon(e.target.value)}
+                value={lokasyon.fullAddress}
+                onChange={(e) => setLokasyon({...lokasyon, fullAddress: e.target.value})}
                 className="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
               />
             </div>
@@ -103,19 +112,6 @@ const Step1: React.FC<Props> = ({ nextStep, formData, update }) => {
           </StandaloneSearchBox>
       }
       
-
-
-
-
-
-
-
-
-
-
-
-
-
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Sektör Alt Dalı</label>
           <input
