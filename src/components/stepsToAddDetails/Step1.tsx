@@ -6,6 +6,7 @@ import Autocomplete from '@mui/material/Autocomplete';
 import cbamUrunleri from "../productswithcbamcodes/productcbamcodes";
 import { useJsApiLoader, StandaloneSearchBox } from "@react-google-maps/api";
 import { useRef } from "react";
+import sectornames from "../productswithcbamcodes/sectornames";
 
 interface Props {
   nextStep: () => void;
@@ -79,7 +80,6 @@ const Step1: React.FC<Props> = ({ nextStep, formData, update }) => {
       }
     }
   };
-  
 
   return (
     <div className="bg-white p-8 rounded-2xl shadow-xl max-w-2xl mx-auto space-y-8">
@@ -91,37 +91,44 @@ const Step1: React.FC<Props> = ({ nextStep, formData, update }) => {
       {/* Firma Bilgileri */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-      {
-        isLoaded &&
-          <StandaloneSearchBox 
-            onLoad={(ref)=>inputRef.current=ref}
-            onPlacesChanged={handleOnPlacesChanged}  
-          >
+        {
+          isLoaded &&
+            <StandaloneSearchBox 
+              onLoad={(ref)=>inputRef.current=ref}
+              onPlacesChanged={handleOnPlacesChanged}  
+            >
 
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Tesis Lokasyonu</label>
-              <input
-                type="text"
-                placeholder="Ülke, Şehir"
-                value={lokasyon.fullAddress}
-                onChange={(e) => setLokasyon({...lokasyon, fullAddress: e.target.value})}
-                className="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
-              />
-            </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Tesis Lokasyonu</label>
+                <input
+                  type="text"
+                  placeholder="Ülke, Şehir"
+                  value={lokasyon.fullAddress}
+                  onChange={(e) => setLokasyon({...lokasyon, fullAddress: e.target.value})}
+                  className="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
+                />
+              </div>
 
-          </StandaloneSearchBox>
-      }
+            </StandaloneSearchBox>
+        }
       
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Sektör Alt Dalı</label>
-          <input
-            type="text"
-            placeholder="Örn: Demir-Çelik, Kimya"
-            value={sektor}
-            onChange={(e) => setSektor(e.target.value)}
-            className="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
+          <Autocomplete
+            disablePortal
+            options={sectornames}
+            renderInput={(params) => <TextField {...params} label="Sektör Alt Dalı" />}
+            getOptionLabel={(option) => `${option.label}`}
+            onChange={(event, newValue) => {
+              if (newValue) {
+                setSektor(newValue.label); 
+              } else {
+                setSektor('');
+              }
+            }}
           />
         </div>
+
       </div>
 
       {/* CBAM */}
