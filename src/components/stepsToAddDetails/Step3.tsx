@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { Fuel, Box, ArrowLeft, ArrowRight } from "lucide-react";
 import toast from "react-hot-toast";
+import { Autocomplete, TextField } from "@mui/material";
+import emisyonfaktorleriyakitdatasi from "../datasForEnergyThirdStep/emisyonfaktorleriyakitdatası";
+import emisyonfaktorlerihammaddedatasi from "../datasForEnergyThirdStep/emisyonfaktorlerihammaddedatası";
 
 interface Props {
   nextStep: () => void;
@@ -12,12 +15,12 @@ interface Props {
 const Step3: React.FC<Props> = ({ nextStep, prevStep, formData, update }) => {
   const [yakitlar, setYakitlar] = useState(
     formData.yakitlar || [
-      { tip: "", miktar: "", birim: "litre", donem: "yillik" },
+      { tip: "", miktar: "", birim: "litre", donem: "yillik",manuel: false,emisyonFaktor: "" },
     ]
   );
   const [hammaddeler, setHammaddeler] = useState(
     formData.hammaddeler || [
-      { ad: "", miktar: "", birim: "ton", donem: "yillik", tedarik: "yerli" },
+      { ad: "", miktar: "", birim: "ton", donem: "yillik", manuel: false, emisyonFaktor: "" },
     ]
   );
 
@@ -90,12 +93,46 @@ const Step3: React.FC<Props> = ({ nextStep, prevStep, formData, update }) => {
         <h3 className="font-semibold text-green-700 mb-2">Yakıtlar</h3>
         {yakitlar.map((yakit: any, index: number) => (
           <div key={index} className="grid grid-cols-5 gap-4 mb-4 items-center">
-            <input
-              placeholder="Yakıt Tipi"
-              value={yakit.tip}
-              onChange={(e) => handleYakitChange(index, "tip", e.target.value)}
-              className="w-full px-4 py-2 rounded-md border border-gray-300 focus:ring-2 focus:ring-green-500 outline-none"
-            />
+
+            <div className="col-span-2">
+              <Autocomplete
+                disablePortal
+                options={emisyonfaktorleriyakitdatasi}
+                renderInput={(params) => <TextField {...params} label="Yakıt Tipi" />}
+                getOptionLabel={(option) => `${option.label}`}
+                onChange={(event, newValue) => {
+                  if (newValue) {
+                    if (newValue.value === 'manuel') {
+                      handleYakitChange(index, "manuel", true);
+                      handleYakitChange(index, "tip", "Manuel Giriş");
+                      handleYakitChange(index, "emisyonFaktor", ""); // Manuel olduğu için sıfırla
+                    } else {
+                      handleYakitChange(index, "manuel", false);
+                      handleYakitChange(index, "tip", newValue.label);
+                      handleYakitChange(index, "emisyonFaktor", String(newValue.value));
+                    }
+                  } else {
+                    handleYakitChange(index, "manuel", false);
+                    handleYakitChange(index, "tip", "");
+                    handleYakitChange(index, "emisyonFaktor", "");
+                  }
+                }}
+              />
+            </div>
+
+            {yakit.manuel && (
+              <div className="col-span-2">
+                <input
+                  type="number"
+                  step="0.001"
+                  placeholder="Emisyon Faktörü (kg CO₂e/kWh)"
+                  value={yakit.emisyonFaktor}
+                  onChange={(e) => handleYakitChange(index, "emisyonFaktor", e.target.value)}
+                  className="w-full px-4 py-2 rounded-md border border-gray-300 focus:ring-2 focus:ring-green-500"
+                />
+              </div>
+            )}
+
             <input
               type="number"
               placeholder="Miktar"
@@ -148,12 +185,46 @@ const Step3: React.FC<Props> = ({ nextStep, prevStep, formData, update }) => {
         <h3 className="font-semibold text-green-700 mb-2">Hammaddeler</h3>
         {hammaddeler.map((hammadde: any, index: number) => (
           <div key={index} className="grid grid-cols-6 gap-4 mb-4 items-center">
-            <input
-              placeholder="Malzeme Adı"
-              value={hammadde.ad}
-              onChange={(e) => handleHammaddeChange(index, "ad", e.target.value)}
-              className="w-full px-4 py-2 rounded-md border border-gray-300 focus:ring-2 focus:ring-green-500 outline-none"
-            />
+
+            <div className="col-span-2">
+                <Autocomplete
+                  disablePortal
+                  options={emisyonfaktorlerihammaddedatasi}
+                  renderInput={(params) => <TextField {...params} label="Yakıt Tipi" />}
+                  getOptionLabel={(option) => `${option.label}`}
+                  onChange={(event, newValue) => {
+                    if (newValue) {
+                      if (newValue.value === 'manuel') {
+                        handleHammaddeChange(index, "manuel", true);
+                        handleHammaddeChange(index, "ad", "Manuel Giriş");
+                        handleHammaddeChange(index, "emisyonFaktor", ""); // Manuel olduğu için sıfırla
+                      } else {
+                        handleHammaddeChange(index, "manuel", false);
+                        handleHammaddeChange(index, "ad", newValue.label);
+                        handleHammaddeChange(index, "emisyonFaktor", String(newValue.value));
+                      }
+                    } else {
+                      handleHammaddeChange(index, "manuel", false);
+                      handleHammaddeChange(index, "ad", "");
+                      handleHammaddeChange(index, "emisyonFaktor", "");
+                    }
+                  }}
+                />
+            </div>
+
+            {hammadde.manuel && (
+                <div className="col-span-2">
+                  <input
+                    type="number"
+                    step="0.001"
+                    placeholder="Emisyon Faktörü (kg CO₂e/kWh)"
+                    value={hammadde.emisyonFaktor}
+                    onChange={(e) => handleHammaddeChange(index, "emisyonFaktor", e.target.value)}
+                    className="w-full px-4 py-2 rounded-md border border-gray-300 focus:ring-2 focus:ring-green-500"
+                  />
+                </div>
+            )}
+
             <input
               type="number"
               placeholder="Miktar"
@@ -161,6 +232,7 @@ const Step3: React.FC<Props> = ({ nextStep, prevStep, formData, update }) => {
               onChange={(e) => handleHammaddeChange(index, "miktar", e.target.value)}
               className="w-full px-4 py-2 rounded-md border border-gray-300 focus:ring-2 focus:ring-green-500 outline-none"
             />
+
             <select
               value={hammadde.birim}
               onChange={(e) => handleHammaddeChange(index, "birim", e.target.value)}
@@ -170,6 +242,7 @@ const Step3: React.FC<Props> = ({ nextStep, prevStep, formData, update }) => {
               <option value="kg">kg</option>
               <option value="litre">litre</option>
             </select>
+
             <select
               value={hammadde.donem}
               onChange={(e) => handleHammaddeChange(index, "donem", e.target.value)}
@@ -179,14 +252,7 @@ const Step3: React.FC<Props> = ({ nextStep, prevStep, formData, update }) => {
               <option value="aylik">Aylık</option>
               <option value="gunluk">Günlük</option>
             </select>
-            <select
-              value={hammadde.tedarik}
-              onChange={(e) => handleHammaddeChange(index, "tedarik", e.target.value)}
-              className="w-full px-4 py-2 rounded-md border border-gray-300 focus:ring-2 focus:ring-green-500 outline-none"
-            >
-              <option value="yerli">Yerli</option>
-              <option value="ithal">İthal</option>
-            </select>
+
             <button
               onClick={() => removeHammadde(index)}
               className="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg transition"
