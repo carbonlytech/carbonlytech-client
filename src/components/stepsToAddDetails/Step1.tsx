@@ -28,6 +28,7 @@ const Step1: React.FC<Props> = ({ nextStep, formData, update }) => {
   const [miktar, setMiktar] = useState(formData.miktar || "");
   const [birim, setBirim] = useState(formData.birim || "ton");
   const [uretimDonem, setUretimDonem] = useState(formData.uretimDonem || "yillik");
+  const [surecTipi, setSurecTipi] = useState(formData.surecTipi || "");
 
   const inputRef = useRef<google.maps.places.SearchBox | null>(null);
 
@@ -51,7 +52,7 @@ const Step1: React.FC<Props> = ({ nextStep, formData, update }) => {
       return
     }
 
-    update({ lokasyon, sektor, cbam, urun,cbamKodu, miktar, birim, uretimDonem });
+    update({ lokasyon, sektor, cbam, urun,cbamKodu, miktar, birim, uretimDonem, surecTipi });
     nextStep();
   };
 
@@ -214,6 +215,35 @@ const Step1: React.FC<Props> = ({ nextStep, formData, update }) => {
           <option value="gunluk">Günlük</option>
         </select>
       </div>
+
+
+
+
+
+      {/* Süreç Tipi */}
+      <div>
+        <label className="block text-sm font-medium text-gray-700 mb-1">Üretim Süreci Türü</label>
+        <select
+          className="w-full px-4 py-2 rounded-md border border-gray-300 focus:ring-2 focus:ring-green-500"
+          value={surecTipi}
+          onChange={(e) => setSurecTipi(e.target.value)}
+        >
+          <option value="">Seçiniz</option>
+          <option value="elektrik-ark-ocagi">Elektrik Ark Ocağı</option>
+          <option value="yüksek-firin">Yüksek Fırın</option>
+          <option value="klinker-üretimi">Klinker Üretimi</option>
+          <option value="haber-bosch">Haber-Bosch Süreci</option>
+          <option value="diger">Diğer</option>
+        </select>
+      </div>
+
+
+
+
+
+
+
+
 
       {/* Buton */}
       <div className="flex justify-between pt-4">

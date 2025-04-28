@@ -10,32 +10,17 @@ interface Props {
 }
 
 const Step4: React.FC<Props> = ({ nextStep, prevStep, formData, update }) => {
-  const [surecTipi, setSurecTipi] = useState(formData.surecTipi || "");
-  const [emisyonFaktoru, setEmisyonFaktoru] = useState(formData.emisyonFaktoru || "");
   const [co2, setCo2] = useState(formData.co2 || "");
   const [ch4, setCh4] = useState(formData.ch4 || "");
   const [n2o, setN2o] = useState(formData.n2o || "");
 
-  const validateStep=()=>{
-    if(!surecTipi){
-      toast.error("Lütfen süreç türünü belirtiniz");
-      return false;
-    }
-
-    return true;
-  }
-
   const handleNext = () => {
-    if(!validateStep()){
-      return;
-    }
-
-    update({ surecTipi, emisyonFaktoru, co2, ch4, n2o });
+    update({ co2, ch4, n2o });
     nextStep();
   };
 
   const handlePrev = () => {
-    update({ surecTipi, emisyonFaktoru, co2, ch4, n2o });
+    update({ co2, ch4, n2o });
     prevStep();
   };
 
@@ -44,38 +29,6 @@ const Step4: React.FC<Props> = ({ nextStep, prevStep, formData, update }) => {
       <div className="flex items-center space-x-3">
         <Factory className="text-green-600" size={28} />
         <h2 className="text-3xl font-semibold text-green-700">Emisyon ve Süreç Verileri</h2>
-      </div>
-
-      {/* Süreç Tipi */}
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Üretim Süreci Türü</label>
-        <select
-          className="w-full px-4 py-2 rounded-md border border-gray-300 focus:ring-2 focus:ring-green-500"
-          value={surecTipi}
-          onChange={(e) => setSurecTipi(e.target.value)}
-        >
-          <option value="">Seçiniz</option>
-          <option value="elektrik-ark-ocagi">Elektrik Ark Ocağı</option>
-          <option value="yüksek-firin">Yüksek Fırın</option>
-          <option value="klinker-üretimi">Klinker Üretimi</option>
-          <option value="haber-bosch">Haber-Bosch Süreci</option>
-          <option value="diger">Diğer</option>
-        </select>
-      </div>
-
-      {/* Emisyon Faktörü */}
-      <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Emisyon Faktörü (opsiyonel)</label>
-        <input
-          type="number"
-          placeholder="Örn: 1.7"
-          value={emisyonFaktoru}
-          onChange={(e) => setEmisyonFaktoru(e.target.value)}
-          className="w-full px-4 py-2 rounded-md border border-gray-300 focus:ring-2 focus:ring-green-500 outline-none"
-        />
-        <p className="text-xs text-gray-500 mt-1">
-          Birim: <strong>kg CO₂ / kg ürün</strong> – 1 kg üretim başına salınan CO₂ miktarı
-        </p>
       </div>
 
       {/* Ek Emisyonlar */}
