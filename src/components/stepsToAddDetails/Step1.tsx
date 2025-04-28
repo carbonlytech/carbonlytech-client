@@ -3,10 +3,10 @@ import { Factory, ArrowRight } from "lucide-react";
 import toast from "react-hot-toast";
 import TextField from '@mui/material/TextField';
 import Autocomplete from '@mui/material/Autocomplete';
-import cbamUrunleri from "../datasForEnergySecondStep/productcbamcodes";
+import cbamUrunleri from "../datasForEnergyFirstStep/productcbamcodes";
 import { useJsApiLoader, StandaloneSearchBox } from "@react-google-maps/api";
 import { useRef } from "react";
-import sectornames from "../datasForEnergySecondStep/sectornames";
+import sectornames from "../datasForEnergyFirstStep/sectornames";
 
 interface Props {
   nextStep: () => void;
