@@ -24,8 +24,8 @@ const Stepper = ({ currentStep, steps, onStepClick }: StepperProps) => {
                     isCompleted
                       ? "bg-green-500 text-white"
                       : isActive
-                      ? "bg-blue-600 text-white"
-                      : "bg-gray-200 text-gray-500"
+                        ? "bg-blue-600 text-white"
+                        : "bg-gray-200 text-gray-500"
                   }
                 `}
             >
@@ -41,8 +41,8 @@ const Stepper = ({ currentStep, steps, onStepClick }: StepperProps) => {
                         isCompleted
                           ? "bg-green-500"
                           : isActive
-                          ? "bg-blue-600"
-                          : "bg-gray-300"
+                            ? "bg-blue-600"
+                            : "bg-gray-300"
                       }
                     `}
                   style={{ width: "100%" }}

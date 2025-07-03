@@ -11,20 +11,22 @@ interface Props {
 
 const Step5: React.FC<Props> = ({ nextStep, prevStep, formData, update }) => {
   const [atikMiktari, setAtikMiktari] = useState(formData.atikMiktari || "");
-  const [geriDonusumOrani, setGeriDonusumOrani] = useState(formData.geriDonusumOrani || "");
+  const [geriDonusumOrani, setGeriDonusumOrani] = useState(
+    formData.geriDonusumOrani || "",
+  );
   const [atikTipi, setAtikTipi] = useState(formData.atikTipi || "");
 
-  const validateStep=()=>{
-    if(atikMiktari && !geriDonusumOrani){
+  const validateStep = () => {
+    if (atikMiktari && !geriDonusumOrani) {
       toast.error("Oranı belirtiniz");
       return false;
     }
 
     return true;
-  }
+  };
 
   const handleNext = () => {
-    if(!validateStep()){
+    if (!validateStep()) {
       return;
     }
 
@@ -41,12 +43,16 @@ const Step5: React.FC<Props> = ({ nextStep, prevStep, formData, update }) => {
     <div className="bg-white p-8 rounded-2xl shadow-xl max-w-2xl mx-auto space-y-8">
       <div className="flex items-center space-x-3">
         <Recycle className="text-green-600" size={28} />
-        <h2 className="text-3xl font-semibold text-green-700">Atık & Geri Dönüşüm</h2>
+        <h2 className="text-3xl font-semibold text-green-700">
+          Atık & Geri Dönüşüm
+        </h2>
       </div>
 
       {/* Atık Miktarı */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Atık Miktarı</label>
+        <label className="block text-sm font-medium text-gray-700 mb-1">
+          Atık Miktarı
+        </label>
         <div className="flex gap-3">
           <input
             type="number"
@@ -68,7 +74,9 @@ const Step5: React.FC<Props> = ({ nextStep, prevStep, formData, update }) => {
 
       {/* Geri Dönüşüm Oranı */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Geri Dönüşüm Oranı (%)</label>
+        <label className="block text-sm font-medium text-gray-700 mb-1">
+          Geri Dönüşüm Oranı (%)
+        </label>
         <input
           type="number"
           value={geriDonusumOrani}
@@ -80,7 +88,9 @@ const Step5: React.FC<Props> = ({ nextStep, prevStep, formData, update }) => {
 
       {/* Atık Tipi */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Atık Tipi (Opsiyonel)</label>
+        <label className="block text-sm font-medium text-gray-700 mb-1">
+          Atık Tipi (Opsiyonel)
+        </label>
         <select
           value={atikTipi}
           onChange={(e) => setAtikTipi(e.target.value)}

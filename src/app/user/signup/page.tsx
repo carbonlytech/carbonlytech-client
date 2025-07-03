@@ -74,7 +74,7 @@ const Signup: React.FC = () => {
             </div>
           )}
         </div>
-        
+
         {/* inputlar buton ve link */}
         <form onSubmit={handleSubmit} className="space-y-4">
           <div className="relative">

@@ -10,40 +10,60 @@ interface Props {
 }
 
 const Step2: React.FC<Props> = ({ nextStep, prevStep, formData, update }) => {
-  const [elektrikKullaniliyor, setElektrikKullaniliyor] = useState(formData.elektrikKullaniliyor || false);
-  const [dogalgazKullaniliyor, setDogalgazKullaniliyor] = useState(formData.dogalgazKullaniliyor || false);
-  const [komurKullaniliyor, setKomurKullaniliyor] = useState(formData.komurKullaniliyor || false);
+  const [elektrikKullaniliyor, setElektrikKullaniliyor] = useState(
+    formData.elektrikKullaniliyor || false,
+  );
+  const [dogalgazKullaniliyor, setDogalgazKullaniliyor] = useState(
+    formData.dogalgazKullaniliyor || false,
+  );
+  const [komurKullaniliyor, setKomurKullaniliyor] = useState(
+    formData.komurKullaniliyor || false,
+  );
 
-  const [elektrikMiktar, setElektrikMiktar] = useState(formData.elektrikMiktar || "");
-  const [dogalgazMiktar, setDogalgazMiktar] = useState(formData.dogalgazMiktar || "");
+  const [elektrikMiktar, setElektrikMiktar] = useState(
+    formData.elektrikMiktar || "",
+  );
+  const [dogalgazMiktar, setDogalgazMiktar] = useState(
+    formData.dogalgazMiktar || "",
+  );
   const [komurMiktar, setKomurMiktar] = useState(formData.komurMiktar || "");
 
-  const [elektrikBirim, setElektrikBirim] = useState(formData.elektrikBirim || "kWh");
-  const [dogalgazBirim, setDogalgazBirim] = useState(formData.dogalgazBirim || "m³");
+  const [elektrikBirim, setElektrikBirim] = useState(
+    formData.elektrikBirim || "kWh",
+  );
+  const [dogalgazBirim, setDogalgazBirim] = useState(
+    formData.dogalgazBirim || "m³",
+  );
   const [komurBirim, setKomurBirim] = useState(formData.komurBirim || "ton");
 
-  const [elektrikKaynak, setElektrikKaynak] = useState(formData.elektrikKaynak || "sebekeden");
+  const [elektrikKaynak, setElektrikKaynak] = useState(
+    formData.elektrikKaynak || "sebekeden",
+  );
 
-  const [elektrikDonem, setElektrikDonem] = useState(formData.elektrikDonem || "yillik");
-  const [dogalgazDonem, setDogalgazDonem] = useState(formData.dogalgazDonem || "yillik");
+  const [elektrikDonem, setElektrikDonem] = useState(
+    formData.elektrikDonem || "yillik",
+  );
+  const [dogalgazDonem, setDogalgazDonem] = useState(
+    formData.dogalgazDonem || "yillik",
+  );
   const [komurDonem, setKomurDonem] = useState(formData.komurDonem || "yillik");
 
-  const validateStep=()=>{
-    if(elektrikKullaniliyor && !elektrikMiktar){
+  const validateStep = () => {
+    if (elektrikKullaniliyor && !elektrikMiktar) {
       return false;
-    }  
-    if(dogalgazKullaniliyor && !dogalgazMiktar){
+    }
+    if (dogalgazKullaniliyor && !dogalgazMiktar) {
       return false;
-    }  
-    if(komurKullaniliyor && !komurMiktar){
+    }
+    if (komurKullaniliyor && !komurMiktar) {
       return false;
-    }    
+    }
 
     return true;
-  }
+  };
 
   const handleNext = () => {
-    if(!validateStep()){
+    if (!validateStep()) {
       toast.error("Lütfen miktarı belirtiniz.");
       return;
     }
@@ -85,8 +105,6 @@ const Step2: React.FC<Props> = ({ nextStep, prevStep, formData, update }) => {
     prevStep();
   };
 
-  
-
   return (
     <div className="bg-white p-8 rounded-2xl shadow-xl max-w-2xl mx-auto space-y-8">
       <h2 className="flex items-center space-x-3 text-3xl font-semibold text-green-700">
@@ -103,7 +121,9 @@ const Step2: React.FC<Props> = ({ nextStep, prevStep, formData, update }) => {
             onChange={() => setElektrikKullaniliyor(!elektrikKullaniliyor)}
             className="accent-green-600"
           />
-          <label className="text-sm font-medium text-gray-700">Elektrik kullanılıyor</label>
+          <label className="text-sm font-medium text-gray-700">
+            Elektrik kullanılıyor
+          </label>
         </div>
 
         {elektrikKullaniliyor && (
@@ -157,7 +177,9 @@ const Step2: React.FC<Props> = ({ nextStep, prevStep, formData, update }) => {
             onChange={() => setDogalgazKullaniliyor(!dogalgazKullaniliyor)}
             className="accent-green-600"
           />
-          <label className="text-sm font-medium text-gray-700">Doğalgaz kullanılıyor</label>
+          <label className="text-sm font-medium text-gray-700">
+            Doğalgaz kullanılıyor
+          </label>
         </div>
 
         {dogalgazKullaniliyor && (
@@ -201,7 +223,9 @@ const Step2: React.FC<Props> = ({ nextStep, prevStep, formData, update }) => {
             onChange={() => setKomurKullaniliyor(!komurKullaniliyor)}
             className="accent-green-600"
           />
-          <label className="text-sm font-medium text-gray-700">Kömür kullanılıyor</label>
+          <label className="text-sm font-medium text-gray-700">
+            Kömür kullanılıyor
+          </label>
         </div>
 
         {komurKullaniliyor && (

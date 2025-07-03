@@ -73,10 +73,9 @@ const Signin: React.FC = () => {
             </div>
           )}
         </div>
-        
+
         {/* inputlar buton ve link */}
         <form onSubmit={handleSubmit} className="space-y-4">
-
           <div className="relative">
             <Mail className="absolute left-3 top-2.5 text-gray-400 w-5 h-5" />
             <input

@@ -26,7 +26,7 @@ const GraphOfAtık: React.FC<Props> = ({ atikData }) => {
         item.name.trim() !== "" &&
         typeof item.value === "number" &&
         !isNaN(item.value) &&
-        item.value > 0
+        item.value > 0,
     );
   };
 
@@ -34,7 +34,9 @@ const GraphOfAtık: React.FC<Props> = ({ atikData }) => {
 
   return (
     <div className={chartWrapperClass}>
-      <h2 className="text-xl font-semibold text-gray-700">Atık & Geri Dönüşüm</h2>
+      <h2 className="text-xl font-semibold text-gray-700">
+        Atık & Geri Dönüşüm
+      </h2>
       {answer ? (
         <ResponsiveContainer width="100%" height={300}>
           <PieChart>

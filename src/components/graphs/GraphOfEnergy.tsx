@@ -1,11 +1,5 @@
 import React from "react";
-import {
-  PieChart,
-  Pie,
-  Cell,
-  Tooltip,
-  Legend,
-} from "recharts";
+import { PieChart, Pie, Cell, Tooltip, Legend } from "recharts";
 
 interface Props {
   energyData: any[];
@@ -23,7 +17,7 @@ const GraphOfEnergy: React.FC<Props> = ({ energyData }) => {
         typeof item.name === "string" &&
         item.name.trim() !== "" &&
         !isNaN(item.value) &&
-        item.value > 0
+        item.value > 0,
     );
   };
 
@@ -53,9 +47,7 @@ const GraphOfEnergy: React.FC<Props> = ({ energyData }) => {
           <Legend />
         </PieChart>
       ) : (
-        <div>
-          Enerji tüketimi verisi bulunamadı.
-        </div>
+        <div>Enerji tüketimi verisi bulunamadı.</div>
       )}
     </div>
   );

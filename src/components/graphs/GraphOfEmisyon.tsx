@@ -24,7 +24,7 @@ const GraphOfEmisyon: React.FC<Props> = ({ emisyonData }) => {
         typeof item.name === "string" &&
         item.name.trim() !== "" &&
         !isNaN(item.miktar) &&
-        item.miktar > 0
+        item.miktar > 0,
     );
   };
 

@@ -13,10 +13,10 @@ import { ArrowRight } from "lucide-react";
 import Navbar from "@/components/navbar/page";
 
 const Details: React.FC = () => {
-  const router=useRouter();
-  const navigateToDashboard=()=>{
+  const router = useRouter();
+  const navigateToDashboard = () => {
     router.push("dashboard");
-  }
+  };
 
   const [step, setStep] = useState(1);
   const [formData, setFormData] = useState<any>({
@@ -51,15 +51,12 @@ const Details: React.FC = () => {
 
   return (
     <div className=" mx-auto bg-white">
-
       <div className="flex gap-x-[5vw]">
-
         <div className="w-[12%] sticky top-0 h-screen bg-white shadow-md">
           <Navbar />
         </div>
 
         <div className="w-[80%] pt-[2%]">
-
           <Stepper
             currentStep={step}
             steps={steps}
@@ -117,11 +114,8 @@ const Details: React.FC = () => {
               update={(data) => updateFormData("karbonAyakIzi", data)}
             />
           )}
-
         </div>
-
       </div>
-
     </div>
   );
 };

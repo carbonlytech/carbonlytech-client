@@ -25,7 +25,10 @@ const Navbar = () => {
   return (
     <div className="h-screen bg-white border-r border-gray-200 shadow-sm flex flex-col justify-between py-6">
       <div>
-        <Link href={"/dashboard"} className="text-xl font-bold text-center text-gray-700 mb-8 flex items-center justify-center gap-2">
+        <Link
+          href={"/dashboard"}
+          className="text-xl font-bold text-center text-gray-700 mb-8 flex items-center justify-center gap-2"
+        >
           <Leaf size={24} /> CarbonTrack
         </Link>
 

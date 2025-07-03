@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Factory, ArrowRight } from "lucide-react";
 import toast from "react-hot-toast";
-import TextField from '@mui/material/TextField';
-import Autocomplete from '@mui/material/Autocomplete';
+import TextField from "@mui/material/TextField";
+import Autocomplete from "@mui/material/Autocomplete";
 import cbamUrunleri from "../productswithcbamcodes/productcbamcodes";
 import { useJsApiLoader, StandaloneSearchBox } from "@react-google-maps/api";
 import { useRef } from "react";
@@ -15,43 +15,56 @@ interface Props {
 }
 
 const Step1: React.FC<Props> = ({ nextStep, formData, update }) => {
-  const [lokasyon, setLokasyon] = useState(formData.lokasyon || {
-    fullAddress: "",
-    country: "",
-    city: "",
-    postalCode: ""
-  });
+  const [lokasyon, setLokasyon] = useState(
+    formData.lokasyon || {
+      fullAddress: "",
+      country: "",
+      city: "",
+      postalCode: "",
+    },
+  );
   const [sektor, setSektor] = useState(formData.sektor || "");
   const [cbam, setCbam] = useState(formData.cbam || false);
   const [urun, setUrun] = useState(formData.urun || "");
   const [cbamKodu, setCbamKodu] = useState(formData.cbamKodu || "");
   const [miktar, setMiktar] = useState(formData.miktar || "");
   const [birim, setBirim] = useState(formData.birim || "ton");
-  const [uretimDonem, setUretimDonem] = useState(formData.uretimDonem || "yillik");
+  const [uretimDonem, setUretimDonem] = useState(
+    formData.uretimDonem || "yillik",
+  );
 
   const inputRef = useRef<google.maps.places.SearchBox | null>(null);
 
-  const {isLoaded}=useJsApiLoader({
-    id: 'google-map-script',
-    googleMapsApiKey: 'AIzaSyDQL4CaeyNhaPqrxj2FNSEyMYiF4PeYgMM',
-    libraries: ["places"]
-  })
+  const { isLoaded } = useJsApiLoader({
+    id: "google-map-script",
+    googleMapsApiKey: "AIzaSyDQL4CaeyNhaPqrxj2FNSEyMYiF4PeYgMM",
+    libraries: ["places"],
+  });
 
-  const validateStep=()=>{
-    if(!lokasyon.fullAddress || !sektor || !urun || !cbamKodu || !miktar){
+  const validateStep = () => {
+    if (!lokasyon.fullAddress || !sektor || !urun || !cbamKodu || !miktar) {
       toast.error("Lütfen tüm bilgileri girin!");
       return false;
     }
 
     return true;
-  }
+  };
 
   const handleNext = () => {
-    if(!validateStep()){
-      return
+    if (!validateStep()) {
+      return;
     }
 
-    update({ lokasyon, sektor, cbam, urun,cbamKodu, miktar, birim, uretimDonem });
+    update({
+      lokasyon,
+      sektor,
+      cbam,
+      urun,
+      cbamKodu,
+      miktar,
+      birim,
+      uretimDonem,
+    });
     nextStep();
   };
 
@@ -64,18 +77,26 @@ const Step1: React.FC<Props> = ({ nextStep, formData, update }) => {
         const fullAddress = place.formatted_address || "";
 
         const addressComponents = place.address_components || [];
-        const country = addressComponents.find(c => c.types.includes("country"))?.long_name || "";
-        const city = addressComponents.find(c => c.types.includes("locality"))?.long_name 
-                  || addressComponents.find(c => c.types.includes("administrative_area_level_1"))?.long_name 
-                  || ""; // Eğer locality yoksa şehir için başka layer'dan çek
+        const country =
+          addressComponents.find((c) => c.types.includes("country"))
+            ?.long_name || "";
+        const city =
+          addressComponents.find((c) => c.types.includes("locality"))
+            ?.long_name ||
+          addressComponents.find((c) =>
+            c.types.includes("administrative_area_level_1"),
+          )?.long_name ||
+          ""; // Eğer locality yoksa şehir için başka layer'dan çek
 
-        const postalCode = addressComponents.find(c => c.types.includes("postal_code"))?.long_name || "";
+        const postalCode =
+          addressComponents.find((c) => c.types.includes("postal_code"))
+            ?.long_name || "";
 
         setLokasyon({
           fullAddress,
           country,
           city,
-          postalCode
+          postalCode,
         });
       }
     }
@@ -85,50 +106,55 @@ const Step1: React.FC<Props> = ({ nextStep, formData, update }) => {
     <div className="bg-white p-8 rounded-2xl shadow-xl max-w-2xl mx-auto space-y-8">
       <div className="flex items-center space-x-3">
         <Factory className="text-green-600" size={28} />
-        <h2 className="text-3xl font-semibold text-green-700">Firma ve Üretim Bilgileri</h2>
+        <h2 className="text-3xl font-semibold text-green-700">
+          Firma ve Üretim Bilgileri
+        </h2>
       </div>
 
       {/* Firma Bilgileri */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {isLoaded && (
+          <StandaloneSearchBox
+            onLoad={(ref) => (inputRef.current = ref)}
+            onPlacesChanged={handleOnPlacesChanged}
+          >
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Tesis Lokasyonu
+              </label>
+              <input
+                type="text"
+                placeholder="Ülke, Şehir"
+                value={lokasyon.fullAddress}
+                onChange={(e) =>
+                  setLokasyon({ ...lokasyon, fullAddress: e.target.value })
+                }
+                className="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
+              />
+            </div>
+          </StandaloneSearchBox>
+        )}
 
-        {
-          isLoaded &&
-            <StandaloneSearchBox 
-              onLoad={(ref)=>inputRef.current=ref}
-              onPlacesChanged={handleOnPlacesChanged}  
-            >
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Tesis Lokasyonu</label>
-                <input
-                  type="text"
-                  placeholder="Ülke, Şehir"
-                  value={lokasyon.fullAddress}
-                  onChange={(e) => setLokasyon({...lokasyon, fullAddress: e.target.value})}
-                  className="w-full border border-gray-300 rounded-md px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
-                />
-              </div>
-
-            </StandaloneSearchBox>
-        }
-      
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Sektör Alt Dalı</label>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Sektör Alt Dalı
+          </label>
           <Autocomplete
             disablePortal
             options={sectornames}
-            renderInput={(params) => <TextField {...params} label="Sektör Alt Dalı" />}
+            renderInput={(params) => (
+              <TextField {...params} label="Sektör Alt Dalı" />
+            )}
             getOptionLabel={(option) => `${option.label}`}
             onChange={(event, newValue) => {
               if (newValue) {
-                setSektor(newValue.label); 
+                setSektor(newValue.label);
               } else {
-                setSektor('');
+                setSektor("");
               }
             }}
           />
         </div>
-
       </div>
 
       {/* CBAM */}
@@ -139,14 +165,17 @@ const Step1: React.FC<Props> = ({ nextStep, formData, update }) => {
           onChange={() => setCbam(!cbam)}
           className="accent-green-600 h-5 w-5"
         />
-        <label className="text-sm text-gray-700">CBAM (Sınırda Karbon Düzenleme Mekanizması) kapsamında mısınız?</label>
+        <label className="text-sm text-gray-700">
+          CBAM (Sınırda Karbon Düzenleme Mekanizması) kapsamında mısınız?
+        </label>
       </div>
 
       {/* Üretim Bilgileri */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Ürün Adı</label>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Ürün Adı
+          </label>
           <Autocomplete
             disablePortal
             options={cbamUrunleri}
@@ -154,18 +183,20 @@ const Step1: React.FC<Props> = ({ nextStep, formData, update }) => {
             getOptionLabel={(option) => `${option.label} (${option.cbamKodu})`}
             onChange={(event, newValue) => {
               if (newValue) {
-                setUrun(newValue.label);       // Ürün adını al
+                setUrun(newValue.label); // Ürün adını al
                 setCbamKodu(newValue.cbamKodu); // CBAM kodunu al
               } else {
-                setUrun('');
-                setCbamKodu('');
+                setUrun("");
+                setCbamKodu("");
               }
             }}
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1">Cbam Kodu</label>
+          <label className="block text-sm font-medium text-gray-700 mb-1">
+            Cbam Kodu
+          </label>
           <input
             type="text"
             placeholder="Üretilen ürünün cbam kodu"
@@ -177,7 +208,9 @@ const Step1: React.FC<Props> = ({ nextStep, formData, update }) => {
 
         <div className="grid grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Üretim Miktarı</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Üretim Miktarı
+            </label>
             <input
               type="number"
               placeholder="Örn: 1000"
@@ -187,7 +220,9 @@ const Step1: React.FC<Props> = ({ nextStep, formData, update }) => {
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Birim</label>
+            <label className="block text-sm font-medium text-gray-700 mb-1">
+              Birim
+            </label>
             <select
               value={birim}
               onChange={(e) => setBirim(e.target.value)}
@@ -203,7 +238,9 @@ const Step1: React.FC<Props> = ({ nextStep, formData, update }) => {
 
       {/* Üretim Dönemi */}
       <div>
-        <label className="block text-sm font-medium text-gray-700 mb-1">Üretim Dönemi</label>
+        <label className="block text-sm font-medium text-gray-700 mb-1">
+          Üretim Dönemi
+        </label>
         <select
           value={uretimDonem}
           onChange={(e) => setUretimDonem(e.target.value)}

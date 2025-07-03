@@ -15,46 +15,69 @@ interface Props {
 }
 
 const Step2: React.FC<Props> = ({ nextStep, prevStep, formData, update }) => {
-  const [elektrikKullaniliyor, setElektrikKullaniliyor] = useState(formData.elektrikKullaniliyor || false);
-  const [dogalgazKullaniliyor, setDogalgazKullaniliyor] = useState(formData.dogalgazKullaniliyor || false);
-  const [komurKullaniliyor, setKomurKullaniliyor] = useState(formData.komurKullaniliyor || false);
+  const [elektrikKullaniliyor, setElektrikKullaniliyor] = useState(
+    formData.elektrikKullaniliyor || false,
+  );
+  const [dogalgazKullaniliyor, setDogalgazKullaniliyor] = useState(
+    formData.dogalgazKullaniliyor || false,
+  );
+  const [komurKullaniliyor, setKomurKullaniliyor] = useState(
+    formData.komurKullaniliyor || false,
+  );
 
-  const [elektrikMiktar, setElektrikMiktar] = useState(formData.elektrikMiktar || "");
-  const [dogalgazMiktar, setDogalgazMiktar] = useState(formData.dogalgazMiktar || "");
+  const [elektrikMiktar, setElektrikMiktar] = useState(
+    formData.elektrikMiktar || "",
+  );
+  const [dogalgazMiktar, setDogalgazMiktar] = useState(
+    formData.dogalgazMiktar || "",
+  );
   const [komurMiktar, setKomurMiktar] = useState(formData.komurMiktar || "");
 
-  const [elektrikBirim, setElektrikBirim] = useState(formData.elektrikBirim || "kWh");
-  const [dogalgazBirim, setDogalgazBirim] = useState(formData.dogalgazBirim || "m³");
+  const [elektrikBirim, setElektrikBirim] = useState(
+    formData.elektrikBirim || "kWh",
+  );
+  const [dogalgazBirim, setDogalgazBirim] = useState(
+    formData.dogalgazBirim || "m³",
+  );
   const [komurBirim, setKomurBirim] = useState(formData.komurBirim || "ton");
 
-  const [elektrikDonem, setElektrikDonem] = useState(formData.elektrikDonem || "yillik");
-  const [dogalgazDonem, setDogalgazDonem] = useState(formData.dogalgazDonem || "yillik");
+  const [elektrikDonem, setElektrikDonem] = useState(
+    formData.elektrikDonem || "yillik",
+  );
+  const [dogalgazDonem, setDogalgazDonem] = useState(
+    formData.dogalgazDonem || "yillik",
+  );
   const [komurDonem, setKomurDonem] = useState(formData.komurDonem || "yillik");
 
-  const [emisyonFaktorElektrik, setEmisyonFaktorElektrik] = useState(formData.emisyonFaktorElektrik || "");
+  const [emisyonFaktorElektrik, setEmisyonFaktorElektrik] = useState(
+    formData.emisyonFaktorElektrik || "",
+  );
   const [manuelEmisyonElektrik, setManuelEmisyonElektrik] = useState(false);
-  const [emisyonFaktorDogalgaz, setEmisyonFaktorDogalgaz] = useState(formData.emisyonFaktorDogalgaz || "");
+  const [emisyonFaktorDogalgaz, setEmisyonFaktorDogalgaz] = useState(
+    formData.emisyonFaktorDogalgaz || "",
+  );
   const [manuelEmisyonDogalgaz, setManuelEmisyonDogalgaz] = useState(false);
-  const [emisyonFaktorKomur, setEmisyonFaktorKomur] = useState(formData.emisyonFaktorKomur || "");
+  const [emisyonFaktorKomur, setEmisyonFaktorKomur] = useState(
+    formData.emisyonFaktorKomur || "",
+  );
   const [manuelEmisyonKomur, setManuelEmisyonKomur] = useState(false);
 
-
-  const validateStep=()=>{
-    if(elektrikKullaniliyor && !elektrikMiktar){
+  const validateStep = () => {
+    if (elektrikKullaniliyor && !elektrikMiktar) {
       return false;
-    }  
-    if(dogalgazKullaniliyor && !dogalgazMiktar){
+    }
+    if (dogalgazKullaniliyor && !dogalgazMiktar) {
       return false;
-    }  
-    if(komurKullaniliyor && !komurMiktar){
+    }
+    if (komurKullaniliyor && !komurMiktar) {
       return false;
-    }    
+    }
 
     return true;
-  }
+  };
 
   const handleNext = () => {
-    if(!validateStep()){
+    if (!validateStep()) {
       toast.error("Lütfen miktarı belirtiniz.");
       return;
     }
@@ -74,7 +97,7 @@ const Step2: React.FC<Props> = ({ nextStep, prevStep, formData, update }) => {
       komurDonem,
       emisyonFaktorElektrik,
       emisyonFaktorDogalgaz,
-      emisyonFaktorKomur
+      emisyonFaktorKomur,
     });
     nextStep();
   };
@@ -95,7 +118,7 @@ const Step2: React.FC<Props> = ({ nextStep, prevStep, formData, update }) => {
       komurDonem,
       emisyonFaktorElektrik,
       emisyonFaktorDogalgaz,
-      emisyonFaktorKomur
+      emisyonFaktorKomur,
     });
     prevStep();
   };
@@ -116,7 +139,9 @@ const Step2: React.FC<Props> = ({ nextStep, prevStep, formData, update }) => {
             onChange={() => setElektrikKullaniliyor(!elektrikKullaniliyor)}
             className="accent-green-600"
           />
-          <label className="text-sm font-medium text-gray-700">Elektrik kullanılıyor</label>
+          <label className="text-sm font-medium text-gray-700">
+            Elektrik kullanılıyor
+          </label>
         </div>
 
         {elektrikKullaniliyor && (
@@ -139,7 +164,7 @@ const Step2: React.FC<Props> = ({ nextStep, prevStep, formData, update }) => {
                   <option value="MWh">MWh</option>
                 </select>
               </div>
-              
+
               <select
                 value={elektrikDonem}
                 onChange={(e) => setElektrikDonem(e.target.value)}
@@ -152,24 +177,28 @@ const Step2: React.FC<Props> = ({ nextStep, prevStep, formData, update }) => {
             </div>
 
             <div className="space-y-2">
-              <label className="block text-sm font-medium text-gray-700 mb-1">Emisyon Faktörü Seçimi</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Emisyon Faktörü Seçimi
+              </label>
               <Autocomplete
                 disablePortal
                 options={emisyonfaktorlerielektrikdatası}
-                renderInput={(params) => <TextField {...params} label="Emisyon Faktörü" />}
+                renderInput={(params) => (
+                  <TextField {...params} label="Emisyon Faktörü" />
+                )}
                 getOptionLabel={(option) => `${option.label}`}
                 onChange={(event, newValue) => {
                   if (newValue) {
-                    if (newValue.value === 'manuel') {
+                    if (newValue.value === "manuel") {
                       setManuelEmisyonElektrik(true);
-                      setEmisyonFaktorElektrik('');
+                      setEmisyonFaktorElektrik("");
                     } else {
                       setManuelEmisyonElektrik(false);
                       setEmisyonFaktorElektrik(String(newValue.value));
                     }
                   } else {
                     setManuelEmisyonElektrik(false);
-                    setEmisyonFaktorElektrik('');
+                    setEmisyonFaktorElektrik("");
                   }
                 }}
               />
@@ -198,11 +227,12 @@ const Step2: React.FC<Props> = ({ nextStep, prevStep, formData, update }) => {
             onChange={() => setDogalgazKullaniliyor(!dogalgazKullaniliyor)}
             className="accent-green-600"
           />
-          <label className="text-sm font-medium text-gray-700">Doğalgaz kullanılıyor</label>
+          <label className="text-sm font-medium text-gray-700">
+            Doğalgaz kullanılıyor
+          </label>
         </div>
 
         {dogalgazKullaniliyor && (
-
           <div>
             <div className="space-y-4 mt-4">
               <div>
@@ -232,46 +262,46 @@ const Step2: React.FC<Props> = ({ nextStep, prevStep, formData, update }) => {
                   <option value="aylik">Aylık</option>
                   <option value="gunluk">Günlük</option>
                 </select>
-
-
-                
-
               </div>
             </div>
 
             <div className="space-y-2">
-                <label className="block text-sm font-medium text-gray-700 mb-1">Emisyon Faktörü Seçimi</label>
-                <Autocomplete
-                  disablePortal
-                  options={emisyonfaktorleridogalgazdatasi}
-                  renderInput={(params) => <TextField {...params} label="Emisyon Faktörü" />}
-                  getOptionLabel={(option) => `${option.label}`}
-                  onChange={(event, newValue) => {
-                    if (newValue) {
-                      if (newValue.value === 'manuel') {
-                        setManuelEmisyonDogalgaz(true);
-                        setEmisyonFaktorDogalgaz('');
-                      } else {
-                        setManuelEmisyonDogalgaz(false);
-                        setEmisyonFaktorDogalgaz(String(newValue.value));
-                      }
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Emisyon Faktörü Seçimi
+              </label>
+              <Autocomplete
+                disablePortal
+                options={emisyonfaktorleridogalgazdatasi}
+                renderInput={(params) => (
+                  <TextField {...params} label="Emisyon Faktörü" />
+                )}
+                getOptionLabel={(option) => `${option.label}`}
+                onChange={(event, newValue) => {
+                  if (newValue) {
+                    if (newValue.value === "manuel") {
+                      setManuelEmisyonDogalgaz(true);
+                      setEmisyonFaktorDogalgaz("");
                     } else {
                       setManuelEmisyonDogalgaz(false);
-                      setEmisyonFaktorDogalgaz('');
+                      setEmisyonFaktorDogalgaz(String(newValue.value));
                     }
-                  }}
-                />
+                  } else {
+                    setManuelEmisyonDogalgaz(false);
+                    setEmisyonFaktorDogalgaz("");
+                  }
+                }}
+              />
 
-                {manuelEmisyonDogalgaz && (
-                  <input
-                    type="number"
-                    step="0.001"
-                    placeholder="Emisyon Faktörü (kg CO₂e/kWh)"
-                    value={emisyonFaktorDogalgaz}
-                    onChange={(e) => setEmisyonFaktorDogalgaz(e.target.value)}
-                    className="w-full px-4 py-2 rounded-md border border-gray-300 focus:ring-2 focus:ring-green-500 mt-2"
-                  />
-                )}
+              {manuelEmisyonDogalgaz && (
+                <input
+                  type="number"
+                  step="0.001"
+                  placeholder="Emisyon Faktörü (kg CO₂e/kWh)"
+                  value={emisyonFaktorDogalgaz}
+                  onChange={(e) => setEmisyonFaktorDogalgaz(e.target.value)}
+                  className="w-full px-4 py-2 rounded-md border border-gray-300 focus:ring-2 focus:ring-green-500 mt-2"
+                />
+              )}
             </div>
           </div>
         )}
@@ -286,7 +316,9 @@ const Step2: React.FC<Props> = ({ nextStep, prevStep, formData, update }) => {
             onChange={() => setKomurKullaniliyor(!komurKullaniliyor)}
             className="accent-green-600"
           />
-          <label className="text-sm font-medium text-gray-700">Kömür kullanılıyor</label>
+          <label className="text-sm font-medium text-gray-700">
+            Kömür kullanılıyor
+          </label>
         </div>
 
         {komurKullaniliyor && (
@@ -321,24 +353,28 @@ const Step2: React.FC<Props> = ({ nextStep, prevStep, formData, update }) => {
             </div>
 
             <div className="space-y-2">
-              <label className="block text-sm font-medium text-gray-700 mb-1">Emisyon Faktörü Seçimi</label>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Emisyon Faktörü Seçimi
+              </label>
               <Autocomplete
                 disablePortal
                 options={emisyonfaktorlerikomurdatasi}
-                renderInput={(params) => <TextField {...params} label="Emisyon Faktörü" />}
+                renderInput={(params) => (
+                  <TextField {...params} label="Emisyon Faktörü" />
+                )}
                 getOptionLabel={(option) => `${option.label}`}
                 onChange={(event, newValue) => {
                   if (newValue) {
-                    if (newValue.value === 'manuel') {
+                    if (newValue.value === "manuel") {
                       setManuelEmisyonKomur(true);
-                      setEmisyonFaktorKomur('');
+                      setEmisyonFaktorKomur("");
                     } else {
                       setManuelEmisyonKomur(false);
                       setEmisyonFaktorKomur(String(newValue.value));
                     }
                   } else {
                     setManuelEmisyonKomur(false);
-                    setEmisyonFaktorKomur('');
+                    setEmisyonFaktorKomur("");
                   }
                 }}
               />

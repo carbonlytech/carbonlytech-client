@@ -24,7 +24,7 @@ const GraphOfYakit: React.FC<Props> = ({ yakitData }) => {
         typeof item.name === "string" &&
         item.name.trim() !== "" &&
         !isNaN(item.miktar) &&
-        item.miktar > 0
+        item.miktar > 0,
     );
   };
 

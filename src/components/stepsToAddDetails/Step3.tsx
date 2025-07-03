@@ -13,12 +13,12 @@ const Step3: React.FC<Props> = ({ nextStep, prevStep, formData, update }) => {
   const [yakitlar, setYakitlar] = useState(
     formData.yakitlar || [
       { tip: "", miktar: "", birim: "litre", donem: "yillik" },
-    ]
+    ],
   );
   const [hammaddeler, setHammaddeler] = useState(
     formData.hammaddeler || [
       { ad: "", miktar: "", birim: "ton", donem: "yillik", tedarik: "yerli" },
-    ]
+    ],
   );
 
   const handleYakitChange = (index: number, field: string, value: any) => {
@@ -47,28 +47,27 @@ const Step3: React.FC<Props> = ({ nextStep, prevStep, formData, update }) => {
     setHammaddeler(updated);
   };
 
-  const validateStep=()=>{
-    for(const yakit of yakitlar){
-      if(yakit.tip && !yakit.miktar){
+  const validateStep = () => {
+    for (const yakit of yakitlar) {
+      if (yakit.tip && !yakit.miktar) {
         toast.error("Lütfen yakıt miktarını giriniz");
         return false;
       }
     }
 
-    for(const hammadde of hammaddeler){
-      if(hammadde.ad && !hammadde.miktar){
+    for (const hammadde of hammaddeler) {
+      if (hammadde.ad && !hammadde.miktar) {
         toast.error("Lütfen hammadde miktarını giriniz");
         return false;
       }
     }
 
     return true;
-  }
+  };
 
   const handleNext = () => {
-    if(!validateStep()) return;
-    
-    
+    if (!validateStep()) return;
+
     update({ yakitlar, hammaddeler });
     nextStep();
   };
@@ -82,7 +81,9 @@ const Step3: React.FC<Props> = ({ nextStep, prevStep, formData, update }) => {
     <div className="bg-white p-8 rounded-2xl shadow-xl max-w-2xl mx-auto space-y-8">
       <div className="flex items-center space-x-3">
         <Fuel className="text-green-600" size={28} />
-        <h2 className="text-3xl font-semibold text-green-700">Yakıt ve Hammadde Kullanımı</h2>
+        <h2 className="text-3xl font-semibold text-green-700">
+          Yakıt ve Hammadde Kullanımı
+        </h2>
       </div>
 
       {/* Yakıtlar */}
@@ -100,12 +101,16 @@ const Step3: React.FC<Props> = ({ nextStep, prevStep, formData, update }) => {
               type="number"
               placeholder="Miktar"
               value={yakit.miktar}
-              onChange={(e) => handleYakitChange(index, "miktar", e.target.value)}
+              onChange={(e) =>
+                handleYakitChange(index, "miktar", e.target.value)
+              }
               className="w-full px-4 py-2 rounded-md border border-gray-300 focus:ring-2 focus:ring-green-500 outline-none"
             />
             <select
               value={yakit.birim}
-              onChange={(e) => handleYakitChange(index, "birim", e.target.value)}
+              onChange={(e) =>
+                handleYakitChange(index, "birim", e.target.value)
+              }
               className="w-full px-4 py-2 rounded-md border border-gray-300 focus:ring-2 focus:ring-green-500 outline-none"
             >
               <option value="litre">litre</option>
@@ -114,7 +119,9 @@ const Step3: React.FC<Props> = ({ nextStep, prevStep, formData, update }) => {
             </select>
             <select
               value={yakit.donem}
-              onChange={(e) => handleYakitChange(index, "donem", e.target.value)}
+              onChange={(e) =>
+                handleYakitChange(index, "donem", e.target.value)
+              }
               className="w-full px-4 py-2 rounded-md border border-gray-300 focus:ring-2 focus:ring-green-500 outline-none"
             >
               <option value="yillik">Yıllık</option>
@@ -151,19 +158,25 @@ const Step3: React.FC<Props> = ({ nextStep, prevStep, formData, update }) => {
             <input
               placeholder="Malzeme Adı"
               value={hammadde.ad}
-              onChange={(e) => handleHammaddeChange(index, "ad", e.target.value)}
+              onChange={(e) =>
+                handleHammaddeChange(index, "ad", e.target.value)
+              }
               className="w-full px-4 py-2 rounded-md border border-gray-300 focus:ring-2 focus:ring-green-500 outline-none"
             />
             <input
               type="number"
               placeholder="Miktar"
               value={hammadde.miktar}
-              onChange={(e) => handleHammaddeChange(index, "miktar", e.target.value)}
+              onChange={(e) =>
+                handleHammaddeChange(index, "miktar", e.target.value)
+              }
               className="w-full px-4 py-2 rounded-md border border-gray-300 focus:ring-2 focus:ring-green-500 outline-none"
             />
             <select
               value={hammadde.birim}
-              onChange={(e) => handleHammaddeChange(index, "birim", e.target.value)}
+              onChange={(e) =>
+                handleHammaddeChange(index, "birim", e.target.value)
+              }
               className="w-full px-4 py-2 rounded-md border border-gray-300 focus:ring-2 focus:ring-green-500 outline-none"
             >
               <option value="ton">ton</option>
@@ -172,7 +185,9 @@ const Step3: React.FC<Props> = ({ nextStep, prevStep, formData, update }) => {
             </select>
             <select
               value={hammadde.donem}
-              onChange={(e) => handleHammaddeChange(index, "donem", e.target.value)}
+              onChange={(e) =>
+                handleHammaddeChange(index, "donem", e.target.value)
+              }
               className="w-full px-4 py-2 rounded-md border border-gray-300 focus:ring-2 focus:ring-green-500 outline-none"
             >
               <option value="yillik">Yıllık</option>
@@ -181,7 +196,9 @@ const Step3: React.FC<Props> = ({ nextStep, prevStep, formData, update }) => {
             </select>
             <select
               value={hammadde.tedarik}
-              onChange={(e) => handleHammaddeChange(index, "tedarik", e.target.value)}
+              onChange={(e) =>
+                handleHammaddeChange(index, "tedarik", e.target.value)
+              }
               className="w-full px-4 py-2 rounded-md border border-gray-300 focus:ring-2 focus:ring-green-500 outline-none"
             >
               <option value="yerli">Yerli</option>

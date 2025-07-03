@@ -12,11 +12,11 @@ const Middleware: React.FC = () => {
     const currentPath = window.location.pathname;
 
     // Yönlendirme yapılmaması gereken sayfalar
-    const excludePaths = ["/user/signin", "/detail","/details"];
+    const excludePaths = ["/user/signin", "/detail", "/details"];
 
     // Eğer token yoksa, signin sayfasına yönlendir
     if (!token) {
-      if (!excludePaths.some(path => currentPath.includes(path))) {
+      if (!excludePaths.some((path) => currentPath.includes(path))) {
         router.push("/user/signin");
       }
       return;
@@ -30,12 +30,12 @@ const Middleware: React.FC = () => {
         if (response.statusCode === 401) {
           // Token geçersizse, token'ı sil ve signin sayfasına yönlendir
           localStorage.removeItem("token");
-          if (!excludePaths.some(path => currentPath.includes(path))) {
+          if (!excludePaths.some((path) => currentPath.includes(path))) {
             router.push("/user/signin");
           }
         } else {
           // Token geçerliyse, dashboard'a yönlendir
-          if (!excludePaths.some(path => currentPath.includes(path))) {
+          if (!excludePaths.some((path) => currentPath.includes(path))) {
             router.push("/dashboard");
           }
         }
@@ -43,7 +43,7 @@ const Middleware: React.FC = () => {
         console.error("Token kontrolü sırasında bir hata oluştu:", error);
         // Hata durumunda da kullanıcıyı signin sayfasına yönlendir
         localStorage.removeItem("token");
-        if (!excludePaths.some(path => currentPath.includes(path))) {
+        if (!excludePaths.some((path) => currentPath.includes(path))) {
           router.push("/user/signin");
         }
       }

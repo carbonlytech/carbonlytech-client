@@ -23,7 +23,7 @@ const GraphOfHammadde: React.FC<Props> = ({ hammaddeData }) => {
         element.name?.trim() !== "" &&
         typeof element.miktar === "number" &&
         !isNaN(element.miktar) &&
-        element.miktar > 0
+        element.miktar > 0,
     );
   };
 
